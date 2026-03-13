@@ -1,0 +1,55 @@
+/* .App {
+  text-align: center;
+   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 99px;
+  gap: 40px;
+} */
+
+
+.about-site {
+  padding-left: 100px;
+}
+
+.about-site > .about-site-content > .about-site-text > span {
+  /* padding-top: 150px; */
+  margin-bottom: 30px;
+  font-size: 100px;
+  display: block;
+  /* margin: 0 0 10px 0; */
+  /* width: 100%; */
+  /* text-align: left; */
+  /* margin-bottom: 40px; */
+  /* padding-left: 99px; */
+  /* padding-right: auto; */
+}
+
+.about-site-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+}
+
+.about-site-text {
+  /* flex: 1; */
+  /* text-align: left; */
+  max-width: 600px;
+}
+
+.about-site-text p {
+  /* padding-top: 150px; */
+  font-size: 24px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+
+.img-pc-main {
+  width: 646px;
+  /* max-width: 646.4px; */
+  height: 839px;
+  /* display: block; */
+  /* margin-left: auto; */
+}
