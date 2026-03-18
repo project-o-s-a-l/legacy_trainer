@@ -42,7 +42,7 @@ export default function Home() {
         </div>
         <img className="second-bug-main" src={twoImg} alt="" />
       </div>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </div>
   );
 }
