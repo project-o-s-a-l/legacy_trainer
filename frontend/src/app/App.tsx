@@ -4,6 +4,7 @@ import Navbar from '../widgets/Navbar/Navbar';
 import { Route, Routes } from 'react-router';
 import { mainPageRoutes } from './providers/router/routeConfig';
 import { renderRoutes } from './providers/router/renderRoutes';
+import Footer from '../widgets/Footer/Footer';
 
 
 
@@ -14,6 +15,7 @@ function App() {
      <Routes>
       {renderRoutes(mainPageRoutes)}
      </Routes>
+    <Footer></Footer>     
     </div>
   );
 }

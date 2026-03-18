@@ -11,7 +11,6 @@
 
 ## Стек используемых технологий:
 - Python (Fast API, SQLAlchemy, psycopg2, pytest, g4f) - Оценка кода(работа с ИИ), работа с БД.
-- C# (ASP.NET Web API,unit test) - Принимает request от фронтенда, запускает код, делает тесты и отправляет response питону на оценку
 - Docker
-- Фронтенд: React.js, HTML, CSS
+- Фронтенд: React.ts, HTML, CSS
 - База данных - PostgreSQL
