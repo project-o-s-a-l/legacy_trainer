@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import logo from '../../shared/assests/logo/logo.png';
-import { link } from "fs";
+// import { link } from "fs";
 import type { AppPage } from "../../shared/types/routres"
 import type { NavbarProps } from "../../shared/types/navbarProps";
 
