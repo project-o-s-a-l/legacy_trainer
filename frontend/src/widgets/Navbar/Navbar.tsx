@@ -22,14 +22,6 @@ export default function Navbar({ links }: NavbarProps) {
                         {link.label}
                     </NavLink>
                 ))}
-            {/* <NavLink className="navlink" to="/about">About the company</NavLink>
-            <NavLink className="navlink" to="/">Home</NavLink>
-            <NavLink className="navlink" to="/possibilites">Possibilites</NavLink>
-            <NavLink className="navlink" to="/contact">Contact</NavLink>
-            <NavLink className="navlink" to="/support">Support</NavLink>
-            <NavLink className="navlink" to="/sing_in">Sign in</NavLink>
-            <NavLink className="navlink" to="/test">Test</NavLink> */}
-      
             </div>
         </nav>
     );
