@@ -1,9 +1,8 @@
-import React from 'react';
 import './Footer.css';
-import logo from '../../shared/assests/logo/logo.png';
+import logo from '../../shared/assets/logo/logo.png';
 
 
-const Footer = () => {
+export default function Footer() {
     return (
         <footer className='footer'>
             <div className='footer-container'>
@@ -23,5 +22,3 @@ const Footer = () => {
         </footer>
     )
 }
-
-export default Footer;

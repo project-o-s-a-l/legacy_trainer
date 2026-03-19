@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import Navbar from '../widgets/Navbar/Navbar';
+import { Navbar } from '@/widgets/index';
 import { Routes } from 'react-router';
 import { mainPageRoutes } from './providers/router/routeConfig';
 import { renderRoutes } from './providers/router/renderRoutes';
-import Footer from '../widgets/Footer/Footer';
+import { Footer } from '@/widgets/index';
 
 
 
