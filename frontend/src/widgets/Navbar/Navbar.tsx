@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
-import logo from '../../shared/assests/logo/logo.png';
-// import { link } from "fs";
+import logo from '../../shared/assets/logo/logo.png';
 import type { AppPage } from "../../shared/types/routes"
 
 

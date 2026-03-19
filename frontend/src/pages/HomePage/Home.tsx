@@ -1,7 +1,6 @@
-import Footer from "../../widgets/Footer/Footer";
-import zeroImg from "../../shared/assests/images/00-image.png";
-import oneImg from "../../shared/assests/images/01-image.png";
-import twoImg from "../../shared/assests/images/02-image.png";
+import zeroImg from "../../shared/assets/images/00-image.png";
+import oneImg from "../../shared/assets/images/01-image.png";
+import twoImg from "../../shared/assets/images/02-image.png";
 
 export default function Home() {
   return (
@@ -42,7 +41,6 @@ export default function Home() {
         </div>
         <img className="second-bug-main" src={twoImg} alt="" />
       </div>
-      {/* <Footer></Footer> */}
     </div>
   );
 }
