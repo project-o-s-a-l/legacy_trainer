@@ -3,9 +3,9 @@ import About from "../../../pages/AboutPage/About";
 import Contact from "../../../pages/ContactPage/Contact";
 import Possibilites from "../../../pages/PossibilitesPage/Possibilites";
 import Support from "../../../pages/SupportPage/Support";
-import Sing_in from "../../../pages/SingInPage/Sing_in";
+import Sing_in from "../../../pages/SingInPage/SingIn";
 import Home from "../../../pages/HomePage/Home";
-import type { AppPage } from "../../../shared/types/routres"
+import type { AppPage } from "../../../shared/types/routes"
 
 
 

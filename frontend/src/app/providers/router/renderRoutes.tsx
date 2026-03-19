@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import type { AppPage } from "../../../shared/types/routres"
+import type { AppPage } from "../../../shared/types/routes"
 
 
 export function renderRoutes(pages: AppPage[]) {
