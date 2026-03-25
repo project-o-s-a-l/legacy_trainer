@@ -11,7 +11,7 @@ export default function CodeEditor() {
 				defaultValue={`console.log('Hello World!');`}
 				onChange={handleSubmit}
 				height="800px"
-				theme="#2196F3"
+				theme="customTheme"
 			/>
 
 			<button onClick={() => handleSubmit("code")}>Run code</button>

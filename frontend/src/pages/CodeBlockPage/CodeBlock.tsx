@@ -1,13 +1,7 @@
-import Editor from "@monaco-editor/react";
+import Editor, { useMonaco } from "@monaco-editor/react";
 import React, { useState, useRef, useEffect } from "react";
-
-type CodeBlockProps = {
-	language?: string;
-	defaultValue?: string;
-	onChange?: (value: string) => void;
-	height?: string | number;
-	theme?: "light" | "vs-dark" | string;
-};
+import type { CodeBlockProps } from "./model/types.ts";
+import { BLUE_LIGHT_THEME_NAME, blueLightTheme } from "./lib/blueLightTheme.ts";
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({
 	language = "javascript",
@@ -23,6 +17,15 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 		setCode(newValue);
 		onChange?.(newValue);
 	};
+
+	const monaco = useMonaco();
+
+	useEffect(() => {
+		if (!monaco) return;
+
+		monaco.editor.defineTheme(BLUE_LIGHT_THEME_NAME, blueLightTheme);
+		monaco.editor.setTheme(BLUE_LIGHT_THEME_NAME);
+	}, [monaco]);
 
 	return (
 		<div
