@@ -121,9 +121,9 @@ export const blueLightTheme: editor.IStandaloneThemeData = {
 		"editor.wordHighlightBackground": "#c6e3ff60",
 		"editor.wordHighlightStrongBackground": "#93c5fd80",
 
-		"editorLineNumber.foreground": "#94a3b8",
-		"editorLineNumber.background": "#c6e3ff",
-		"editorLineNumber.activeForeground": "#475569",
+		"editorLineNumber.foreground": "#1e293b",
+		"editorGutter.background": "#c6e3ff",
+		"editorLineNumber.activeForeground": "#1e293b",
 
 		"editorBracketMatch.background": "#c6e3ff60",
 		"editorBracketMatch.border": "#93c5fd",
@@ -141,7 +141,7 @@ export const blueLightTheme: editor.IStandaloneThemeData = {
 		"editorInfo.foreground": "#0891b2",
 		"editorHint.foreground": "#64748b",
 
-		"editorGutter.background": "#ffffff",
+		// "editorGutter.background": "#ffffff",
 		"editorGutter.addedBackground": "#22c55e",
 		"editorGutter.modifiedBackground": "#3b82f6",
 		"editorGutter.deletedBackground": "#ef4444",
