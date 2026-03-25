@@ -24,9 +24,9 @@ export default function Home() {
         <img className="first-bug-main" src={oneImg} alt="" />
         <div className="main-page-login-text-container">
           <p>Ready to test your code?</p>
-          <text>
+          <span>
             Check the code. <br /> Get advice.
-          </text>{" "}
+          </span>{" "}
           <br />
           <span>
             Upload your code, select the language and difficulty level, and get
