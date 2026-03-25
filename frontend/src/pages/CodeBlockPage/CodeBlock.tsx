@@ -37,98 +37,234 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 		>
 			<div
 				style={{
-					width: "850px",
-					height: "800px",
+					width: "100%",
+					height: "100%",
+					overflowY: "auto",
+					border: "1px solid #cccccc",
+					boxSizing: "border-box",
 					backgroundColor: "#96CCFF8A",
-					flexShrink: 0,
+					// padding: 12,
+					scrollbarWidth: "thin",
+					scrollbarColor: "#5aa9e6 #96ccff8a",
 				}}
 			>
-				<span>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-					Vel quae minus eligendi et quidem dolorum sapiente quod
-					voluptates molestiae enim maiores ipsum praesentium,
-					similique quos accusantium velit nobis odit possimus! Lorem
-					ipsum dolor sit amet, consectetur adipisicing elit. Vel quae
-					minus eligendi et quidem dolorum sapiente quod voluptates
-					molestiae enim maiores ipsum praesentium, similique quos
-					accusantium velit nobis odit possimus! Lorem ipsum dolor sit
-					amet, consectetur adipisicing elit. Vel quae minus eligendi
-					et quidem dolorum sapiente quod voluptates molestiae enim
-					maiores ipsum praesentium, similique quos accusantium velit
-					nobis odit possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus! Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Vel quae minus eligendi et quidem dolorum
-					sapiente quod voluptates molestiae enim maiores ipsum
-					praesentium, similique quos accusantium velit nobis odit
-					possimus!
-				</span>
+				<div
+					style={{
+						height: "800px",
+						width: "850px",
+						boxSizing: "border-box",
+						// minHeight: "800px",
+						// flexShrink: 0,
+					}}
+				>
+					{/* TODO: Get task */}
+					<span>
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! velit nobis odit possimus!
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! velit nobis odit possimus!
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! velit nobis odit possimus!
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! velit nobis odit possimus!
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! velit nobis odit possimus!
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! velit nobis odit possimus!
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! velit nobis odit possimus!
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Vel quae minus eligendi et quidem dolorum sapiente
+						quod voluptates molestiae enim maiores ipsum
+						praesentium, similique quos accusantium velit nobis odit
+						possimus! Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Vel quae minus eligendi et quidem
+						dolorum sapiente quod voluptates molestiae enim maiores
+						ipsum praesentium, similique quos accusantium velit
+						nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus! Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Vel quae minus eligendi et
+						quidem dolorum sapiente quod voluptates molestiae enim
+						maiores ipsum praesentium, similique quos accusantium
+						velit nobis odit possimus!
+					</span>
+				</div>
 			</div>
 			<Editor
 				key={language}
