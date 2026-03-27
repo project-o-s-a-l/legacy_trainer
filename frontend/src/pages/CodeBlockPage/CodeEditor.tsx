@@ -5,7 +5,7 @@ export default function CodeEditor() {
 
 	return (
 		<>
-			<h1>Code redactor:</h1>
+			
 			<CodeBlock
 				language="typescript"
 				defaultValue={`console.log('Hello World!');`}

@@ -1,0 +1,50 @@
+.btn-hide {
+	background-color: #00000000;
+	border-color: #00000000;
+	width: auto;
+	height: auto;
+	font-size: 30px;
+	display: flex;
+	justify-content: right;
+	padding-right: 38px;
+	margin-left: auto;
+}
+
+.main-code-editor-container {
+	display: flex;
+	margin: 0, 10px, 0, 16px;
+}
+
+.resizable-group {
+	width: 100%;
+	height: 100%;
+}
+
+.scroll-bar-container {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	border: 2px solid #5aa9e6;
+	box-sizing: border-box;
+	background-color: #96ccff8a;
+	scrollbar-width: thin;
+	scrollbar-color: #5aa9e6 #96ccff8a;
+}
+
+.task-container {
+	height: 800px;
+	width: 850px;
+	box-sizing: border-box;
+}
+
+.separator {
+	width: 2px;
+	background-color: #93c5fd;
+	cursor: col-resize;
+}
+
+.code-editor-container {
+	width: 100%;
+	height: 100%;
+	border: 2px solid #5aa9e6;
+}
