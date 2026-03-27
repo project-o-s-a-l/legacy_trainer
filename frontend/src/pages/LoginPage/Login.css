@@ -1,0 +1,13 @@
+.login-card{
+  width: 477px;
+  height: 229px;
+  border-radius: 20px;
+  padding: 30px;
+  background: linear-gradient(to top, rgba(115, 115, 115, 1),rgba(198, 227, 255, 1))
+}
+.main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

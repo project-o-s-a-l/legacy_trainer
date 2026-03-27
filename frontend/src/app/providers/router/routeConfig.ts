@@ -1,4 +1,4 @@
-import {About, Contact, Possibilites, Support, SingIn, Home} from "@/pages/index";
+import {About, Contact, Possibilites, Support, SingIn, Home, Login} from "@/pages/index";
 import type { AppPage } from "../../../shared/types/routes"
 
 
@@ -10,5 +10,6 @@ export const mainPageRoutes: AppPage[] = [
     {path: "/contact", label: "Contact", component: Contact, showInNavbar: true },
     {path: "/support", label: "Support", component: Support, showInNavbar: true },
     {path: "/sing_in", label: "Sing in", component: SingIn, showInNavbar: true },
+    {path: "/login", label: "Login", component: Login, showInNavbar: true }
 ]
 
