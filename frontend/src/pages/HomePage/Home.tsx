@@ -26,21 +26,22 @@ export default function Home() {
           <p>Ready to test your code?</p>
           <span>
             Check the code. <br /> Get advice.
-          </span>{" "}
-          <br />
+          </span>
+          {/* <br /> */}
           <span>
             Upload your code, select the language and difficulty level, and get
             instant feedback and recommendations for improvement. Learn by doing
             and improve your programming skills with us.
           </span>
           <div className="btn-main-page-login-container">
-            <button className="btn-main-page-sign-up">Registration</button>{" "}
-            <br />
+            <button className="btn-main-page-sign-up">Registration</button>
+            {/* <br /> */}
             <button className="btn-main-page-sign-in">Sign in</button>
           </div>
         </div>
         <img className="second-bug-main" src={twoImg} alt="" />
       </div>
+            <button></button>
     </div>
   );
 }
