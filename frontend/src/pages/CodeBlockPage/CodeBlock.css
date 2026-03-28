@@ -1,0 +1,95 @@
+.main-code-editor-container {
+	display: flex;
+	margin: 0 10px 10px 16px;
+}
+
+.resizable-group {
+	width: 100%;
+	height: 100%;
+}
+.left-panel {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.right-panel {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.scroll-bar-container {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	border: 2px solid #5aa9e6;
+	box-sizing: border-box;
+	background-color: #96ccff8a;
+	scrollbar-width: thin;
+	scrollbar-color: #5aa9e6 #96ccff8a;
+}
+.text-code-editor-container {
+	display: flex;
+	align-items: center;
+	gap: 520px;
+	font-size: 42px;
+	width: 100%;
+	max-width: 820px;
+	flex-wrap: nowrap;
+}
+
+.header-problem {
+	flex: 0 0 auto;
+	border: 2px solid #5aa9e6;
+	background-color: #5aa9e6;
+	border-radius: 25px 25px 0px 0px;
+	overflow: hidden;
+	padding: 8px 12px;
+}
+
+.header-solution {
+	flex: 0 0 auto;
+	border: 2px solid #5aa9e6;
+	background-color: #5aa9e6;
+	border-radius: 25px 25px 0px 0px;
+	overflow: hidden;
+	padding: 8px 12px;
+}
+
+.header-problem::-webkit-scrollbar {
+	display: none;
+}
+
+.problem,
+.solution {
+	flex: 0 0 auto;
+	white-space: nowrap;
+	font-size: 25px;
+	overflow: hidden;
+	-ms-overflow-style: none;
+	scrollbar-width: none; 
+}
+.task-container {
+	height: 800px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.separator {
+	border-radius: 25px 25px 25px 25px;
+	width: 2px;
+	background-color: #93c5fd;
+	cursor: col-resize;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.code-editor-container {
+	width: 99.9%;
+	height: 100%;
+}
+
+.editor {
+	border: 2px solid #5aa9e6;
+}
