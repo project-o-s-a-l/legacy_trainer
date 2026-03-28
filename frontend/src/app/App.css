@@ -7,139 +7,155 @@
   gap: 40px;
 } */
 
-
 .about-site {
-  padding-left: 100px;
+	padding-left: 100px;
 }
 
 .about-site > .about-site-content > .about-site-text > span {
-  /* padding-top: 150px; */
-  margin-bottom: 30px;
-  font-size: 100px;
-  display: block;
-  /* margin: 0 0 10px 0; */
-  /* width: 100%; */
-  /* text-align: left; */
-  /* margin-bottom: 40px; */
-  /* padding-left: 99px; */
-  /* padding-right: auto; */
+	/* padding-top: 150px; */
+	margin-bottom: 30px;
+	font-size: 100px;
+	display: block;
+	/* margin: 0 0 10px 0; */
+	/* width: 100%; */
+	/* text-align: left; */
+	/* margin-bottom: 40px; */
+	/* padding-left: 99px; */
+	/* padding-right: auto; */
 }
 
 .about-site-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 60px;
 }
 
 .about-site-text {
-  /* flex: 1; */
-  /* text-align: left; */
-  max-width: 600px;
+	/* flex: 1; */
+	/* text-align: left; */
+	max-width: 600px;
 }
 
 .about-site-text p {
-  /* padding-top: 150px; */
-  font-size: 24px;
-  line-height: 1.5;
-  margin: 0;
+	/* padding-top: 150px; */
+	font-size: 24px;
+	line-height: 1.5;
+	margin: 0;
 }
-
 
 .img-pc-main {
-  width: 550px;
-  /* max-width: 646.4px; */
-  height: 700px;
-  /* display: block; */
-  /* margin-left: auto; */
+	width: 550px;
+	/* max-width: 646.4px; */
+	height: 700px;
+	/* display: block; */
+	/* margin-left: auto; */
 }
 .main-page-login-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .main-page-login-text-container {
-  /* margin: 0px auto 0px auto; */
-  width: 867px;
-  height: 1002px;
-  text-align: center;
-  margin-top: 150px;
-  margin-bottom: 250px;
+	/* margin: 0px auto 0px auto; */
+	width: 867px;
+	height: 1002px;
+	text-align: center;
+	margin-top: 150px;
+	margin-bottom: 250px;
 }
 .main-page-login-text-container > p {
-  font-size: 30px;
-   margin-bottom: 35px;
-   color: #0000005C;
+	font-size: 30px;
+	margin-bottom: 35px;
+	color: #0000005c;
 }
 .main-page-login-text-container > text {
-  font-size: 64px;
-  display: block; 
-  margin-bottom: 30px; 
+	font-size: 64px;
+	display: block;
+	margin-bottom: 30px;
 }
 
 .main-page-login-text-container > span {
-  font-size: 32px;
-  
+	font-size: 32px;
 }
 .btn-main-page-login-container {
-  /* display: flex; */
-  margin-top: auto;
-  margin-right: auto;
-  
+	/* display: flex; */
+	margin-top: auto;
+	margin-right: auto;
 }
 
 .btn-main-page-sign-up {
-  margin-top: 200px;
-  background-color: #00000000;
-  border-color: #00000000;
-  width: 326px;
-  height: 76px;
-  font-size: 64px;
-  transition: font-size 0.3s ease;
+	margin-top: 200px;
+	background-color: #00000000;
+	border-color: #00000000;
+	width: 326px;
+	height: 76px;
+	font-size: 64px;
+	transition: font-size 0.3s ease;
 }
 
 .btn-main-page-sign-up:hover {
-  text-decoration: underline;
-    color: #555;
+	text-decoration: underline;
+	color: #555;
 }
-
 
 .btn-main-page-sign-up:active {
-  text-decoration: none;
-  font-size: 70px;
-    color: #555;
+	text-decoration: none;
+	font-size: 70px;
+	color: #555;
 }
 
-
 .btn-main-page-sign-in {
-  margin-top: 25px;
-  background-color: #00000000;
-  border-color: #00000000;
-  width: 326px;
-  height: 76px;
-  font-size: 64px;
-   transition: font-size 0.3s ease;
+	margin-top: 25px;
+	background-color: #00000000;
+	border-color: #00000000;
+	width: 326px;
+	height: 76px;
+	font-size: 64px;
+	transition: font-size 0.3s ease;
 }
 
 .btn-main-page-sign-in:hover {
-  text-decoration: underline;
-   color: #555;
+	text-decoration: underline;
+	color: #555;
 }
 
 .btn-main-page-sign-in:active {
-  text-decoration: none;
-  font-size: 75px;
-    color: #555;
+	text-decoration: none;
+	font-size: 75px;
+	color: #555;
 }
 
 .first-bug-main {
-    width: 400px;
-    height: 700px;
+	width: 400px;
+	height: 700px;
 }
 
 .second-bug-main {
-    width: 200px;
-    height: 800px;
+	width: 200px;
+	height: 800px;
+}
+
+.navbar-shell {
+	overflow: hidden;
+	transition:
+		transform 0.35s ease,
+		opacity 0.35s ease,
+		max-height 0.35s ease;
+	will-change: transform, opacity, max-height;
+	max-height: 143px;
+}
+
+.navbar-visible {
+  transform: translateY(0);
+	opacity: 1;
+	max-height: 143px;
+}
+
+.navbar-hidden {
+	transform: translateY(-20px);
+	opacity: 0;
+	max-height: 0;
+	pointer-events: none;
 }

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@monaco-editor/react": "^4.8.0-rc.3",
+    "react-resizable-panels": "^4.7.6"
+  }
+}
