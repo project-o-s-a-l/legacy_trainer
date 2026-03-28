@@ -30,13 +30,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 		monaco.editor.setTheme(BLUE_LIGHT_THEME_NAME);
 	}, [monaco]);
 
-	const { isNavbarVisible, toggleNavbar } = useNavbar();
-
 	return (
 		<div>
-			<button onClick={toggleNavbar} className="btn-hide">
-				{isNavbarVisible ? "^" : "\u2228"}
-			</button>
 			<div className="main-code-editor-container">
 				<Group orientation="horizontal" className="resizable-group">
 					<Panel defaultSize="35%" minSize="20%">

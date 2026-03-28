@@ -37,7 +37,10 @@ function App() {
 	return (
 		<NavbarContext.Provider value={navbarConetxtValue}>
 			<div className="App">
-				{isNavbarVisible && <Navbar links={mainPageRoutes.filter((route) => route.showInNavbar)} />}
+				<div className={`navbar-shell ${isNavbarVisible ? "navbar-visible" : "navbar-hidden"}`}>
+					<Navbar links={mainPageRoutes.filter((route) => route.showInNavbar)} />
+					{/* {isNavbarVisible && <Navbar links={mainPageRoutes.filter((route) => route.showInNavbar)} />} */}
+				</div>
 				{/* <Navbar links={mainPageRoutes}/> */}
 				<Routes>{renderRoutes(mainPageRoutes)}</Routes>
 				<Footer></Footer>

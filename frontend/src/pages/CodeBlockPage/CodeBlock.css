@@ -1,18 +1,6 @@
-.btn-hide {
-	background-color: #00000000;
-	border-color: #00000000;
-	width: auto;
-	height: auto;
-	font-size: 30px;
-	display: flex;
-	justify-content: right;
-	padding-right: 38px;
-	margin-left: auto;
-}
-
 .main-code-editor-container {
 	display: flex;
-	margin: 0 10px 0 16px;
+	margin: 0 10px 10px 16px;
 }
 
 .resizable-group {
@@ -98,6 +86,10 @@
 }
 
 .code-editor-container {
-	width: 99%;
+	width: 99.9%;
 	height: 100%;
+}
+
+.editor {
+	border: 2px solid #5aa9e6;
 }
