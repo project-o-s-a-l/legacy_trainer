@@ -10,7 +10,7 @@ export default function CodeEditor() {
 				language="typescript"
 				defaultValue={`console.log('Hello World!');`}
 				onChange={handleSubmit}
-				height="800px"
+				height="850px"
 				theme="blueLight"
 			/>
 
