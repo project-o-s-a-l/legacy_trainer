@@ -1,0 +1,80 @@
+.btn-hide {
+	background-color: #00000000;
+	border-color: #00000000;
+	width: auto;
+	height: auto;
+	font-size: 30px;
+	display: flex;
+	justify-content: right;
+	padding-right: 38px;
+	margin-left: auto;
+}
+
+.btn-run-code {
+	background-color: #00000000;
+	border-color: #00000000;
+	color: green;
+	width: 80px;
+	height: 80px;
+	transition: font-size 0.3s ease;
+	/* margin-left: 500px; */
+}
+.btn-run-code:hover {
+	/* text-decoration: underline; */
+	color: rgba(1, 72, 1, 0.577);
+}
+
+.btn-run-code:active {
+	text-decoration: none;
+	/* font-size: 50px; */
+	color: rgb(1, 72, 1);
+}
+
+.btn-submit-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+}
+
+.run-wrapper {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 50px;
+	height: 50px;
+	border: none;
+	border-radius: 30%;
+	background: rgba(34, 197, 94, 0.12);
+	cursor: pointer;
+	padding: 0;
+	transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.run-wrapper:hover {
+	background: rgba(34, 197, 94, 0.2);
+	transform: scale(1.04);
+}
+
+.run-wrapper:active {
+	transform: scale(0.98);
+}
+
+.btn-check-solution {
+	background-color: #00000000;
+	border-color: #00000000;
+	width: 180px;
+	height: 80px;
+	font-size: 30px;
+	transition: font-size 0.35s ease;
+}
+
+.btn-check-solution:hover {
+	color: #555;
+}
+
+.btn-check-solution:active {
+	text-decoration: none;
+	font-size: 25px;
+	color: #555;
+}
