@@ -26,7 +26,7 @@ input {
   font-weight: 350;
 }
 
-a {
+.ar1 {
   color: black;
   text-decoration: none;
   font-size: 36px;
@@ -40,19 +40,18 @@ a {
   gap: 25px;
 }
 
-button{
-  position: absolute;
-  bottom: 20px;
-  right:20px;
-}
-
-h1 {
+.H1_login {
   margin-top: -10px;
   font-size: 62px;
   font-weight: 350;
 }
 
-label{
+.password_l{
+  font-size: 48px;
+  font-weight: 350;
+}
+
+.email_l{
   font-size: 48px;
   font-weight: 350;
 }
@@ -63,4 +62,7 @@ label{
   font-size: 34px;
   font-weight: 10;
   cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  right:20px;
 }
