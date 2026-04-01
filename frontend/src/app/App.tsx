@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { Navbar } from "@/widgets/index";
-import { Routes, useLocation } from "react-router";
+import { Routes, useLocation } from "react-router-dom";
 import { mainPageRoutes } from "./providers/router/routeConfig";
 import { renderRoutes } from "./providers/router/renderRoutes";
 import { Footer } from "@/widgets/index";
