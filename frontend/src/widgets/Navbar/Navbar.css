@@ -2,12 +2,10 @@
 	background-color: var(--main-color-light-theme);
 	border-radius: 60px;
 	margin: 17px 38px 0px 38px;
-	padding: 0 30px;
-	min-height: 126px;
+	padding: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 30px;
 	box-shadow:
 		0 8px 24px rgba(59, 130, 246, 0.16),
 		0 16px 40px rgba(59, 130, 246, 0.1);
@@ -22,8 +20,8 @@
 }
 
 .logo-container > .img {
-	width: 70px;
-	height: 70.41px;
+	width: 35px;
+	height: 35.205px;
 }
 .logo-container > .project-name {
 	font-size: var(--btn-font-size);
@@ -51,20 +49,20 @@
 	position: relative;
 	cursor: pointer;
 	letter-spacing: 0.2px;
-	transition: color 0.25s ease;
+	transition: color var(--transition-timer-in-sec) ease;
 }
 
 .navlink:not(:last-child)::after {
 	content: "|";
 	margin-left: 28px;
-	color: #2563eb;
+	color: var(--btn-color-light-theme);
 	font-weight: 500;
 }
 
 .navlink:hover {
-	color: #1d4ed8;
+	color: #6489ca;
 }
 
 .navlink:hover::after {
-	color: #1d4ed8;
+	color: #6489ca;
 }

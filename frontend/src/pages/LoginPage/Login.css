@@ -1,69 +1,72 @@
-.login-card{
-  width: 800px;
-  height: 600px;
-  border-radius: 20px;
-  padding: 50px;
-  background: linear-gradient(to top, rgba(115, 115, 115, 0.46) ,rgba(198, 227, 255, 0.46));
-  display:flex;
-  flex-direction: column;
-  gap: 15px;
-  position: relative;
- 
+.login-card {
+	width: 800px;
+	height: 600px;
+	border-radius: 20px;
+	padding: 50px;
+	background: linear-gradient(
+		to top,
+		rgba(115, 115, 115, 0.46),
+		rgba(198, 227, 255, 0.46)
+	);
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	position: relative;
 }
-.main{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.main-login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
-input {
-  width: 100%;
-  max-width: 450px;
-  padding: 30px;
-  border: 1px solid black;
-  border-radius: 30px;
-  font-size: 36px;
-  font-weight: 350;
-}
-
-.ar1 {
-  color: black;
-  text-decoration: none;
-  font-size: 36px;
-  font-weight: 350;
-  margin-top: +10px;
+.input-password-login,
+.input-email-login {
+	width: 100%;
+	max-width: 450px;
+	padding: 30px;
+	border: 1px solid black;
+	border-radius: 30px;
+	font-size: 36px;
+	font-weight: 350;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+.forgot-password-login {
+	color: black;
+	text-decoration: none;
+	font-size: 36px;
+	font-weight: 350;
+	margin-top: +10px;
 }
 
-.H1_login {
-  margin-top: -10px;
-  font-size: 62px;
-  font-weight: 350;
+.form-group-login {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
 }
 
-.password_l{
-  font-size: 48px;
-  font-weight: 350;
+.headers-login {
+	margin-top: -10px;
+	font-size: 62px;
+	font-weight: 350;
 }
 
-.email_l{
-  font-size: 48px;
-  font-weight: 350;
+.label-password-login {
+	font-size: 48px;
+	font-weight: 350;
 }
 
-.next-btn {
-  background: none;
-  border: none;
-  font-size: 34px;
-  font-weight: 10;
-  cursor: pointer;
-  position: absolute;
-  bottom: 20px;
-  right:20px;
+.label-email-login {
+	font-size: 48px;
+	font-weight: 350;
 }
- 
+
+.next-btn-login {
+	background: none;
+	border: none;
+	font-size: 34px;
+	font-weight: 10;
+	cursor: pointer;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}

@@ -3,13 +3,13 @@
 }
 
 .about-site > .about-site-content > .about-site-text > span {
-	margin-bottom: 45px;
-	font-size: calc(var(--btn-font-size) * 2);
+	margin-bottom: var(--margin-main);
+	font-size: 56px;
 	display: block;
 }
 
 .about-site-content {
-	margin-top: 45px;
+	margin-top: var(--margin-main);
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
@@ -17,18 +17,18 @@
 }
 
 .about-site-text {
-	max-width: 600px;
+	max-width: 840px;
 }
 
 .about-site-text p {
+	width: 50%;
 	font-size: 24px;
 	line-height: 1.5;
-	margin: 0;
 }
 
 .img-pc-main {
-	width: calc(550px / 1.5);
-	height: calc(700px / 1.5);
+	width: 366px;
+	height: 466px;
 }
 .main-page-login-container {
 	display: flex;
@@ -38,9 +38,7 @@
 
 .main-page-login-text-container {
 	width: 867px;
-	height: 1002px;
-	margin-top: 150px;
-	/* margin-bottom: 250px; */
+	margin-top: var(--margin-main);
 	text-align: center;
 
 	display: flex;
@@ -49,13 +47,13 @@
 }
 .main-page-login-text-container > p {
 	font-size: 30px;
-	margin-bottom: 35px;
+	margin-bottom: var(--margin-main);
 	color: #0000005c;
 }
 .main-page-login-text-container > text {
 	font-size: 64px;
 	display: block;
-	margin-bottom: 30px;
+	margin-bottom: var(--margin-main);
 }
 
 .main-page-login-text-container > span {
@@ -66,12 +64,14 @@
 	flex-direction: column;
 	align-items: center;
 	gap: 25px;
-
-	margin-top: 200px;
+	margin-top: var(--margin-main);
+}
+.about-site-h2 {
+	width: 100%;
 }
 
 .btn-main-page-sign-up {
-	padding: 36px 72px;
+	padding: 27px 54px;
 
 	background: var(--main-color-light-theme);
 	border: 1px solid var(--btn-border-color-light-theme);
@@ -87,11 +87,11 @@
 	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
 
 	transition:
-		background-color 0.25s ease,
-		color 0.25s ease,
-		border-color 0.25s ease,
-		box-shadow 0.25s ease,
-		transform 0.2s ease;
+		background-color var(--transition-timer-in-sec) ease,
+		color var(--transition-timer-in-sec) ease,
+		border-color var(--transition-timer-in-sec) ease,
+		box-shadow var(--transition-timer-in-sec) ease,
+		transform var(--transition-timer-in-sec) ease;
 }
 
 .btn-main-page-sign-up:hover {
@@ -109,8 +109,9 @@
 }
 
 .btn-main-page-sign-in {
-	margin-top: 25px;
-	padding: 36px 72px;
+	margin-top: var(--margin-main);
+	margin-bottom: var(--margin-main);
+	padding: 27px 54px;
 
 	background: var(--main-color-light-theme);
 	border: 1px solid #3b82f6;
@@ -126,11 +127,11 @@
 	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
 
 	transition:
-		background-color 0.25s ease,
-		color 0.25s ease,
-		border-color 0.25s ease,
-		box-shadow 0.25s ease,
-		transform 0.2s ease;
+		background-color var(--transition-timer-in-sec) ease,
+		color var(--transition-timer-in-sec) ease,
+		border-color var(--transition-timer-in-sec) ease,
+		box-shadow var(--transition-timer-in-sec) ease,
+		transform var(--transition-timer-in-sec) ease;
 }
 
 .btn-main-page-sign-in:hover {
@@ -148,21 +149,22 @@
 }
 
 .first-bug-main {
-	width: calc(400px / 1.5);
-	height: calc(700px / 1.5);
+	margin-left: var(--margin-main);
+	width: 266px;
+	height: 466px;
 }
 
 .second-bug-main {
-	width: calc(200px / 1.5);
-	height: calc(800px / 1.5);
+	width: 133px;
+	height: 533px;
 }
 
 .navbar-shell {
 	overflow: hidden;
 	transition:
-		transform 0.35s ease,
-		opacity 0.35s ease,
-		max-height 0.35s ease;
+		transform var(--transition-timer-in-sec) ease,
+		opacity var(--transition-timer-in-sec) ease,
+		max-height var(--transition-timer-in-sec) ease;
 	will-change: transform, opacity, max-height;
 	max-height: 143px;
 }

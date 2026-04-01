@@ -17,31 +17,33 @@ function Login() {
 		}
 	};
 	return (
-		<main className="main">
+		<main className="main-login">
 			<form className="login-card" onSubmit={handleSubmit}>
-				<h1 className="H1_login">Login</h1>
-				<div className="form-group">
-					<label className="email_l">Email or username</label>
+				<h1 className="headers-login">Login</h1>
+				<div className="form-group-login">
+					<label className="label-email-login">Email or username</label>
 					<input
+						className="input-email-login"
 						type="email"
 						placeholder="Enter your email"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</div>
 
-				<div className="form-group">
-					<label className="password_l">Password</label>
+				<div className="form-group-login">
+					<label className="label-password-login">Password</label>
 					<input
+						className="input-password-login"
 						type="password"
 						placeholder="Enter your password"
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</div>
 
-				<button className="next-btn" type="submit">
+				<button className="next-btn-login" type="submit">
 					<img src={st} alt="next" />
 				</button>
-				<a className="ar1" href="#">
+				<a className="forgot-password-login" href="#">
 					Forgot password?
 				</a>
 			</form>
