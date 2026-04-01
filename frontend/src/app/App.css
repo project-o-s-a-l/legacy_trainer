@@ -3,12 +3,13 @@
 }
 
 .about-site > .about-site-content > .about-site-text > span {
-	margin-bottom: 30px;
-	font-size: 100px;
+	margin-bottom: 45px;
+	font-size: calc(var(--btn-font-size) * 2);
 	display: block;
 }
 
 .about-site-content {
+	margin-top: 45px;
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
@@ -26,8 +27,8 @@
 }
 
 .img-pc-main {
-	width: 550px;
-	height: 700px;
+	width: calc(550px / 1.5);
+	height: calc(700px / 1.5);
 }
 .main-page-login-container {
 	display: flex;
@@ -39,7 +40,7 @@
 	width: 867px;
 	height: 1002px;
 	margin-top: 150px;
-	margin-bottom: 250px;
+	/* margin-bottom: 250px; */
 	text-align: center;
 
 	display: flex;
@@ -70,8 +71,7 @@
 }
 
 .btn-main-page-sign-up {
-	margin-top: 200px;
-	padding: 18px 36px;
+	padding: 36px 72px;
 
 	background: var(--main-color-light-theme);
 	border: 1px solid var(--btn-border-color-light-theme);
@@ -79,7 +79,7 @@
 
 	font-size: var(--btn-font-size);
 	font-weight: 600;
-	/* line-height: 1.2; */
+	line-height: 1.2;
 
 	border-radius: 14px;
 	cursor: pointer;
@@ -110,7 +110,7 @@
 
 .btn-main-page-sign-in {
 	margin-top: 25px;
-	padding: 18px 36px;
+	padding: 36px 72px;
 
 	background: var(--main-color-light-theme);
 	border: 1px solid #3b82f6;
@@ -148,13 +148,13 @@
 }
 
 .first-bug-main {
-	width: 400px;
-	height: 700px;
+	width: calc(400px / 1.5);
+	height: calc(700px / 1.5);
 }
 
 .second-bug-main {
-	width: 200px;
-	height: 800px;
+	width: calc(200px / 1.5);
+	height: calc(800px / 1.5);
 }
 
 .navbar-shell {

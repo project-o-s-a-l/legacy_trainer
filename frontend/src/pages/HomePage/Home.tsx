@@ -27,7 +27,6 @@ export default function Home() {
           <span>
             Check the code. <br /> Get advice.
           </span>
-          {/* <br /> */}
           <span>
             Upload your code, select the language and difficulty level, and get
             instant feedback and recommendations for improvement. Learn by doing
