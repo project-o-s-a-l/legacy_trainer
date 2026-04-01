@@ -1,3 +1,4 @@
+import Button from "@/shared/ui/Button";
 import zeroImg from "../../shared/assets/images/00-image.png";
 import oneImg from "../../shared/assets/images/01-image.png";
 import twoImg from "../../shared/assets/images/02-image.png";
@@ -9,9 +10,9 @@ export default function Home() {
 				<div className="about-site-content">
 					<div className="about-site-text">
 						<span>
-              <h2 className="about-site-h2">
-							A little about the site
-              </h2>
+							<h2 className="about-site-h2">
+								A little about the site
+							</h2>
 						</span>
 						<p>
 							Upload your code, select the language and difficulty
@@ -37,13 +38,19 @@ export default function Home() {
 						skills with us.
 					</span>
 					<div className="btn-main-page-login-container">
-						<button className="btn-main-page-sign-up">
+						<Button>
 							Registration
-						</button>
+						</Button>
+						<Button className="btn-main-page-sign-in">
+							Sign In
+						</Button>
+						{/* <button className="btn-main-page-sign-up"> */}
+						{/* Registration */}
+						{/* </button> */}
 						{/* <br /> */}
-						<button className="btn-main-page-sign-in">
-							Sign in
-						</button>
+						{/* <button className="btn-main-page-sign-in"> */}
+						{/* Sign in */}
+						{/* </button> */}
 					</div>
 				</div>
 				<img className="second-bug-main" src={twoImg} alt="" />

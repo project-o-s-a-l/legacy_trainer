@@ -1,8 +1,10 @@
 :root {
+	--background-color-light-theme: #f1f7ff;
 	--main-color-light-theme: #96CCFF8A;
 	--btn-color-light-theme: #5D7293;
 	--btn-border-color-light-theme: #3b82f6;
 	--btn-font-size: 28px;
 	--transition-timer-in-sec: 0.25s;
 	--margin-main: 50px;
+	--main-font-size: 32px;
 }

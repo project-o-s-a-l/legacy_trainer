@@ -22,7 +22,7 @@
 
 .about-site-text p {
 	width: 50%;
-	font-size: 24px;
+	font-size: var(--main-font-size);
 	line-height: 1.5;
 }
 
@@ -46,18 +46,18 @@
 	align-items: center;
 }
 .main-page-login-text-container > p {
-	font-size: 30px;
+	font-size: var(--main-font-size);
 	margin-bottom: var(--margin-main);
 	color: #0000005c;
 }
 .main-page-login-text-container > text {
-	font-size: 64px;
+	font-size: var(--main-font-size);;
 	display: block;
 	margin-bottom: var(--margin-main);
 }
 
 .main-page-login-text-container > span {
-	font-size: 32px;
+	font-size: var(--main-font-size);
 }
 .btn-main-page-login-container {
 	display: flex;
@@ -70,82 +70,9 @@
 	width: 100%;
 }
 
-.btn-main-page-sign-up {
-	padding: 27px 54px;
-
-	background: var(--main-color-light-theme);
-	border: 1px solid var(--btn-border-color-light-theme);
-	color: var(--btn-color-light-theme);
-
-	font-size: var(--btn-font-size);
-	font-weight: 600;
-	line-height: 1.2;
-
-	border-radius: 14px;
-	cursor: pointer;
-
-	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
-
-	transition:
-		background-color var(--transition-timer-in-sec) ease,
-		color var(--transition-timer-in-sec) ease,
-		border-color var(--transition-timer-in-sec) ease,
-		box-shadow var(--transition-timer-in-sec) ease,
-		transform var(--transition-timer-in-sec) ease;
-}
-
-.btn-main-page-sign-up:hover {
-	background: transparent;
-	border-color: #3b82f6;
-	box-shadow: 0 10px 28px rgba(59, 130, 246, 0.22);
-	transform: translateY(-2px);
-}
-
-.btn-main-page-sign-up:active {
-	background: var(--main-color-light-theme);
-	border-color: #3b82f6;
-	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.16);
-	transform: translateY(0);
-}
-
 .btn-main-page-sign-in {
 	margin-top: var(--margin-main);
 	margin-bottom: var(--margin-main);
-	padding: 27px 54px;
-
-	background: var(--main-color-light-theme);
-	border: 1px solid #3b82f6;
-	color: var(--btn-color-light-theme);
-
-	font-size: var(--btn-font-size);
-	font-weight: 600;
-	line-height: 1.2;
-
-	border-radius: 14px;
-	cursor: pointer;
-
-	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
-
-	transition:
-		background-color var(--transition-timer-in-sec) ease,
-		color var(--transition-timer-in-sec) ease,
-		border-color var(--transition-timer-in-sec) ease,
-		box-shadow var(--transition-timer-in-sec) ease,
-		transform var(--transition-timer-in-sec) ease;
-}
-
-.btn-main-page-sign-in:hover {
-	background: transparent;
-	border-color: #3b82f6;
-	box-shadow: 0 10px 28px rgba(59, 130, 246, 0.22);
-	transform: translateY(-2px);
-}
-
-.btn-main-page-sign-in:active {
-	background: var(--main-color-light-theme);
-	border-color: #3b82f6;
-	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.16);
-	transform: translateY(0);
 }
 
 .first-bug-main {

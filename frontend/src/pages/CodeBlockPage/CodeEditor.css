@@ -61,20 +61,11 @@
 }
 
 .btn-check-solution {
-	background-color: #00000000;
+	/* background-color: #00000000;
 	border-color: #00000000;
-	width: 180px;
-	height: 80px;
+
 	font-size: 30px;
-	transition: font-size 0.35s ease;
-}
-
-.btn-check-solution:hover {
-	color: #555;
-}
-
-.btn-check-solution:active {
-	text-decoration: none;
-	font-size: 25px;
-	color: #555;
+	transition: font-size 0.35s ease; */
+	margin: 10px;
+	padding: 5px 15px;
 }
