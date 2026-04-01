@@ -5,6 +5,7 @@ import {
 	Support,
 	Home,
 	Login,
+	Registration,
 } from "@/pages/index";
 import type { AppPage } from "@/shared/index.ts";
 
@@ -34,5 +35,15 @@ export const mainPageRoutes: AppPage[] = [
 		component: Support,
 		showInNavbar: true,
 	},
-	{ path: "/login", label: "Login", component: Login, showInNavbar: true },
+	{ path: "/login", 
+	  label: "Login", 
+	  component: Login, 
+	  showInNavbar: true 
+	},
+	{
+		path: "/Registration",
+		label: "Registration",
+		component: Registration,
+		showInNavbar: true
+	}
 ];
