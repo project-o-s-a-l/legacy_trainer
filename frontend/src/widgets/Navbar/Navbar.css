@@ -4,7 +4,6 @@
 	margin: 17px 38px 0px 38px;
 	padding: 0 30px;
 	min-height: 126px;
-
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -36,22 +35,24 @@
 }
 
 .navlink {
-	font-size: 36px;
+	font-size: 28px;
+	font-weight: 600;
 	text-decoration: none;
-	color: #333;
+  color: #3b82f6;
 	white-space: nowrap;
 	position: relative;
+  transition: color 0.25s ease;
 }
 
 .navlink:not(:last-child)::after {
 	content: "|";
 	margin-left: 28px;
-	color: #333;
+	color: #3b82f6;
 }
 
 .navlink:hover {
-	color: #555;
+	color: #136bf8;
 }
 .navlink:hover::after {
-	color: #555;
+	color: #136bf8;
 }
