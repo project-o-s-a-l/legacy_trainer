@@ -1,4 +1,6 @@
 :root {
 	--main-color-light-theme: #96CCFF8A;
-	--btn-color-light-theme: ;
+	--btn-color-light-theme: #3b82f6;
+	--btn-border-color-light-theme: #3b82f6;
+	--btn-font-size: 28px;
 }

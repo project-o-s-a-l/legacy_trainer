@@ -1,7 +1,9 @@
 body {
-  margin: 0;
-  background-color: #F1F7FF;
+	margin: 0;
+	background-color: #f1f7ff;
+	font-family: Inter, "Segoe UI", Arial, sans-serif;
 }
+
 /* :root {
   --text: #6b6375;
   --text-h: #08060d;

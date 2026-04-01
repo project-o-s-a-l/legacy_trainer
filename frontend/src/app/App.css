@@ -74,10 +74,10 @@
 	padding: 18px 36px;
 
 	background: var(--main-color-light-theme);
-	border: 1px solid #3b82f6;
-	color: #3b82f6;
+	border: 1px solid var(--btn-border-color-light-theme);
+	color: var(--btn-color-light-theme);
 
-	font-size: 28px;
+	font-size: var(--btn-font-size);
 	font-weight: 600;
 	/* line-height: 1.2; */
 
@@ -109,24 +109,16 @@
 }
 
 .btn-main-page-sign-in {
-	/* 
-	background-color: #00000000;
-	border-color: #00000000;
-	width: 326px;
-	height: 76px;
-	font-size: 64px;
-	transition: font-size 0.3s ease; */
-	/* margin-top: 200px; */
 	margin-top: 25px;
 	padding: 18px 36px;
 
 	background: var(--main-color-light-theme);
 	border: 1px solid #3b82f6;
-	color: #3b82f6;
+	color: var(--btn-color-light-theme);
 
-	font-size: 28px;
+	font-size: var(--btn-font-size);
 	font-weight: 600;
-	/* line-height: 1.2; */
+	line-height: 1.2;
 
 	border-radius: 14px;
 	cursor: pointer;
@@ -142,7 +134,7 @@
 }
 
 .btn-main-page-sign-in:hover {
-		background: transparent;
+	background: transparent;
 	border-color: #3b82f6;
 	box-shadow: 0 10px 28px rgba(59, 130, 246, 0.22);
 	transform: translateY(-2px);
@@ -178,7 +170,7 @@
 .navbar-visible {
 	transform: translateY(0);
 	opacity: 1;
-	max-height: 143px;
+	max-height: 150px;
 }
 
 .navbar-hidden {

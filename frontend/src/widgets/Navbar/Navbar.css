@@ -8,6 +8,10 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 30px;
+	box-shadow:
+		0 8px 24px rgba(59, 130, 246, 0.16),
+		0 16px 40px rgba(59, 130, 246, 0.1);
+	border: 1px solid var(--btn-border-color-light-theme);
 }
 
 .logo-container {
@@ -22,7 +26,10 @@
 	height: 70.41px;
 }
 .logo-container > .project-name {
-	font-size: 36px;
+	font-size: var(--btn-font-size);
+	font-weight: 600;
+	text-decoration: none;
+	color: var(--btn-color-light-theme);
 	margin: 0px;
 	white-space: nowrap;
 }
@@ -35,24 +42,29 @@
 }
 
 .navlink {
-	font-size: 28px;
-	font-weight: 600;
+	font-size: var(--btn-font-size);
+	font-weight: 700;
 	text-decoration: none;
-  color: #3b82f6;
+	/* color: #2563eb; */
+	color: var(--btn-color-light-theme);
 	white-space: nowrap;
 	position: relative;
-  transition: color 0.25s ease;
+	cursor: pointer;
+	letter-spacing: 0.2px;
+	transition: color 0.25s ease;
 }
 
 .navlink:not(:last-child)::after {
 	content: "|";
 	margin-left: 28px;
-	color: #3b82f6;
+	color: #2563eb;
+	font-weight: 500;
 }
 
 .navlink:hover {
-	color: #136bf8;
+	color: #1d4ed8;
 }
+
 .navlink:hover::after {
-	color: #136bf8;
+	color: #1d4ed8;
 }
