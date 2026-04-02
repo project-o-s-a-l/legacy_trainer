@@ -13,9 +13,9 @@ export default function CodeEditor() {
 			<button onClick={toggleNavbar} className="btn-hide">
 				{isNavbarVisible ? "^" : "\u2228"}
 			</button>
-		
+
 			<div className="btn-submit-container">
-				<div className="run-wrapper">
+				<button className="run-wrapper">
 					<svg
 						className="btn-run-code"
 						onClick={() => handleSubmit("code")}
@@ -32,7 +32,7 @@ export default function CodeEditor() {
 							fill="currentColor"
 						/>
 					</svg>
-				</div>
+				</button>
 				{/* TODO: Check solution logic */}
 				<Button className="btn-check-solution">Submit</Button>
 				{/* <button className="btn-check-solution">Submit</button> */}

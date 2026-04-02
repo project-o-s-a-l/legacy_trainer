@@ -25,9 +25,9 @@
 	overflow: auto;
 	border: 2px solid #5aa9e6;
 	box-sizing: border-box;
-	background-color: #96ccff8a;
+	background-color: var(--main-color-light-theme);
 	scrollbar-width: thin;
-	scrollbar-color: #5aa9e6 #96ccff8a;
+	scrollbar-color: #5aa9e6 var(--main-color-light-theme);
 }
 .text-code-editor-container {
 	display: flex;
@@ -79,10 +79,10 @@
 .separator {
 	border-radius: 25px 25px 25px 25px;
 	width: 2px;
-	background-color: #93c5fd;
+	background-color: transparent;
 	cursor: col-resize;
-	margin-left: 3px;
-	margin-right: 3px;
+	margin-left: 1px;
+	margin-right: 1px;
 }
 
 .code-editor-container {
