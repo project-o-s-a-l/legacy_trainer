@@ -1,7 +1,7 @@
-.btn {
+.specific-btn {
 	padding: 27px 54px;
 	background: var(--main-color-light-theme);
-	border: 1px solid #3b82f6;
+	border: 1px solid var(--btn-border-color-light-theme);
 	color: var(--btn-color-light-theme);
 	font-size: var(--btn-font-size);
 	font-weight: 600;
@@ -18,14 +18,14 @@
 		transform var(--transition-timer-in-sec) ease;
 }
 
-.btn:hover {
+.specific-btn:hover {
 	background: transparent;
 	border-color: #3b82f6;
 	box-shadow: 0 10px 28px rgba(59, 130, 246, 0.22);
 	transform: translateY(-2px);
 }
 
-.btn:active {
+.specific-btn:active {
 	background: var(--main-color-light-theme);
 	border-color: #3b82f6;
 	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.16);
