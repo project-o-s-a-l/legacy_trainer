@@ -1,9 +1,8 @@
-import Button from "@/shared/ui/Button";
-import zeroImg from "../../shared/assets/images/00-image.png";
-import oneImg from "../../shared/assets/images/01-image.png";
-import twoImg from "../../shared/assets/images/02-image.png";
+import { Button } from "@/shared/index.ts";
+import { pc } from "@/shared/index";
+import { zeroGlith } from "@/shared/index";
+import { firstGlith } from "@/shared/index";
 import "./Home.css";
-
 
 export default function Home() {
 	return (
@@ -23,11 +22,11 @@ export default function Home() {
 							programming skills with us!
 						</p>
 					</div>
-					<img className="img-pc-main" src={zeroImg} alt="" />
+					<img className="img-pc-main" src={pc} alt="" />
 				</div>
 			</div>
 			<div className="flex-between-center">
-				<img className="first-bug-main" src={oneImg} alt="" />
+				<img className="first-bug-main" src={zeroGlith} alt="" />
 				<div className="text-main main-page-login-text-container text-center flex-col-center">
 					<p>Ready to test your code?</p>
 					<span>
@@ -46,7 +45,7 @@ export default function Home() {
 						</Button>
 					</div>
 				</div>
-				<img className="second-bug-main" src={twoImg} alt="" />
+				<img className="second-bug-main" src={firstGlith} alt="" />
 			</div>
 		</div>
 	);

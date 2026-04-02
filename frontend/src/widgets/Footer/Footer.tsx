@@ -1,5 +1,5 @@
 import './Footer.css';
-import logo from '../../shared/assets/logo/logo.png';
+import { logo } from '@/shared/index.ts';
 
 
 export default function Footer() {

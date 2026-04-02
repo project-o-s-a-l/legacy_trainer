@@ -5,7 +5,7 @@ import { Routes, useLocation } from "react-router-dom";
 import { mainPageRoutes } from "./providers/router/routeConfig";
 import { renderRoutes } from "./providers/router/renderRoutes";
 import { Footer } from "@/widgets/index";
-import { NavbarContext } from "@/shared/lib/layout/NavbarContext";
+import { NavbarContext } from "@/shared/index.ts";
 import "./styles/variables.css";
 
 function App() {

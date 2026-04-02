@@ -1,4 +1,4 @@
-import { useNavbar } from "@/shared/lib/layout/NavbarContext";
+import { useNavbar } from "@/shared/index";
 import { CodeBlock } from "./CodeBlock";
 import "./CodeEditor.css";
 import Button from "@/shared/ui/Button";
