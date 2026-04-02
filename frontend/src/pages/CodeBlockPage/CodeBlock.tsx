@@ -36,7 +36,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 					<Panel defaultSize="35%" minSize="20%">
 						<div className="editor-panel">
 							<div className="panel-header">
-								<span className="problem">Problem:</span>
+								<span className="panel-title">Problem:</span>
 							</div>
 							<div className="scroll-bar-container">
 								<div className="task-container">
@@ -349,8 +349,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 					<Panel minSize="30%">
 						<div className="editor-panel">
 							<div className="code-editor-container">
-								<div className="header-solution">
-									<span className="solution">Solution:</span>
+								<div className="panel-header">
+									<span className="panel-title">Solution:</span>
 								</div>
 								<Editor
 									className="editor"
