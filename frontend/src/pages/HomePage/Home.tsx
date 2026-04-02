@@ -2,6 +2,8 @@ import Button from "@/shared/ui/Button";
 import zeroImg from "../../shared/assets/images/00-image.png";
 import oneImg from "../../shared/assets/images/01-image.png";
 import twoImg from "../../shared/assets/images/02-image.png";
+import "./Home.css";
+
 
 export default function Home() {
 	return (
@@ -42,13 +44,6 @@ export default function Home() {
 						<Button className="btn-main-page-sign-in">
 							Sign In
 						</Button>
-						{/* <button className="btn-main-page-sign-up"> */}
-						{/* Registration */}
-						{/* </button> */}
-						{/* <br /> */}
-						{/* <button className="btn-main-page-sign-in"> */}
-						{/* Sign in */}
-						{/* </button> */}
 					</div>
 				</div>
 				<img className="second-bug-main" src={twoImg} alt="" />
