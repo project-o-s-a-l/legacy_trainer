@@ -6,4 +6,5 @@ export { Support } from "./SupportPage/index.ts"
 export { Login } from "./LoginPage/index.ts"
 export { CodeEditor } from "./CodeBlockPage/index.ts";
 export { Registration } from "./RegistrationPage/index.ts";
+export { CodePage } from "./CodeEmailPage/index.ts"
 
