@@ -10,6 +10,7 @@
 	--main-color-light-theme: #96ccff8a;
 	--btn-color-light-theme: #5d7293;
 	--btn-border-color-light-theme: #3b82f6;
+	--color-footer-text: #fff;
 	--color-surface: var(--main-color-light-theme);
 	--color-border: var(--btn-border-color-light-theme);
 	--color-btn-text: var(--btn-color-light-theme);
