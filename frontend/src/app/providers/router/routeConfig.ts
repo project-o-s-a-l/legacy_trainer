@@ -6,6 +6,7 @@ import {
 	Home,
 	Login,
 	Registration,
+	CodePage,
 } from "@/pages/index";
 import type { AppPage } from "@/shared/index.ts";
 
@@ -44,6 +45,12 @@ export const mainPageRoutes: AppPage[] = [
 		path: "/Registration",
 		label: "Registration",
 		component: Registration,
+		showInNavbar: true
+	},
+	{
+		path: "/CodePage",
+		label: "CodePage",
+		component: CodePage,
 		showInNavbar: true
 	}
 ];
