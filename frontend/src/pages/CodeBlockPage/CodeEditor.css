@@ -1,12 +1,10 @@
 .btn-hide {
-	background-color: transparent;
 	border-color: transparent;
 	color: var(--btn-color-light-theme);
 	width: auto;
 	height: auto;
 	font-size: 30px;
-	display: flex;
-	justify-content: right;
+
 	padding-right: 38px;
 	margin-left: auto;
 	transition: transform var(--transition-timer-in-sec) ease;
@@ -21,39 +19,36 @@
 }
 
 .btn-run-code {
-	background-color: transparent;
-	border-color: transparent;
-	color: var(--btn-color-light-theme);
+	/* background-color: transparent; */
+	/* border-color: transparent; */
+	color: var(--color-btn-text);
 	width: 80px;
 	height: 80px;
 	transition: color 0.3s ease;
-	cursor: pointer;
+	/* cursor: pointer; */
 }
 
 .btn-submit-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	gap: 15px;
 }
 
 .run-wrapper {
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
+	/* display: inline-flex; */
+	/* justify-content: center; */
+	/* align-items: center; */
+	box-shadow: 0 8px 24px var(--shadow-primary);
 
 	width: 50px;
 	height: 50px;
-	border: none;
+	/* border: none; */
 	border-radius: 30%;
-	background: var(--main-color-light-theme);
-	border: 1px solid var(--btn-border-color-light-theme);
-	cursor: pointer;
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	/* cursor: pointer; */
 	padding: 0;
-	transition:
+	/* transition:
 		background var(--transition-timer-in-sec) ease,
-		transform var(--transition-timer-in-sec) ease;
+		transform var(--transition-timer-in-sec) ease; */
 }
 
 .run-wrapper:hover {
@@ -63,7 +58,7 @@
 
 .run-wrapper:active {
 	transform: scale(0.98);
-	background: var(--main-color-light-theme);
+	background: var(--color-surface);
 }
 
 .btn-check-solution {

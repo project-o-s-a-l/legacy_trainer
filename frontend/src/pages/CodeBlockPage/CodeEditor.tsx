@@ -10,17 +10,21 @@ export default function CodeEditor() {
 
 	return (
 		<>
-			<button onClick={toggleNavbar} className="btn-hide">
+			<button
+				type="button"
+				onClick={toggleNavbar}
+				className="flex-right btn-ghost btn-hide"
+			>
 				{isNavbarVisible ? "^" : "\u2228"}
 			</button>
 
-			<div className="btn-submit-container">
-				<button className="run-wrapper">
-					<svg
-						className="btn-run-code"
-						onClick={() => handleSubmit("code")}
-						viewBox="0 0 128 128"
-					>
+			<div className="btn-submit-container flex-center">
+				<button
+					type="button"
+					className="btn btn-icon run-wrapper"
+					onClick={() => handleSubmit("code")}
+				>
+					<svg className="btn-run-code" viewBox="0 0 128 128">
 						<path
 							d="  M52 42
 								 Q52 36 58 40
