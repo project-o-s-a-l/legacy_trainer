@@ -1,6 +1,7 @@
 :root {
 	/* Цвета и темы */
 	--color-primary: #5aa9e6;
+	--color-link-hover: #6489ca;
 	--color-footer-bg: #333;
 	--color-text-main: #111;
 	--color-text-secondary: #444;

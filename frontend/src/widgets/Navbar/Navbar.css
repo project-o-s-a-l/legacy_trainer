@@ -1,15 +1,15 @@
 .navbar {
-	background-color: var(--main-color-light-theme);
-	border-radius: 60px;
+	background-color: var(--color-surface);
+	border-radius: var(--radius-pill);
 	margin: 17px 38px 0px 38px;
 	padding: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	box-shadow:
-		0 8px 24px rgba(59, 130, 246, 0.16),
-		0 16px 40px rgba(59, 130, 246, 0.1);
-	border: 1px solid var(--btn-border-color-light-theme);
+		0 8px 24px var(--shadow-soft),
+		0 16px 40px var(--shadow-soft-lg);
+	border: 1px solid var(--color-border);
 }
 
 .logo-container {
@@ -19,16 +19,12 @@
 	flex-shrink: 0;
 }
 
-.logo-container > .img {
-	width: 35px;
-	height: 35.205px;
-}
-.logo-container > .project-name {
+.project-name {
 	font-size: var(--btn-font-size);
 	font-weight: 600;
 	text-decoration: none;
-	color: var(--btn-color-light-theme);
-	margin: 0px;
+	color: var(--color-btn-text);
+	margin: 0;
 	white-space: nowrap;
 }
 .nav-links {
@@ -43,26 +39,25 @@
 	font-size: var(--btn-font-size);
 	font-weight: 700;
 	text-decoration: none;
-	/* color: #2563eb; */
-	color: var(--btn-color-light-theme);
+	color: var(--color-btn-text);
 	white-space: nowrap;
 	position: relative;
 	cursor: pointer;
 	letter-spacing: 0.2px;
-	transition: color var(--transition-timer-in-sec) ease;
+	transition: color var(--transition-base) ease;
 }
 
 .navlink:not(:last-child)::after {
 	content: "|";
 	margin-left: 28px;
-	color: var(--btn-color-light-theme);
+	color: var(--color-btn-text);
 	font-weight: 500;
 }
 
 .navlink:hover {
-	color: #6489ca;
+	color: var(--color-link-hover);
 }
 
 .navlink:hover::after {
-	color: #6489ca;
+	color: var(--color-link-hover);
 }

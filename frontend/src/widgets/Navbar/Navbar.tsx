@@ -13,8 +13,8 @@ export default function Navbar({ links }: NavbarProps) {
     return (
         <nav className="navbar">
             <div className="logo-container">
-                 <img className="img" src={logo} alt="logo Project O.S.A.L" />
-                <label className="project-name">LegacyTrainer</label>
+                 <img className="logo-img" src={logo} alt="logo Project O.S.A.L" />
+                <span className="project-name">LegacyTrainer</span>
             </div>
             <div className="nav-links">
                 {links.filter((link) => link.showInNavbar).
