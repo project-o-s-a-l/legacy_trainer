@@ -7,9 +7,9 @@ export default function Home() {
 	return (
 		<div>
 			<div className="about-site">
-				<div className="about-site-content">
-					<div className="about-site-text">
-						<span>
+				<div className="about-site-content flex-between-start">
+					<div className="text-main about-site-text-container">
+						<span className="about-site-span">
 							<h2 className="about-site-h2">
 								A little about the site
 							</h2>
@@ -24,9 +24,9 @@ export default function Home() {
 					<img className="img-pc-main" src={zeroImg} alt="" />
 				</div>
 			</div>
-			<div className="main-page-login-container">
+			<div className="flex-between-center">
 				<img className="first-bug-main" src={oneImg} alt="" />
-				<div className="main-page-login-text-container">
+				<div className="text-main main-page-login-text-container text-center flex-col-center">
 					<p>Ready to test your code?</p>
 					<span>
 						Check the code. <br /> Get advice.
@@ -37,10 +37,8 @@ export default function Home() {
 						improvement. Learn by doing and improve your programming
 						skills with us.
 					</span>
-					<div className="btn-main-page-login-container">
-						<Button>
-							Registration
-						</Button>
+					<div className="btn-main-page-login-container flex-col-center">
+						<Button>Registration</Button>
 						<Button className="btn-main-page-sign-in">
 							Sign In
 						</Button>

@@ -34,8 +34,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 			<div className="main-code-editor-container">
 				<Group orientation="horizontal" className="resizable-group">
 					<Panel defaultSize="35%" minSize="20%">
-						<div className="left-panel">
-							<div className="header-problem">
+						<div className="editor-panel">
+							<div className="panel-header">
 								<span className="problem">Problem:</span>
 							</div>
 							<div className="scroll-bar-container">
@@ -347,7 +347,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 					</Panel>
 					<Separator className="separator" />
 					<Panel minSize="30%">
-						<div className="right-panel">
+						<div className="editor-panel">
 							<div className="code-editor-container">
 								<div className="header-solution">
 									<span className="solution">Solution:</span>

@@ -2,7 +2,7 @@
 	padding-left: 100px;
 }
 
-.about-site > .about-site-content > .about-site-text > span {
+.about-site-span {
 	margin-bottom: var(--margin-main);
 	font-size: 56px;
 	display: block;
@@ -10,19 +10,16 @@
 
 .about-site-content {
 	margin-top: var(--margin-main);
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
+
 	gap: 60px;
 }
 
-.about-site-text {
+.about-site-text-container {
 	max-width: 840px;
 }
 
-.about-site-text p {
+.about-site-text-container p {
 	width: 50%;
-	font-size: var(--main-font-size);
 	line-height: 1.5;
 }
 
@@ -30,39 +27,17 @@
 	width: 366px;
 	height: 466px;
 }
-.main-page-login-container {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
 
 .main-page-login-text-container {
 	width: 867px;
 	margin-top: var(--margin-main);
-	text-align: center;
-
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 }
 .main-page-login-text-container > p {
-	font-size: var(--main-font-size);
 	margin-bottom: var(--margin-main);
-	color: #0000005c;
-}
-.main-page-login-text-container > text {
-	font-size: var(--main-font-size);;
-	display: block;
-	margin-bottom: var(--margin-main);
+	color: var(--color-text-muted);
 }
 
-.main-page-login-text-container > span {
-	font-size: var(--main-font-size);
-}
 .btn-main-page-login-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 	gap: 25px;
 	margin-top: var(--margin-main);
 }

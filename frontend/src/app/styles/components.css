@@ -1,0 +1,96 @@
+.btn {
+	border: none;
+	cursor: pointer;
+		transition:
+		color var(--transition-base) ease,
+		background var(--transition-base) ease,
+		transform var(--transition-base) ease;
+}
+
+.btn:active {
+	transform: scale(0.98);
+}
+
+.btn-ghost {
+	background: transparent;
+}
+
+.btn-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+
+.icon-button-surface {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
+	width: 50px;
+	height: 50px;
+	border: none;
+	border-radius: 30%;
+	background: var(--main-color-light-theme);
+	border: 1px solid var(--btn-border-color-light-theme);
+	cursor: pointer;
+	padding: 0;
+	transition:
+		background var(--transition-timer-in-sec) ease,
+		transform var(--transition-timer-in-sec) ease;
+}
+
+.input {
+	width: 100%;
+	max-width: 450px;
+	padding: 30px;
+	border: 1px solid black;
+	border-radius: var(--radius-xl);
+	font-size: 36px;
+	font-weight: 350;
+	outline: none;
+	background: #fff;
+	color: black;
+}
+
+.input-compact {
+	max-width: 270px;
+	height: 64px;
+	padding: 0 18px;
+	border-radius: var(--radius-sm);
+	font-size: 28px;
+	background: #f2f4f7;
+	border: 2px solid #000;
+	color: #111;
+}
+
+.card {
+	border-radius: var(--radius-md);
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.card-auth {
+	width: 800px;
+	padding: 50px;
+	background: var(--gradient-card-auth);
+}
+
+.card-code {
+	background: var(--gradient-card-code);
+}
+
+.panel-header {
+	flex: 0 0 auto;
+	border: 2px solid var(--color-primary);
+	background-color: var(--color-primary);
+	border-radius: 25px 25px 0 0;
+	overflow: hidden;
+	padding: 8px 12px;
+}
+
+.logo-img {
+	width: 35px;
+	height: 35.205px;
+}

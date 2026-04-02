@@ -6,7 +6,7 @@ import { mainPageRoutes } from "./providers/router/routeConfig";
 import { renderRoutes } from "./providers/router/renderRoutes";
 import { Footer } from "@/widgets/index";
 import { NavbarContext } from "@/shared/lib/layout/NavbarContext";
-import "./styles/variables/variables.css";
+import "./styles/variables.css";
 
 function App() {
 	const location = useLocation();
@@ -46,9 +46,7 @@ function App() {
 							(route) => route.showInNavbar,
 						)}
 					/>
-					{/* {isNavbarVisible && <Navbar links={mainPageRoutes.filter((route) => route.showInNavbar)} />} */}
 				</div>
-				{/* <Navbar links={mainPageRoutes}/> */}
 				<Routes>{renderRoutes(mainPageRoutes)}</Routes>
 				<Footer></Footer>
 			</div>
