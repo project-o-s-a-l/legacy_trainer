@@ -17,7 +17,6 @@ function Registration(){
             Email or username
             <input type="text" placeholder="Enter email or username" className="form-input" />
           </label>
-
           <label className="form-label">
             Password
             <input type="password" placeholder="Enter password" className="form-input" />

@@ -47,3 +47,4 @@ export const mainPageRoutes: AppPage[] = [
 		showInNavbar: true
 	}
 ];
+
