@@ -13,6 +13,8 @@
 
 .btn-ghost {
 	background: transparent;
+	border: transparent;
+	cursor: pointer;
 }
 
 .btn-icon {

@@ -4,18 +4,18 @@ import "./GetEmailCode.css";
 export default function CodePage() {
   return (
     <div className="code-page flex-center">
-      <div className="code-wrapper">
+      <div className="code-wrapper flex-between-center">
         <div className="code-card card card-code-gradient">
           <h1 className="code-title">Enter the code</h1>
 
-          <form className="code-form">
+          <form className="flex-col-center">
             <input
               type="text"
               placeholder="Enter text"
               className="input input-compact"
             />
 
-            <button type="submit" className="code-button">
+            <button type="submit" className="btn-ghost code-button">
               Next
             </button>
           </form>
