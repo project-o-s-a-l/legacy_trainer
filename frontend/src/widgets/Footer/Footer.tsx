@@ -1,5 +1,5 @@
 import './Footer.css';
-import logo from '../../shared/assets/logo/logo.png';
+import { logo } from '@/shared/index.ts';
 
 
 export default function Footer() {
@@ -8,15 +8,15 @@ export default function Footer() {
             <div className='footer-container'>
             <div className='footer-top-row'>
                <div className="footer-logo-container">
-                 <img className="footer-img" src={logo} alt="logo Project O.S.A.L" />
-                <label className="footer-project-name">LegacyTrainer</label>
+                 <img className="footer-img logo-img" src={logo} alt="logo Project O.S.A.L" />
+                <span className="footer-project-name">LegacyTrainer</span>
             </div>
-                <label className='footer-info'>The project was created for educational and research purposes</label>
+                <span className='footer-info'>The project was created for educational and research purposes</span>
             </div>
-                <hr style={{border: "1px solid white", width: "99.9%" }}/>
+                <hr className='footer-divider'/>
                 <div className='copyrights'> 
                     <p >All rights reserved &copy; {new Date().getFullYear()} </p>
-                    <p style={{paddingLeft: "25px"}}>Confidentiality</p> 
+                    <p className='footer-confidentiality'>Confidentiality</p> 
                 </div>
             </div>
         </footer>

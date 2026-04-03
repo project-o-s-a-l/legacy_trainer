@@ -1,6 +1,7 @@
-import { useNavbar } from "@/shared/lib/layout/NavbarContext";
+import { useNavbar } from "@/shared/index";
 import { CodeBlock } from "./CodeBlock";
 import "./CodeEditor.css";
+import Button from "@/shared/ui/Button";
 
 export default function CodeEditor() {
 	const handleSubmit = (code: string) => console.log("Submit code: ", code);
@@ -9,16 +10,21 @@ export default function CodeEditor() {
 
 	return (
 		<>
-			<button onClick={toggleNavbar} className="btn-hide">
+			<button
+				type="button"
+				onClick={toggleNavbar}
+				className="flex-right btn-ghost btn-hide"
+			>
 				{isNavbarVisible ? "^" : "\u2228"}
 			</button>
-			<div className="btn-submit-container">
-				<div className="run-wrapper">
-					<svg
-						className="btn-run-code"
-						onClick={() => handleSubmit("code")}
-						viewBox="0 0 128 128"
-					>
+
+			<div className="btn-submit-container flex-center">
+				<button
+					type="button"
+					className="btn btn-icon run-wrapper"
+					onClick={() => handleSubmit("code")}
+				>
+					<svg className="btn-run-code" viewBox="0 0 128 128">
 						<path
 							d="  M52 42
 								 Q52 36 58 40
@@ -30,9 +36,10 @@ export default function CodeEditor() {
 							fill="currentColor"
 						/>
 					</svg>
-				</div>
+				</button>
 				{/* TODO: Check solution logic */}
-				<button className="btn-check-solution" >Submit</button>
+				<Button className="btn-check-solution">Submit</Button>
+				{/* <button className="btn-check-solution">Submit</button> */}
 			</div>
 			<CodeBlock
 				language="typescript"

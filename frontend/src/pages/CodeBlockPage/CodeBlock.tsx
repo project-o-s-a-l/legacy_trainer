@@ -34,9 +34,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 			<div className="main-code-editor-container">
 				<Group orientation="horizontal" className="resizable-group">
 					<Panel defaultSize="35%" minSize="20%">
-						<div className="left-panel">
-							<div className="header-problem">
-								<span className="problem">Problem:</span>
+						<div className="editor-panel">
+							<div className="panel-header">
+								<span className="panel-title">Problem:</span>
 							</div>
 							<div className="scroll-bar-container">
 								<div className="task-container">
@@ -347,10 +347,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 					</Panel>
 					<Separator className="separator" />
 					<Panel minSize="30%">
-						<div className="right-panel">
+						<div className="editor-panel">
 							<div className="code-editor-container">
-								<div className="header-solution">
-									<span className="solution">Solution:</span>
+								<div className="panel-header">
+									<span className="panel-title">Solution:</span>
 								</div>
 								<Editor
 									className="editor"

@@ -1,0 +1,33 @@
+.specific-btn {
+	padding: 27px 54px;
+	background: var(--main-color-light-theme);
+	border: 1px solid var(--btn-border-color-light-theme);
+	color: var(--btn-color-light-theme);
+	font-size: var(--btn-font-size);
+	font-weight: 600;
+	line-height: 1.2;
+	border-radius: 14px;
+	cursor: pointer;
+	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
+
+	transition:
+		background-color var(--transition-timer-in-sec) ease,
+		color var(--transition-timer-in-sec) ease,
+		border-color var(--transition-timer-in-sec) ease,
+		box-shadow var(--transition-timer-in-sec) ease,
+		transform var(--transition-timer-in-sec) ease;
+}
+
+.specific-btn:hover {
+	background: transparent;
+	border-color: #3b82f6;
+	box-shadow: 0 10px 28px rgba(59, 130, 246, 0.22);
+	transform: translateY(-2px);
+}
+
+.specific-btn:active {
+	background: var(--main-color-light-theme);
+	border-color: #3b82f6;
+	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.16);
+	transform: translateY(0);
+}

@@ -1,0 +1,51 @@
+.code-page {
+  height: 100vh;
+}
+
+.code-wrapper {
+  width: 70%;
+ 
+
+}
+
+.code-card {
+  width: 930px;
+  min-height: 380px;
+  padding: 26px 40px 22px;
+}
+
+.code-title {
+  text-align: center;
+  font-size: 52px;
+  font-weight: 350;
+  margin-bottom: 38px;
+  color: var(--color-text-main);
+}
+
+.code-button {
+  margin-top: 50px;
+  font-size: 48px;
+  font-weight: 350;
+  color: var(--color-text-main);
+}
+
+.code-text {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 350;
+  color: var(--color-text-secondary);
+  margin-top: -2px;
+}
+
+.code-link {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 350;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.image-placeholder {
+  width: 400px;
+  height: 500px;
+}

@@ -1,0 +1,12 @@
+body {
+	background-color: var(--background-color-light-theme);
+	color: var(--color-btn-text);
+	font-size: var(--main-font-size);
+	line-height: 1.5;
+	font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: var(--color-placeholder);
+}
