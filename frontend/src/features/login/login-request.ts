@@ -16,7 +16,7 @@ export async function login_request(login: string, password: string) {
 	});
 
 	if (!response.ok) {
-		throw new Error("Login Failed");
+		throw new Error("Login Failed"); //TODO: Изменить
 	}
 
 	const data: LoginResponse = await response.json();

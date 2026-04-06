@@ -5,3 +5,4 @@ export { NavbarContext } from "./lib/layout/index.ts";
 export { Button } from "./ui/index.ts";
 export { pc, zeroGlith, firstGlith } from "./assets/index.ts";
 export { logo } from "./assets/index.ts";
+export type { RegisterResponse } from "./types/registerResponse.ts";
