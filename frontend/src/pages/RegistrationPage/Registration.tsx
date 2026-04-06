@@ -39,10 +39,10 @@ function Registration() {
 					</label>
 
 					<label className="form-label">
-						Email or username
+						Email
 						<input
 							type="text"
-							placeholder="Enter email or username"
+							placeholder="Enter email"
 							className="input form-input"
 							onChange={(e) => setEmail(e.target.value)}
 						/>
@@ -61,7 +61,7 @@ function Registration() {
 						Confirm your password
 						<input
 							type="password"
-							placeholder="Enter your password"
+							placeholder="Confirm your password"
 							className="input form-input"
 							onChange={(e) => {
 								setConfirmPassword(e.target.value);
