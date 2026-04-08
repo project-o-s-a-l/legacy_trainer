@@ -1,31 +1,36 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
 
-node_modules/
-dist
-dist-ssr
-*.local
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Test and type-checker caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+
+# Coverage and build artifacts
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Environment and local config
+.env
+.env.*
+
+# Editor and OS files
+.idea/
+.vscode/
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Playwright
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+Thumbs.db
