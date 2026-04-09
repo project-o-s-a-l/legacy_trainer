@@ -91,3 +91,9 @@
 	width: 35px;
 	height: 35.205px;
 }
+
+.box-light {
+	border: 2px solid var(--main-color-light-theme);
+	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
+	/* padding: var(--space-xl); */
+}

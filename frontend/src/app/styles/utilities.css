@@ -62,3 +62,7 @@
 .text-center {
 	text-align: center;
 }
+
+.padding-bottom-main {
+	padding-bottom: var(--margin-main);
+}
