@@ -45,12 +45,12 @@ export const mainPageRoutes: AppPage[] = [
 		component: Registration,
 		showInNavbar: true,
 	},
-	{
-		path: "/CodePage",
-		label: "CodePage",
-		component: CodePage,
-		showInNavbar: true,
-	},
+	// {
+	// 	path: "/CodePage",
+	// 	label: "CodePage",
+	// 	component: CodePage,
+	// 	showInNavbar: true,
+	// },
 	{
 		path: "/CodeBlock",
 		label: "CodeBlock",

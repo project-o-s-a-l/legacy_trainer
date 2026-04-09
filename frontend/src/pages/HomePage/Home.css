@@ -1,5 +1,5 @@
 .about-site {
-	padding-left: 100px;
+	padding-left: 150px;
 }
 
 .about-site-span {
@@ -10,27 +10,28 @@
 
 .about-site-content {
 	margin-top: var(--margin-main);
-
-	gap: 60px;
 }
 
 .about-site-text-container {
-	max-width: 840px;
+	max-width: 940px;
+	padding: var(--space-sm);
 }
 
 .about-site-text-container p {
-	width: 50%;
+	width: 100%;
 	line-height: 1.5;
 }
 
 .img-pc-main {
-	width: 366px;
-	height: 466px;
+	margin-top: 0px;
+	width: 386px;
+	height: 586px;
 }
 
 .main-page-login-text-container {
 	width: 867px;
 	margin-top: var(--margin-main);
+	padding: var(--space-md);
 }
 .main-page-login-text-container > p {
 	margin-bottom: var(--margin-main);
@@ -38,16 +39,16 @@
 }
 
 .btn-main-page-login-container {
-	gap: 25px;
-	margin-top: var(--margin-main);
+	padding-bottom: var(--margin-main);
 }
 .about-site-h2 {
+	margin: 0 var(--margin-main) var(--margin-main) var(--margin-main);
 	width: 100%;
 }
 
 .btn-main-page-sign-in {
 	margin-top: var(--margin-main);
-	margin-bottom: var(--margin-main);
+	margin-left: var(--margin-main);
 }
 
 .first-bug-main {
@@ -57,6 +58,6 @@
 }
 
 .second-bug-main {
-	width: 133px;
+	width: 266px;
 	height: 533px;
 }
