@@ -10,15 +10,7 @@ export default function CodeEditor() {
 
 	return (
 		<>
-			<button
-				type="button"
-				onClick={toggleNavbar}
-				className="flex-right btn-ghost btn-hide"
-			>
-				{isNavbarVisible ? "^" : "\u2228"}
-			</button>
-
-			<div className="btn-submit-container flex-center">
+			<div className="flex-between-center">
 				<button
 					type="button"
 					className="btn btn-icon run-wrapper"
@@ -39,7 +31,13 @@ export default function CodeEditor() {
 				</button>
 				{/* TODO: Check solution logic */}
 				<Button className="btn-check-solution">Submit</Button>
-				{/* <button className="btn-check-solution">Submit</button> */}
+				<button
+					type="button"
+					onClick={toggleNavbar}
+					className="btn-ghost btn-hide"
+				>
+					{isNavbarVisible ? "^" : "\u2228"}
+				</button>
 			</div>
 			<CodeBlock
 				language="typescript"
