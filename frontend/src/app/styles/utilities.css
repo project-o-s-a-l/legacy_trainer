@@ -2,6 +2,18 @@
 	display: flex;
 }
 
+.flex-start 
+{
+	display: flex;
+	align-items: start;
+}
+.flex-end 
+{
+	display: flex;
+	align-items: end;
+}
+
+
 .flex-right {
 	display: flex;
 	justify-content: right;
@@ -22,6 +34,11 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+.flex-col-start {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
 }
 
 .flex-between-start {

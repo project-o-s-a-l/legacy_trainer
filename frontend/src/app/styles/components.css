@@ -16,6 +16,13 @@
 	border: transparent;
 	cursor: pointer;
 }
+.btn-ghost:hover {
+	transform: scale(1.02);
+}
+
+.btn-ghost:active {
+	transform: scale(0.98);
+}
 
 .btn-icon {
 	display: inline-flex;
