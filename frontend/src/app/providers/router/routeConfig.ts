@@ -9,6 +9,7 @@ import {
 	Registration,
 	CodePage,
 	CodeEditor,
+	ChooseTask,
 } from "@/pages/index";
 import type { AppPage } from "@/shared/index.ts";
 
@@ -51,10 +52,16 @@ export const mainPageRoutes: AppPage[] = [
 	// 	component: CodePage,
 	// 	showInNavbar: true,
 	// },
+	// {
+	// 	path: "/CodeBlock",
+	// 	label: "CodeBlock",
+	// 	component: CodeEditor,
+	// 	showInNavbar: true,
+	// },
 	{
-		path: "/CodeBlock",
-		label: "CodeBlock",
-		component: CodeEditor,
+		path: "/ChooseTask",
+		label: "ChooseTask",
+		component: ChooseTask,
 		showInNavbar: true,
 	},
 ];
