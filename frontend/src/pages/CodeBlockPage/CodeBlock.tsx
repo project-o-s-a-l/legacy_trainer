@@ -1,9 +1,11 @@
+
 import Editor, { useMonaco } from "@monaco-editor/react";
 import React, { useState, useEffect } from "react";
 import type { CodeBlockProps } from "./model/types.ts";
 import { BLUE_LIGHT_THEME_NAME, blueLightTheme } from "./lib/blueLightTheme.ts";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import "./CodeBlock.css";
+
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({
 	language = "javascript",

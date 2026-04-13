@@ -46,18 +46,18 @@ export const mainPageRoutes: AppPage[] = [
 		component: Registration,
 		showInNavbar: true,
 	},
-	// {
-	// 	path: "/CodePage",
-	// 	label: "CodePage",
-	// 	component: CodePage,
-	// 	showInNavbar: true,
-	// },
-	// {
-	// 	path: "/CodeBlock",
-	// 	label: "CodeBlock",
-	// 	component: CodeEditor,
-	// 	showInNavbar: true,
-	// },
+	{
+		path: "/CodePage",
+		label: "CodePage",
+		component: CodePage,
+		showInNavbar: false,
+	},
+	{
+		path: "/CodeBlock",
+		label: "CodeBlock",
+		component: CodeEditor,
+		showInNavbar: false,
+	},
 	{
 		path: "/ChooseTask",
 		label: "ChooseTask",

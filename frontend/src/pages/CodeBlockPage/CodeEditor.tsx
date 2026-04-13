@@ -1,15 +1,30 @@
+import { useLocation } from "react-router-dom";
 import { useNavbar } from "@/shared/index";
 import { CodeBlock } from "./CodeBlock";
 import "./CodeEditor.css";
 import Button from "@/shared/ui/Button";
+
+type LocationState = {
+	chooseLanguage?: string;
+	chooseDificulty?: string;
+};
 
 export default function CodeEditor() {
 	const handleSubmit = (code: string) => console.log("Submit code: ", code);
 
 	const { isNavbarVisible, toggleNavbar } = useNavbar();
 
+	const location = useLocation();
+
+	const { chooseLanguage, chooseDificulty } =
+		(location.state as LocationState) || {};
+
 	return (
 		<>
+			<div>
+				<p>Language: {chooseLanguage || "not selected"}</p>
+				<p>Difficulty: {chooseDificulty || "not selected"}</p>
+			</div>
 			<div className="flex-between-center">
 				<button
 					type="button"
