@@ -3,12 +3,22 @@ import { useNavbar } from "@/shared/index";
 import { CodeBlock } from "./CodeBlock";
 import "./CodeEditor.css";
 import Button from "@/shared/ui/Button";
+import { useEffect } from "react";
 
 type LocationState = {
 	chooseLanguage?: string;
 	chooseDificulty?: string;
 };
 
+const languageMap: Record<string, string> = {
+	Python: "python",
+	"C++": "cpp",
+};
+
+const defaultValues: Record<string, string> = {
+	python: "def hello_python():\n\tprint('Hello, World!')",
+	cpp: '#include <iostream>\n\nint main() {\n\tstd::cout << "Hello, World!";\n\treturn 0;\n}',
+};
 export default function CodeEditor() {
 	const handleSubmit = (code: string) => console.log("Submit code: ", code);
 
@@ -19,12 +29,12 @@ export default function CodeEditor() {
 	const { chooseLanguage, chooseDificulty } =
 		(location.state as LocationState) || {};
 
+	const monacoLanguage = chooseLanguage
+		? languageMap[chooseLanguage] || "plaintext"
+		: "plaintext";
+
 	return (
 		<>
-			<div>
-				<p>Language: {chooseLanguage || "not selected"}</p>
-				<p>Difficulty: {chooseDificulty || "not selected"}</p>
-			</div>
 			<div className="flex-between-center">
 				<button
 					type="button"
@@ -54,9 +64,12 @@ export default function CodeEditor() {
 					{isNavbarVisible ? "^" : "\u2228"}
 				</button>
 			</div>
+			<div className="flex">
+				<span className="chosed-fields">Language: {chooseLanguage || "not selected"}|Difficulty: {chooseDificulty || "not selected"}</span>
+			</div>
 			<CodeBlock
-				language="typescript"
-				defaultValue={`console.log('Hello World!');`}
+				language={monacoLanguage}
+				defaultValue={defaultValues[monacoLanguage] || ""}
 				onChange={handleSubmit}
 				height="850px"
 				theme="blueLight"

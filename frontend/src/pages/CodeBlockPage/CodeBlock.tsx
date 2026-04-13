@@ -1,27 +1,19 @@
-
 import Editor, { useMonaco } from "@monaco-editor/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import type { CodeBlockProps } from "./model/types.ts";
 import { BLUE_LIGHT_THEME_NAME, blueLightTheme } from "./lib/blueLightTheme.ts";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import "./CodeBlock.css";
-
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({
 	language = "javascript",
 	defaultValue = "",
 	onChange,
 	height = "800px",
-	theme = "light",
 }) => {
 	const [code, setCode] = useState(defaultValue);
-
-	const handelEditorChange = (value: string | undefined) => {
-		const newValue = value || "";
-		setCode(newValue);
-		onChange?.(newValue);
-	};
-
+	const [appliedLanguage, setAppliedLanguage] = useState("");
+	const editorRef = useRef<any>(null);
 	const monaco = useMonaco();
 
 	useEffect(() => {
@@ -31,8 +23,37 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 		monaco.editor.setTheme(BLUE_LIGHT_THEME_NAME);
 	}, [monaco]);
 
+	useEffect(() => {
+		if (!monaco || !editorRef.current) return;
+
+		const model = editorRef.current.getModel();
+		if (!model) return;
+
+		monaco.editor.setModelLanguage(model, language);
+		setAppliedLanguage(model.getLanguageId());
+		monaco.editor.setTheme(BLUE_LIGHT_THEME_NAME);
+
+		setTimeout(() => {
+			editorRef.current?.layout();
+		}, 0);
+	}, [language, monaco]);
+
+	useEffect(() => {
+		setCode(defaultValue);
+	}, [defaultValue]);
+
+	const handelEditorChange = (value: string | undefined) => {
+		const newValue = value || "";
+		setCode(newValue);
+		onChange?.(newValue);
+	};
+
 	return (
 		<div>
+			{/* <div style={{ marginBottom: 12 }}>
+				Applied language: <b>{appliedLanguage || "loading..."}</b>
+			</div> */}
+
 			<div className="main-code-editor-container">
 				<Group orientation="horizontal" className="resizable-group">
 					<Panel defaultSize="35%" minSize="20%">
@@ -352,15 +373,30 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 						<div className="editor-panel">
 							<div className="code-editor-container">
 								<div className="panel-header">
-									<span className="panel-title">Solution:</span>
+									<span className="panel-title">
+										Solution:
+									</span>
 								</div>
 								<Editor
 									className="editor"
-									key={language}
+									// key={language}
 									language={language}
 									value={code}
 									height={height}
-									theme={theme}
+									theme={BLUE_LIGHT_THEME_NAME}
+									onMount={(editor) => {
+										editorRef.current = editor;
+
+										const model = editor.getModel();
+										if (model) {
+											setAppliedLanguage(
+												model.getLanguageId(),
+											);
+										}
+
+										editor.layout();
+									}}
+									// theme={BLUE_LIGHT_THEME_NAME}
 									onChange={handelEditorChange}
 									options={{
 										minimap: { enabled: false },
