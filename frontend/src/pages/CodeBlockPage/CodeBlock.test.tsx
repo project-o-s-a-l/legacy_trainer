@@ -82,7 +82,7 @@ describe("CodeBlock", () => {
 
 		expect(editor).toHaveAttribute("data-language", "typescript");
 		expect(editor).toHaveAttribute("data-height", "500px");
-		expect(editor).toHaveAttribute("data-theme", "light");
+		expect(editor).toHaveAttribute("data-theme", BLUE_LIGHT_THEME_NAME);
 	});
 
 	it("registers and applies custom monaco theme on mount", () => {
