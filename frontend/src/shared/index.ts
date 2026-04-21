@@ -6,3 +6,6 @@ export { Button } from "./ui/index.ts";
 export { pc, zeroGlith, firstGlith } from "./assets/index.ts";
 export { logo } from "./assets/index.ts";
 export type { RegisterResponse } from "./types/registerResponse.ts";
+export { ProfileImg } from "./assets/index.ts";
+export { LowerRank } from "./assets/index.ts";
+export { StaticProfileImg } from "./assets/index.ts";

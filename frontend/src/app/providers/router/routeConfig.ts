@@ -10,7 +10,10 @@ import {
 	CodePage,
 	CodeEditor,
 	ChooseTask,
+	Profile,
 } from "@/pages/index";
+
+import { ProfileImg } from "@/shared/index.ts";
 import type { AppPage } from "@/shared/index.ts";
 
 export const mainPageRoutes: AppPage[] = [
@@ -64,4 +67,10 @@ export const mainPageRoutes: AppPage[] = [
 		component: ChooseTask,
 		showInNavbar: true,
 	},
+	{
+		path: "/ProfilePage",
+		label: "ProfilePage",
+		component: Profile,
+		showInNavbar: true
+	}
 ];
