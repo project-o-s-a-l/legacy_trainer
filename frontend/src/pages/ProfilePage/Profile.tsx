@@ -121,6 +121,7 @@ export default function Profile() {
 					ref={fileInputRef}
 					onChange={handleFileChange}
 					style={{ display: "none" }}
+					data-testid="avatar-input"
 				/>
 				<div className="profile-right">
 					<div className="flex profile-info-container">
