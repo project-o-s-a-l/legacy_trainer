@@ -9,6 +9,7 @@ export async function login_request(login: string, password: string) {
 			"Content-Type": "application/json",
 			Accept: "application/json",
 		},
+		credentials: "include",
 		body: JSON.stringify({
 			login: login,
 			password: password,

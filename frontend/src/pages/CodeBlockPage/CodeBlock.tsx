@@ -29,7 +29,6 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 
 	return (
 		<div>
-
 			<div className="main-code-editor-container">
 				<Group orientation="horizontal" className="resizable-group">
 					<Panel defaultSize="35%" minSize="20%">
