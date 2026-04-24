@@ -5,6 +5,15 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 
+vi.mock("@/features/AutchContext/AuthContext", () => ({
+	useAuth: () => ({
+		user: null,
+		isAuthenticated: false,
+		loading: false,
+		refreshAuth: vi.fn(),
+		logout: vi.fn(),
+	}),
+}));
 
 vi.mock("./providers/router/routeConfig", () => ({
 	mainPageRoutes: [
@@ -12,19 +21,22 @@ vi.mock("./providers/router/routeConfig", () => ({
 			path: "/",
 			showNavBar: true,
 			showInNavbar: true,
+			access: "public",
 			element: React.createElement("div", null, "Home Page"),
 		},
 		{
 			path: "/login",
 			showNavBar: false,
 			showInNavbar: false,
+			access: "guest",
 			element: React.createElement("div", null, "Login Page"),
 		},
 		{
 			path: "/code",
 			showNavBar: true,
 			showInNavbar: true,
-			element: React.createElement("div", null, "Code Page")
+			access: "private",
+			element: React.createElement("div", null, "Code Page"),
 		},
 	],
 }));
@@ -35,7 +47,7 @@ vi.mock("./providers/router/renderRoutes", async () => {
 
 	return {
 		renderRoutes: (
-			routes: Array<{ path: string; element: React.ReactNode }>
+			routes: Array<{ path: string; element: React.ReactNode }>,
 		) =>
 			routes.map((route) =>
 				React.createElement(Route, {
@@ -51,7 +63,7 @@ vi.mock("@/widgets/index", async () => {
 	const React = await import("react");
 	const { NavbarContext } = await import("@/shared/lib/layout/NavbarContext");
 
-	const MockNavbar = ({links}: {links: Array<{path: string}>}) => {
+	const MockNavbar = ({ links }: { links: Array<{ path: string }> }) => {
 		const context = React.useContext(NavbarContext);
 
 		return (
@@ -62,12 +74,12 @@ vi.mock("@/widgets/index", async () => {
 		);
 	};
 
-	const MockFooter = () => <footer data-testid="footer">Mock Footer</footer>
+	const MockFooter = () => <footer data-testid="footer">Mock Footer</footer>;
 
 	return {
 		Navbar: MockNavbar,
 		Footer: MockFooter,
-	}
+	};
 });
 
 describe("App", () => {
@@ -79,7 +91,7 @@ describe("App", () => {
 		render(
 			<MemoryRouter initialEntries={["/"]}>
 				<App />
-			</MemoryRouter>
+			</MemoryRouter>,
 		);
 
 		expect(screen.getByTestId("navbar")).toBeInTheDocument();
@@ -87,25 +99,25 @@ describe("App", () => {
 		expect(screen.getByText("Home Page")).toBeInTheDocument();
 	});
 
-	it("applies navbar-visible class for route with showNavbar=true", ()=>{
+	it("applies navbar-visible class for route with showNavbar=true", () => {
 		const { container } = render(
 			<MemoryRouter initialEntries={["/"]}>
 				<App />
-			</MemoryRouter>
+			</MemoryRouter>,
 		);
 
 		const navbarShell = container.querySelector(".navbar-shell");
-		
+
 		expect(navbarShell).toBeInTheDocument();
 		expect(navbarShell).toHaveClass("navbar-visible");
 		expect(navbarShell).not.toHaveClass("navbar-hidden");
 	});
 
-	it("applies navbar-hidden class for route with showNavbar=false", ()=>{
-			const { container } = render(
+	it("applies navbar-hidden class for route with showNavbar=false", () => {
+		const { container } = render(
 			<MemoryRouter initialEntries={["/login"]}>
 				<App />
-			</MemoryRouter>
+			</MemoryRouter>,
 		);
 
 		const navbarShell = container.querySelector(".navbar-shell");
@@ -116,33 +128,36 @@ describe("App", () => {
 		expect(navbarShell).not.toHaveClass("navbar-visible");
 	});
 
-	it("passed only routes with showInNavbar=true into Navbar", ()=>{
+	it("passed only routes with showInNavbar=true into Navbar", () => {
 		render(
 			<MemoryRouter initialEntries={["/"]}>
 				<App />
-			</MemoryRouter>
+			</MemoryRouter>,
 		);
 
-		expect(screen.getByTestId("navbar-links-count")).toHaveTextContent("2");
+		expect(screen.getByTestId("navbar-links-count")).toHaveTextContent("1");
 	});
 
-	it("toggles navbar visibility through NavbarContext", async ()=> {
+	it("toggles navbar visibility through NavbarContext", async () => {
 		const user = userEvent.setup();
 
 		const { container } = render(
 			<MemoryRouter initialEntries={["/"]}>
 				<App />
-			</MemoryRouter>
+			</MemoryRouter>,
 		);
 
 		const navbarShell = container.querySelector(".navbar-shell");
 		expect(navbarShell).toHaveClass("navbar-visible");
-		
-		await user.click(screen.getByRole("button", { name: /toggle navbar/i }));
+
+		await user.click(
+			screen.getByRole("button", { name: /toggle navbar/i }),
+		);
 		expect(navbarShell).toHaveClass("navbar-hidden");
-		
-		await user.click(screen.getByRole("button", { name: /toggle navbar/i }));
+
+		await user.click(
+			screen.getByRole("button", { name: /toggle navbar/i }),
+		);
 		expect(navbarShell).toHaveClass("navbar-visible");
-	
 	});
-})
+});
