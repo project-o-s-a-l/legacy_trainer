@@ -64,7 +64,7 @@ function App() {
 						)}
 					/>
 				</div>
-				<Routes>{renderRoutes(navBarLinks)}</Routes>
+				<Routes>{renderRoutes(mainPageRoutes)}</Routes>
 				<Footer></Footer>
 			</div>
 		</NavbarContext.Provider>
