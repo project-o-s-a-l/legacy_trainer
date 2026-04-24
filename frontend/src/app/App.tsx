@@ -7,6 +7,7 @@ import { renderRoutes } from "./providers/router/renderRoutes";
 import { Footer } from "@/widgets/index";
 import { NavbarContext } from "@/shared/index.ts";
 import "./styles/variables.css";
+import { useAuth } from "@/features/AutchContext/AuthContext";
 
 function App() {
 	const location = useLocation();
@@ -34,6 +35,22 @@ function App() {
 		}),
 		[isNavbarVisible],
 	);
+	const { isAuthenticated, loading } = useAuth();
+
+	if(loading) {
+		return <div>loading...</div>
+	}
+
+	const navBarLinks = mainPageRoutes.filter((route) => {
+		if(!route.showInNavbar) return false;
+
+		if(route.access === "public") return true;
+		if(route.access === "private") return isAuthenticated;
+		if(route.access === "guest") return !isAuthenticated;
+
+		return false;
+	});
+
 
 	return (
 		<NavbarContext.Provider value={navbarConetxtValue}>
@@ -42,12 +59,12 @@ function App() {
 					className={`navbar-shell ${isNavbarVisible ? "navbar-visible" : "navbar-hidden"}`}
 				>
 					<Navbar
-						links={mainPageRoutes.filter(
+						links={navBarLinks.filter(
 							(route) => route.showInNavbar,
 						)}
 					/>
 				</div>
-				<Routes>{renderRoutes(mainPageRoutes)}</Routes>
+				<Routes>{renderRoutes(navBarLinks)}</Routes>
 				<Footer></Footer>
 			</div>
 		</NavbarContext.Provider>

@@ -6,4 +6,5 @@ export type AppPage = {
 	component: ComponentType;
 	showInNavbar?: boolean;
 	showNavBar?: boolean;
+	access?: "public" | "private" | "guest";
 };

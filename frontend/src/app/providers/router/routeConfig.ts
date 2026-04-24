@@ -22,55 +22,76 @@ export const mainPageRoutes: AppPage[] = [
 		label: "About the company",
 		component: About,
 		showInNavbar: true,
+		access: "public",
 	},
-	{ path: "/", label: "Home", component: Home, showInNavbar: true },
+	{
+		path: "/",
+		label: "Home",
+		component: Home,
+		showInNavbar: true,
+		access: "public",
+	},
 	{
 		path: "/possibilites",
 		label: "Possibilites",
 		component: Possibilites,
 		showInNavbar: true,
+		access: "public",
 	},
 	{
 		path: "/contact",
 		label: "Contact",
 		component: Contact,
 		showInNavbar: true,
+		access: "public",
 	},
 	{
 		path: "/support",
 		label: "Support",
 		component: Support,
 		showInNavbar: true,
+		access: "public",
 	},
-	{ path: "/login", label: "Login", component: Login, showInNavbar: true },
+	{
+		path: "/login",
+		label: "Login",
+		component: Login,
+		showInNavbar: true,
+		access: "guest",
+	},
 	{
 		path: "/Registration",
 		label: "Registration",
 		component: Registration,
 		showInNavbar: true,
+		access: "guest",
 	},
 	{
 		path: "/CodePage",
 		label: "CodePage",
 		component: CodePage,
 		showInNavbar: false,
+		access: "private"
 	},
 	{
 		path: "/CodeBlock",
 		label: "CodeBlock",
 		component: CodeEditor,
 		showInNavbar: false,
+		access: "private"
 	},
 	{
 		path: "/ChooseTask",
 		label: "ChooseTask",
 		component: ChooseTask,
 		showInNavbar: true,
+		access: "private"
 	},
 	{
-		path: "/ProfilePage",
-		label: "ProfilePage",
+		path: "/profile",
+		label: "Profile",
 		component: Profile,
-		showInNavbar: true
-	}
+		showInNavbar: true,
+		access: "private"
+	},
 ];
