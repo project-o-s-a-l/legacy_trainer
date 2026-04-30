@@ -13,8 +13,11 @@ import {
 type LocationState = {
 	chooseLanguage?: string;
 	chooseDificulty?: string;
+	task?: {
+		title: string;
+		description: string;
+	}
 };
-
 
 const languageMap: Record<string, string> = {
 	Python: "python",
@@ -30,7 +33,7 @@ export default function CodeEditor() {
 	const { isNavbarVisible, toggleNavbar } = useNavbar();
 
 	const location = useLocation();
-	const { chooseLanguage, chooseDificulty } =
+	const { chooseLanguage, chooseDificulty, task } =
 		(location.state as LocationState) || {};
 
 	const RESULT_PANEL_MIN_HEIGHT = 56;
@@ -203,6 +206,10 @@ export default function CodeEditor() {
 				onChange={(newCode) => setCode(newCode)}
 				height="850px"
 				theme="blueLight"
+				task={{
+					title: task?.title as string,
+					description: task?.description as string,
+				}}
 			/>
 			{checkResult && (
 				<div

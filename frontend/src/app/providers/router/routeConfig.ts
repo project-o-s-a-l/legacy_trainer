@@ -22,7 +22,7 @@ export const mainPageRoutes: AppPage[] = [
 		path: "/about",
 		label: "About the company",
 		component: About,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
@@ -36,21 +36,21 @@ export const mainPageRoutes: AppPage[] = [
 		path: "/possibilites",
 		label: "Possibilites",
 		component: Possibilites,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
 		path: "/contact",
 		label: "Contact",
 		component: Contact,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
 		path: "/support",
 		label: "Support",
 		component: Support,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
@@ -79,14 +79,14 @@ export const mainPageRoutes: AppPage[] = [
 		label: "CodeBlock",
 		component: CodeEditor,
 		showInNavbar: false,
-		access: "public"
+		access: "private"
 	},
 	{
 		path: "/ChooseTask",
 		label: "ChooseTask",
 		component: ChooseTask,
 		showInNavbar: true,
-		access: "public"
+		access: "private"
 	},
 	{
 		path: "/profile",
@@ -100,6 +100,6 @@ export const mainPageRoutes: AppPage[] = [
 		label: "Solution Result",
 		component: SolutionResult,
 		showInNavbar: true,
-		access: "public"
+		access: "private"
 	}
 ];

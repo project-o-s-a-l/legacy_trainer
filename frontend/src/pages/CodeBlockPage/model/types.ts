@@ -4,4 +4,8 @@ export type CodeBlockProps = {
 	onChange?: (value: string) => void;
 	height?: string | number;
 	theme?: "light" | "vs-dark" | string;
+	task?: {
+		title: string;
+		description: string;
+	};
 };

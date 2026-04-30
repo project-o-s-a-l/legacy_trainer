@@ -61,19 +61,19 @@ export default function SolutionResult() {
 				<div className="solution-left">
 					<div className="solution-result-summary">
 						<div className="score-ring" style={scoreRingStyle}>
-							<span>{avgScore}%</span>
+							<span>{avgScore} %</span>
 						</div>
 
 						<div className="score-details">
 							<p className="score-kicker">
-								Your code is {avgScore}% correct
+								Your code is {avgScore} % correct
 							</p>
 
 							<ul className="score-list">
 								{scoreItems.map((item) => (
 									<div key={item.label}>
-										<span>{item.label}</span>
-										<span>{item.value}%</span>
+										<span>{item.label} </span>
+										<span>{item.value} %</span>
 									</div>
 								))}
 							</ul>
