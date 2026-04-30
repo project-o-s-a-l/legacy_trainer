@@ -43,10 +43,17 @@ describe("CodeBlock", () => {
 		vi.clearAllMocks();
 	});
 
-	it("renders Problem and Solution headers", () => {
-		render(<CodeBlock />);
+	it("renders task title and Solution header", () => {
+		render(
+			<CodeBlock
+				task={{
+					title: "Two Sum",
+					description: "Find two numbers that add up to target.",
+				}}
+			/>,
+		);
 
-		expect(screen.getByText("Problem:")).toBeInTheDocument();
+		expect(screen.getByText("Two Sum")).toBeInTheDocument();
 		expect(screen.getByText("Solution:")).toBeInTheDocument();
 	});
 

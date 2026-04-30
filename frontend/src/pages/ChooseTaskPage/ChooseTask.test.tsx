@@ -1,13 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import ChooseTask from "./ChooseTask";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/shared";
 
-const navigateMock = vi.fn();
+const { navigateMock, getTaskMock } = vi.hoisted(() => ({
+	navigateMock: vi.fn(),
+	getTaskMock: vi.fn(),
+}));
 
 vi.mock("react-router-dom", () => ({
 	useNavigate: () => navigateMock,
+}));
+
+vi.mock("@/features/getTask/getTask", () => ({
+	getTask: getTaskMock,
 }));
 
 vi.mock("@/shared", () => ({
@@ -29,6 +34,11 @@ describe("ChooseTask", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 		vi.stubGlobal("alert", vi.fn());
+
+		getTaskMock.mockResolvedValue({
+			title: "Test task",
+			description: "Solve test task",
+		});
 	});
 
 	it("renders main UI elements", () => {
@@ -84,7 +94,7 @@ describe("ChooseTask", () => {
 		expect(screen.getByText("Chose: Python Hard")).toBeInTheDocument();
 	});
 
-	it("navigates to CodeBlock with selected state", () => {
+	it("navigates to CodeBlock with selected state", async () => {
 		render(<ChooseTask />);
 
 		fireEvent.click(screen.getByText("Python"));
@@ -93,11 +103,21 @@ describe("ChooseTask", () => {
 			screen.getByRole("button", { name: "Generate a task" }),
 		);
 
-		expect(navigateMock).toHaveBeenCalledWith("/CodeBlock", {
-			state: {
-				chooseLanguage: "Python",
-				chooseDificulty: "Medium",
-			},
+		await waitFor(() => {
+			expect(getTaskMock).toHaveBeenCalledWith("Python", "Medium");
+		});
+
+		await waitFor(() => {
+			expect(navigateMock).toHaveBeenCalledWith("/CodeBlock", {
+				state: {
+					chooseLanguage: "Python",
+					chooseDificulty: "Medium",
+					task: {
+						title: "Test task",
+						description: "Solve test task",
+					},
+				},
+			});
 		});
 	});
 
@@ -112,6 +132,7 @@ describe("ChooseTask", () => {
 			"Please choose language and difficulty",
 		);
 		expect(navigateMock).not.toHaveBeenCalled();
+		expect(getTaskMock).not.toHaveBeenCalled();
 	});
 
 	it("clears chosen values", () => {
