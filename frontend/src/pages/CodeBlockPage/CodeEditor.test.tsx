@@ -2,15 +2,24 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import CodeEditor from "./CodeEditor";
 
-const toggleNavbarMock = vi.fn();
-const codeBlockMock = vi.fn();
-const mockUseLocation = vi.fn();
+const {
+	toggleNavbarMock,
+	codeBlockMock,
+	mockUseLocation,
+	navigateMock,
+} = vi.hoisted(() => ({
+	toggleNavbarMock: vi.fn(),
+	codeBlockMock: vi.fn(),
+	mockUseLocation: vi.fn(),
+	navigateMock: vi.fn(),
+}));
 
 vi.mock("react-router-dom", () => ({
 	useLocation: () => mockUseLocation(),
+	useNavigate: () => navigateMock,
 }));
 
-vi.mock("@/shared/lib/layout/NavbarContext", () => ({
+vi.mock("@/shared/index", () => ({
 	useNavbar: () => ({
 		isNavbarVisible: true,
 		toggleNavbar: toggleNavbarMock,
@@ -20,14 +29,17 @@ vi.mock("@/shared/lib/layout/NavbarContext", () => ({
 vi.mock("./CodeBlock", () => ({
 	CodeBlock: (props: any) => {
 		codeBlockMock(props);
-		return <div data-testid="code-block-mock">Mo</div>;
+		return <div data-testid="code-block-mock">Mock CodeBlock</div>;
 	},
 }));
 
 describe("CodeEditor", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
-		mockUseLocation.mockReturnValue({ state: undefined });
+
+		mockUseLocation.mockReturnValue({
+			state: undefined,
+		});
 	});
 
 	it("renders navbar toggle button with visible state", () => {
