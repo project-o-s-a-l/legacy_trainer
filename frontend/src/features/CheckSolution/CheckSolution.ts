@@ -20,16 +20,28 @@ export async function checkSolution(
 		},
 		credentials: "include",
 		body: JSON.stringify({
-			code: code,
-			language: language,
-			taskLevel: taskLevel,
+			code,
+			language,
+			taskLevel,
 		}),
 	});
 
-	const data: CheckSolutionProps = await response.json();
+	let data: CheckSolutionProps | null = null;
+
+	try {
+		data = await response.json();
+	} catch {
+		data = null;
+	}
 
 	if (!response.ok) {
-		throw new Error("Failed to check solution");
+		throw new Error(
+			data?.message || "Server error while checking solution",
+		);
+	}
+
+	if (!data) {
+		throw new Error("Server can`t return solution score");
 	}
 
 	return data;

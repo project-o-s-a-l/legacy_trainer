@@ -78,7 +78,7 @@ export const mainPageRoutes: AppPage[] = [
 		path: "/CodeBlock",
 		label: "CodeBlock",
 		component: CodeEditor,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public"
 	},
 	{
@@ -86,7 +86,7 @@ export const mainPageRoutes: AppPage[] = [
 		label: "ChooseTask",
 		component: ChooseTask,
 		showInNavbar: true,
-		access: "private"
+		access: "public"
 	},
 	{
 		path: "/profile",
