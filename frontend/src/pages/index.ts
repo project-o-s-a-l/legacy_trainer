@@ -9,3 +9,4 @@ export { Registration } from "./RegistrationPage/index.ts";
 export { CodePage } from "./GetEmailCodePage/index.ts";
 export { ChooseTask } from "./ChooseTaskPage/index.ts";
 export { Profile } from "./ProfilePage/index.ts";
+export { SolutionResult } from "./SolutionResultPage/index.ts";

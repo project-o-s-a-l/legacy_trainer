@@ -21,7 +21,7 @@ export async function register_request(
 			}),
 		});
 	if (!response.ok) {
-		throw new Error("Registration Failed"); //TODO: Изменить
+		throw new Error("Registration Failed");
 	}
 	const data: RegisterResponse = await response.json();
 	return data;

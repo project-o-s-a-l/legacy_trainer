@@ -11,6 +11,7 @@ import {
 	CodeEditor,
 	ChooseTask,
 	Profile,
+	SolutionResult,
 } from "@/pages/index";
 
 import { ProfileImg } from "@/shared/index.ts";
@@ -77,8 +78,8 @@ export const mainPageRoutes: AppPage[] = [
 		path: "/CodeBlock",
 		label: "CodeBlock",
 		component: CodeEditor,
-		showInNavbar: false,
-		access: "private"
+		showInNavbar: true,
+		access: "public"
 	},
 	{
 		path: "/ChooseTask",
@@ -94,4 +95,11 @@ export const mainPageRoutes: AppPage[] = [
 		showInNavbar: true,
 		access: "private"
 	},
+	{
+		path: "/result",
+		label: "Solution Result",
+		component: SolutionResult,
+		showInNavbar: true,
+		access: "public"
+	}
 ];

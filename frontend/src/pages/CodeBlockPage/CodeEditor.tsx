@@ -1,9 +1,14 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useNavbar } from "@/shared/index";
 import { CodeBlock } from "./CodeBlock";
 import "./CodeEditor.css";
 import Button from "@/shared/ui/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getScore } from "@/features/getScoreForSolution/getScoreForSolution";
+import {
+	checkSolution,
+	type CheckSolutionProps,
+} from "@/features/CheckSolution/CheckSolution";
 
 type LocationState = {
 	chooseLanguage?: string;
@@ -20,11 +25,9 @@ const defaultValues: Record<string, string> = {
 	cpp: '#include <iostream>\n\nint main() {\n\tstd::cout << "Hello, World!";\n\treturn 0;\n}',
 };
 export default function CodeEditor() {
-	const handleSubmit = (code: string) => console.log("Submit code: ", code);
-
-	const { isNavbarVisible, toggleNavbar } = useNavbar();
-
 	const location = useLocation();
+
+	const [data, setData] = useState<CheckSolutionProps | null>(null);
 
 	const { chooseLanguage, chooseDificulty } =
 		(location.state as LocationState) || {};
@@ -33,13 +36,28 @@ export default function CodeEditor() {
 		? languageMap[chooseLanguage] || "plaintext"
 		: "plaintext";
 
+	const defaultCode = defaultValues[monacoLanguage] || "";
+	const [code, setCode] = useState(defaultCode);
+
+	const handleSubmit = async () => {
+		console.log("Submit code: ", code);
+		const data = await checkSolution(
+			code,
+			chooseLanguage as string,
+			chooseDificulty as string,
+		);
+		setData(data);
+	};
+	const nav = useNavigate();
+	const { isNavbarVisible, toggleNavbar } = useNavbar();
+
 	return (
 		<>
 			<div className="flex-between-center">
 				<button
 					type="button"
 					className="btn btn-icon run-wrapper"
-					onClick={() => handleSubmit("code")}
+					onClick={() => handleSubmit()}
 				>
 					<svg className="btn-run-code" viewBox="0 0 128 128">
 						<path
@@ -54,8 +72,27 @@ export default function CodeEditor() {
 						/>
 					</svg>
 				</button>
-				{/* TODO: Check solution logic */}
-				<Button className="btn-check-solution">Submit</Button>
+				<Button
+					className="btn-check-solution"
+					onClick={async () => {
+						const analysis = await getScore();
+						handleSubmit();
+						if(data === null)
+							return
+
+						if (data.ok) {
+							nav("/result", {
+								state: {
+									Architecture: analysis.Architecture,
+									CodeLogic: analysis.CodeLogic,
+									Standards: analysis.Standards,
+								},
+							});
+						}
+					}}
+				>
+					Submit
+				</Button>
 				<button
 					type="button"
 					onClick={toggleNavbar}
@@ -65,12 +102,15 @@ export default function CodeEditor() {
 				</button>
 			</div>
 			<div className="flex">
-				<span className="chosed-fields">Language: {chooseLanguage || "not selected"}|Difficulty: {chooseDificulty || "not selected"}</span>
+				<span className="chosed-fields">
+					Language: {chooseLanguage || "not selected"}|Difficulty:{" "}
+					{chooseDificulty || "not selected"}
+				</span>
 			</div>
 			<CodeBlock
 				language={monacoLanguage}
-				defaultValue={defaultValues[monacoLanguage] || ""}
-				onChange={handleSubmit}
+				defaultValue={defaultCode}
+				onChange={(newCode) => setCode(newCode)}
 				height="850px"
 				theme="blueLight"
 			/>
