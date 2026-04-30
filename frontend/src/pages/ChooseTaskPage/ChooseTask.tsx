@@ -3,6 +3,7 @@ import "./ChooseTask.css";
 import { Button } from "@/shared";
 import svgMatrix from "@/shared/assets/images/svg/matrix-static-dense-gray-transparent.svg";
 import { useNavigate } from "react-router-dom";
+import { getTask } from "@/features/getTask/getTask";
 
 export default function ChooseTask() {
 	const [chooseShow, setChooseShow] = useState(false);
@@ -79,12 +80,19 @@ export default function ChooseTask() {
 						<div className="choose-buttons-row">
 							<Button
 								className="chose-logic-btn"
-								onClick={() => {
+								onClick={async () => {
 									if (chooseDificulty && chooseLanguage) {
+										const task = await getTask(chooseLanguage, chooseDificulty);
+										if(task === null)
+											return;
+										
+
+
 										navigate("/CodeBlock", {
 											state: {
 												chooseLanguage,
 												chooseDificulty,
+												task
 											},
 										});
 									} else {

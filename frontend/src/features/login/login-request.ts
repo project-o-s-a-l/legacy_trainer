@@ -17,7 +17,7 @@ export async function login_request(login: string, password: string) {
 	});
 
 	if (!response.ok) {
-		throw new Error("Login Failed"); //TODO: Изменить
+		throw new Error("Login Failed");
 	}
 
 	const data: LoginResponse = await response.json();
@@ -27,14 +27,10 @@ export async function login_request(login: string, password: string) {
 	return data;
 }
 
+// admin. Нужен JWT-token, с доп. проверками "role == admin"; 
 // Все это не в этом файле
-// TODO: getProfile. Нужен JWT-token для получения информации о пользователе.
-// TODO: getMyProblems. Нужен JWT-token;
-// TODO: getMySettings. Нужен JWT-token;
-// TODO: CreateProblem. Нужен JWT-token;
-// TODO: reloadProfile. Нужен JWT-token;
-// TODO: admin. Нужен JWT-token, с доп. проверками "role == admin";
-// TODO: getMySolutions. Нужен JWT-token;
 // TODO: getMyStatistic. Нужен JWT-token;
 // TODO: getMyScoreByAI. Нужен JWT-token;
-// TODO: Доразобратся в erd-диаграмме
+// TODO: verifyEmailCode
+// TODO: getTask
+// TODO: checkSolution

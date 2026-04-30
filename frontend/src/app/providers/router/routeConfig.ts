@@ -11,6 +11,7 @@ import {
 	CodeEditor,
 	ChooseTask,
 	Profile,
+	SolutionResult,
 } from "@/pages/index";
 
 import { ProfileImg } from "@/shared/index.ts";
@@ -21,7 +22,7 @@ export const mainPageRoutes: AppPage[] = [
 		path: "/about",
 		label: "About the company",
 		component: About,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
@@ -35,21 +36,21 @@ export const mainPageRoutes: AppPage[] = [
 		path: "/possibilites",
 		label: "Possibilites",
 		component: Possibilites,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
 		path: "/contact",
 		label: "Contact",
 		component: Contact,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
 		path: "/support",
 		label: "Support",
 		component: Support,
-		showInNavbar: true,
+		showInNavbar: false,
 		access: "public",
 	},
 	{
@@ -94,4 +95,11 @@ export const mainPageRoutes: AppPage[] = [
 		showInNavbar: true,
 		access: "private"
 	},
+	{
+		path: "/result",
+		label: "Solution Result",
+		component: SolutionResult,
+		showInNavbar: true,
+		access: "private"
+	}
 ];
