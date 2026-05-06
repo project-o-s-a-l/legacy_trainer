@@ -1,4 +1,4 @@
-from sqlalchemy import or_, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session, selectinload
 
 from backend.app.db.enums import TaskDifficulty, TaskStatus
@@ -10,13 +10,13 @@ class TaskRepository:
     def __init__(self, db: Session) -> None:
         self.db = db
 
-    def get_tasks(
+    def get_random_task(
             self,
             *,
             language_name: str,
             language_display_name: str,
             difficulty: TaskDifficulty,
-    ) -> list[Task]:
+    ) -> Task | None:
         stmt = (
             select(Task)
             .join(Task.languages)
@@ -29,10 +29,11 @@ class TaskRepository:
                     ProgramLanguage.display_name == language_display_name,
                 ),
             )
-            .order_by(Task.id)
+            .order_by(func.random())
+            .limit(1)
         )
 
-        return list(self.db.scalars(stmt).unique().all())
+        return self.db.scalar(stmt)
 
     def get_task_by_id(self, task_id: int) -> Task | None:
         stmt = (

@@ -17,24 +17,27 @@ class TaskService:
     def __init__(self, db: Session) -> None:
         self.tasks = TaskRepository(db)
 
-    def list_tasks(self, *, language: str, difficulty: str) -> list[TaskResponse]:
+    def get_random_task(self, *, language: str, difficulty: str) -> TaskResponse:
         language_name, language_display_name = self._normalize_language(language)
         difficulty_enum = self._normalize_difficulty(difficulty)
 
-        tasks = self.tasks.get_tasks(
+        task = self.tasks.get_random_task(
             language_name=language_name,
             language_display_name=language_display_name,
             difficulty=difficulty_enum,
         )
 
-        return [
-            self._to_response(
-                task,
-                preferred_language_name=language_name,
-                preferred_language_display_name=language_display_name,
+        if task is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Task not found",
             )
-            for task in tasks
-        ]
+
+        return self._to_response(
+            task,
+            preferred_language_name=language_name,
+            preferred_language_display_name=language_display_name,
+        )
 
     def get_task(self, task_id: int) -> TaskResponse:
         task = self.tasks.get_task_by_id(task_id)

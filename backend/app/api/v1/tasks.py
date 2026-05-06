@@ -5,16 +5,17 @@ from backend.app.db.session import get_db
 from backend.app.schemas.task import TaskResponse
 from backend.app.services.task import TaskService
 
+
 router = APIRouter(prefix="/api/v1/tasks", tags=["tasks"])
 
 
-@router.get("", response_model=list[TaskResponse])
-def get_tasks(
-        language: str = Query(..., min_length=1),
-        difficulty: str = Query(..., min_length=1),
-        db: Session = Depends(get_db),
-) -> list[TaskResponse]:
-    return TaskService(db).list_tasks(
+@router.get("", response_model=TaskResponse)
+def get_random_task(
+    language: str = Query(..., min_length=1),
+    difficulty: str = Query(..., min_length=1),
+    db: Session = Depends(get_db),
+) -> TaskResponse:
+    return TaskService(db).get_random_task(
         language=language,
         difficulty=difficulty,
     )
