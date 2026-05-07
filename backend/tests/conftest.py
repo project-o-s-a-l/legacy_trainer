@@ -11,7 +11,6 @@ from backend.app.db.base import Base
 from backend.app.db.session import get_db
 from backend.app.main import app
 
-
 TEST_DATABASE_URL = "sqlite://"
 
 engine = create_engine(
@@ -49,3 +48,12 @@ def prepare_database() -> Generator[None, None, None]:
 def client() -> Generator[TestClient, None, None]:
     with TestClient(app) as test_client:
         yield test_client
+
+
+@pytest.fixture
+def db_session() -> Generator[Session, None, None]:
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
