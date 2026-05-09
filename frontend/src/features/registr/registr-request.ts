@@ -6,22 +6,31 @@ export async function register_request(
 	email: string,
 	password: string,
 ): Promise<RegisterResponse> {
-	const response = await fetch(
-		`${API_V1_BASE_URL}/auth/register`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json",
-			},
-			body: JSON.stringify({
-				username:username,
-				email:email,
-				password: password
-			}),
-		});
+	const response = await fetch(`${API_V1_BASE_URL}/auth/register`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify({
+			username: username,
+			email: email,
+			password: password,
+		}),
+	});
+
+	const responseText = await response.text();
+
 	if (!response.ok) {
-		throw new Error("Registration Failed");
+		console.error("REGISTER FAILED:", {
+			status: response.status,
+			statusText: response.statusText,
+			body: responseText,
+		});
+
+		throw new Error(
+			`Registration failed: ${response.status} ${response.statusText} ${responseText}`,
+		);
 	}
-	const data: RegisterResponse = await response.json();
-	return data;
+  	return JSON.parse(responseText) as RegisterResponse;
 }

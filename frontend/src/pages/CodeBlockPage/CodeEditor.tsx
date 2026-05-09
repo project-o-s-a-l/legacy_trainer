@@ -9,14 +9,12 @@ import {
 	checkSolution,
 	type CheckSolutionProps,
 } from "@/features/CheckSolution/CheckSolution";
+import type { TaskResponse } from "@/features/getTask/getTask";
 
 type LocationState = {
 	chooseLanguage?: string;
 	chooseDificulty?: string;
-	task?: {
-		title: string;
-		description: string;
-	}
+	task?: TaskResponse;
 };
 
 const languageMap: Record<string, string> = {
@@ -24,10 +22,10 @@ const languageMap: Record<string, string> = {
 	"C++": "cpp",
 };
 
-const defaultValues: Record<string, string> = {
-	python: "def hello_python():\n\tprint('Hello, World!')",
-	cpp: '#include <iostream>\n\nint main() {\n\tstd::cout << "Hello, World!";\n\treturn 0;\n}',
-};
+// const defaultValues: Record<string, string> = {
+// 	python: "def hello_python():\n\tprint('Hello, World!')",
+// 	cpp: '#include <iostream>\n\nint main() {\n\tstd::cout << "Hello, World!";\n\treturn 0;\n}',
+// };
 export default function CodeEditor() {
 	const nav = useNavigate();
 	const { isNavbarVisible, toggleNavbar } = useNavbar();
@@ -42,7 +40,7 @@ export default function CodeEditor() {
 	const monacoLanguage = chooseLanguage
 		? languageMap[chooseLanguage] || "plaintext"
 		: "plaintext";
-	const defaultCode = defaultValues[monacoLanguage] || "";
+	const defaultCode = task?.legacyCode ?? "";
 
 	const [resultPanelHeight, setResultPanelHeight] = useState(
 		RESULT_PANEL_MAX_HEIGHT,

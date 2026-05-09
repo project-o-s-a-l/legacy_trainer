@@ -32,6 +32,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 			setUser(me);
 		} catch(error) {
 			console.error("Auth check failed: ", error);
+			setUser(null);
 		} finally {
 			setLoading(false);
 		}
@@ -58,7 +59,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 	const value = useMemo(
 		() => ({
 			user,
-			isAuthenticated: !!user,
+			isAuthenticated: Boolean(user),
 			loading,
 			refreshAuth,
 			logout
