@@ -4,9 +4,9 @@ vi.mock("@/shared/api/config", () => ({
 	API_V1_BASE_URL: "http://localhost:8080/api/v1",
 }));
 
-import { login_request } from "./login-request";
+import { register_request } from "./registr-request";
 
-describe("login_request", () => {
+describe("register_request", () => {
 	beforeEach(() => {
 		vi.stubGlobal("fetch", vi.fn());
 	});
@@ -16,31 +16,36 @@ describe("login_request", () => {
 		vi.clearAllMocks();
 	});
 
-	it("calls login_request with entered login and password", async () => {
+	it("must return data on a successful response", async () => {
 		const fakeResponse = {
+			message: "User registered successfully",
 			token: "test-token",
 		};
 
 		vi.mocked(fetch).mockResolvedValueOnce({
 			ok: true,
-			json: vi.fn().mockResolvedValue(fakeResponse),
+			status: 200,
+			statusText: "OK",
+			text: vi.fn().mockResolvedValue(JSON.stringify(fakeResponse)),
 		} as unknown as Response);
 
-		const result = await login_request("admin", "1234");
-
-		expect(fetch).toHaveBeenCalledTimes(1);
+		const result = await register_request(
+			"admin",
+			"admin@test.com",
+			"1234",
+		);
 
 		expect(fetch).toHaveBeenCalledWith(
-			"http://localhost:8080/api/v1/auth/login",
+			"http://localhost:8080/api/v1/auth/register",
 			{
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					Accept: "application/json",
 				},
-				credentials: "include",
 				body: JSON.stringify({
-					login: "admin",
+					username: "admin",
+					email: "admin@test.com",
 					password: "1234",
 				}),
 			},
@@ -52,10 +57,15 @@ describe("login_request", () => {
 	it("must throw an error on a failed response", async () => {
 		vi.mocked(fetch).mockResolvedValueOnce({
 			ok: false,
-		} as Response);
+			status: 400,
+			statusText: "Bad Request",
+			text: vi.fn().mockResolvedValue("User already exists"),
+		} as unknown as Response);
 
-		await expect(login_request("admin", "wrong")).rejects.toThrow(
-			"Login failed",
+		await expect(
+			register_request("admin", "admin@test.com", "wrong"),
+		).rejects.toThrow(
+			"Registration failed: 400 Bad Request User already exists",
 		);
 	});
 });

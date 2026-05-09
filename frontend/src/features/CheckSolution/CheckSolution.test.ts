@@ -1,7 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+vi.mock("@/shared/api/config", () => ({
+	API_V1_BASE_URL: "http://localhost:8080/api/v1",
+}));
+
 import { checkSolution, type CheckSolutionProps } from "./CheckSolution";
 
-const API_URL = "http://localhost:8080/api/runSolutionTests";
+const API_URL = "http://localhost:8080/api/v1/submission/check";
 
 function mockResponse(body: unknown, ok = true): Response {
 	return {
@@ -40,6 +45,7 @@ describe("checkSolution", () => {
 		await checkSolution("print('hello')", "python", "easy");
 
 		expect(fetchMock).toHaveBeenCalledTimes(1);
+
 		expect(fetchMock).toHaveBeenCalledWith(API_URL, {
 			method: "POST",
 			headers: {
@@ -50,13 +56,13 @@ describe("checkSolution", () => {
 			body: JSON.stringify({
 				code: "print('hello')",
 				language: "python",
-				taskLevel: "easy"
+				taskLevel: "easy",
 			}),
 		});
 	});
 
 	it("return data, if server response is ok", async () => {
-	const responseData: CheckSolutionProps = {
+		const responseData: CheckSolutionProps = {
 			ok: true,
 			message: "Success",
 			testPassed: 3,
@@ -73,13 +79,13 @@ describe("checkSolution", () => {
 		const responseData: CheckSolutionProps = {
 			ok: false,
 			message: "Compilation error",
-			testPassed: 0
+			testPassed: 0,
 		};
 
 		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(responseData, false));
 
 		await expect(
-			checkSolution("test_fun(): return 5", "python", "easy")
+			checkSolution("test_fun(): return 5", "python", "easy"),
 		).rejects.toThrow("Compilation error");
 	});
 
@@ -87,15 +93,15 @@ describe("checkSolution", () => {
 		vi.mocked(fetch).mockResolvedValueOnce(mockInvalidJsonResponse(false));
 
 		await expect(
-			checkSolution("broken code", "python", "easy")
+			checkSolution("broken code", "python", "easy"),
 		).rejects.toThrow("Server error while checking solution");
 	});
 
-	it("Throws error if response is ok< but server not request a JSON", async () => {
+	it("Throws error if response is ok, but server does not return JSON", async () => {
 		vi.mocked(fetch).mockResolvedValueOnce(mockInvalidJsonResponse(true));
 
 		await expect(
-			checkSolution("print('hello')", "python", "easy")
+			checkSolution("print('hello')", "python", "easy"),
 		).rejects.toThrow("Server can`t return solution score");
 	});
 });

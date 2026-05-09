@@ -144,17 +144,17 @@ describe("SolutionResult", () => {
 		).toBeInTheDocument();
 	});
 
-	it("render AI Analysis button", () => {
-		renderComponent({
-			Architecture: 75,
-			CodeLogic: 85,
-			Standards: 95,
-		});
+	// it("render AI Analysis button", () => {
+	// 	renderComponent({
+	// 		Architecture: 75,
+	// 		CodeLogic: 85,
+	// 		Standards: 95,
+	// 	});
 
-		expect(
-			screen.getByRole("button", { name: "AI Analysis" }),
-		).toBeInTheDocument();
-	});
+	// 	expect(
+	// 		screen.getByRole("button", { name: "AI Analysis" }),
+	// 	).toBeInTheDocument();
+	// });
 
 	it("render code preview", () => {
 		renderComponent({

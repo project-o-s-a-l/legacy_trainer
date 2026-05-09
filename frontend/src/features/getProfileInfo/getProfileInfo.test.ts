@@ -1,12 +1,17 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
+
+vi.mock("@/shared/api/config", () => ({
+	API_V1_BASE_URL: "http://localhost:8080/api/v1",
+}));
+
 import { fetchProfileInfo } from "./getProfileInfo";
 
 describe("fetchProfileInfo", () => {
 	afterEach(() => {
-		vi.resetAllMocks();
+		vi.restoreAllMocks();
 	});
 
-	it("must be call fetch with correct url and options", async () => {
+	it("must call fetch with correct url and options", async () => {
 		const mockResponse = {
 			id: 1,
 			username: "whitefox",
@@ -24,11 +29,14 @@ describe("fetchProfileInfo", () => {
 
 		await fetchProfileInfo(controller.signal);
 
-		expect(fetchMock).toHaveBeenCalledWith("/api/profile/info", {
-			method: "GET",
-			credentials: "include",
-			signal: controller.signal,
-		});
+		expect(fetchMock).toHaveBeenCalledWith(
+			"http://localhost:8080/api/v1/users/me",
+			{
+				method: "GET",
+				credentials: "include",
+				signal: controller.signal,
+			},
+		);
 	});
 
 	it("must throw error if status is 401", async () => {
@@ -49,7 +57,7 @@ describe("fetchProfileInfo", () => {
 		);
 	});
 
-	it("Must be throw network error", async () => {
+	it("must throw network error", async () => {
 		vi.spyOn(globalThis, "fetch").mockRejectedValue(
 			new Error("Network Error"),
 		);

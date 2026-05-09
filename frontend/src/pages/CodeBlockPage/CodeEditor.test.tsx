@@ -2,17 +2,13 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import CodeEditor from "./CodeEditor";
 
-const {
-	toggleNavbarMock,
-	codeBlockMock,
-	mockUseLocation,
-	navigateMock,
-} = vi.hoisted(() => ({
-	toggleNavbarMock: vi.fn(),
-	codeBlockMock: vi.fn(),
-	mockUseLocation: vi.fn(),
-	navigateMock: vi.fn(),
-}));
+const { toggleNavbarMock, codeBlockMock, mockUseLocation, navigateMock } =
+	vi.hoisted(() => ({
+		toggleNavbarMock: vi.fn(),
+		codeBlockMock: vi.fn(),
+		mockUseLocation: vi.fn(),
+		navigateMock: vi.fn(),
+	}));
 
 vi.mock("react-router-dom", () => ({
 	useLocation: () => mockUseLocation(),
@@ -77,6 +73,11 @@ describe("CodeEditor", () => {
 			state: {
 				chooseLanguage: "Python",
 				chooseDificulty: "Easy",
+				task: {
+					title: "Test task",
+					description: "Test description",
+					legacyCode: "def hello_python():\n\tprint('Hello, World!')",
+				},
 			},
 		});
 

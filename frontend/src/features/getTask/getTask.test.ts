@@ -1,8 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+vi.mock("@/shared/api/config", () => ({
+	API_V1_BASE_URL: "http://localhost:8080/api/v1",
+}));
+
 import { getTask, type TaskResponse } from "./getTask";
 
-
-const API_URL = "http://localhost:8080/api/getTask";
+const API_URL = "http://localhost:8080/api/v1/tasks";
 
 function mockResponse(body: unknown, ok = true): Response {
 	return {
@@ -16,16 +20,18 @@ describe("getTask", () => {
 		vi.stubGlobal("fetch", vi.fn());
 	});
 
-	afterEach(()=> {
+	afterEach(() => {
 		vi.unstubAllGlobals();
 		vi.clearAllMocks();
 	});
 
 	it("response GET with language and difficulty in query params", async () => {
 		const responseData: TaskResponse = {
-			id: "1",
+			id: 1,
 			title: "Two Sum",
 			description: "Find two numbers that sum to target",
+			requirements: "Return indexes",
+			legacyCode: null,
 			language: "python",
 			difficulty: "easy",
 		};
@@ -36,20 +42,23 @@ describe("getTask", () => {
 		await getTask("python", "easy");
 
 		expect(fetchMock).toHaveBeenCalledTimes(1);
+
 		expect(fetchMock).toHaveBeenCalledWith(
 			`${API_URL}?language=python&difficulty=easy`,
 			{
 				method: "GET",
-				credentials: "include"
+				credentials: "include",
 			},
 		);
 	});
 
 	it("return the task, if server response is ok", async () => {
 		const responseData: TaskResponse = {
-			id: "task-123",
+			id: 123,
 			title: "Reverse String",
 			description: "Reverse the given string",
+			requirements: "Return reversed string",
+			legacyCode: null,
 			language: "cpp",
 			difficulty: "medium",
 		};
@@ -65,23 +74,25 @@ describe("getTask", () => {
 		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(null, false));
 
 		await expect(getTask("python", "hard")).rejects.toThrow(
-			"Get task failed"
+			"Get task failed",
 		);
 	});
 
 	it("Throws error if fetch fails", async () => {
-		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(null, false));
+		vi.mocked(fetch).mockRejectedValueOnce(new Error("Network Error"));
 
 		await expect(getTask("python", "hard")).rejects.toThrow(
-			"Get task failed",
+			"Network Error",
 		);
 	});
 
 	it("correct parsing query params", async () => {
 		const responseData: TaskResponse = {
-			id: "2",
+			id: 2,
 			title: "Task",
 			description: "description",
+			requirements: "requirements",
+			legacyCode: null,
 			language: "C++",
 			difficulty: "very hard",
 		};
@@ -95,8 +106,8 @@ describe("getTask", () => {
 			`${API_URL}?language=C%2B%2B&difficulty=very+hard`,
 			{
 				method: "GET",
-				credentials: "include"
-			}
-		)
+				credentials: "include",
+			},
+		);
 	});
 });
