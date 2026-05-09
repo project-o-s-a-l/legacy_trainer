@@ -1,6 +1,6 @@
 export type RegisterResponse = {
-	token?: string;
-	user?: {
+	message: string;
+	user: {
 		id: number,
 		username: string,
 		email:string

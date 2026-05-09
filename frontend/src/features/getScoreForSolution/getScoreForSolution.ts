@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://localhost:8080";
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 
 export type SolutionResultsProps = {
@@ -9,7 +9,7 @@ export type SolutionResultsProps = {
 
 
 export async function getScore(): Promise<SolutionResultsProps>{
-	const response = await fetch(`${API_BASE_URL}/api/getScore`, {
+	const response = await fetch(`${API_V1_BASE_URL}/submissions/score`, {
 		method: "GET",
 		credentials: "include",
 	});

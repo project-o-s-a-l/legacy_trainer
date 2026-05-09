@@ -1,9 +1,8 @@
 import type { LoginResponse } from "@/shared";
-
-const API_BASE_URL = "https://localhost:7032/api"; // ЗАГЛУШКА
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 export async function login_request(login: string, password: string) {
-	const response: Response = await fetch(`${API_BASE_URL}/login`, {
+	const response: Response = await fetch(`${API_V1_BASE_URL}/auth/login`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -28,9 +27,5 @@ export async function login_request(login: string, password: string) {
 }
 
 // admin. Нужен JWT-token, с доп. проверками "role == admin"; 
-// Все это не в этом файле
-// TODO: getMyStatistic. Нужен JWT-token;
 // TODO: getMyScoreByAI. Нужен JWT-token;
 // TODO: verifyEmailCode
-// TODO: getTask
-// TODO: checkSolution

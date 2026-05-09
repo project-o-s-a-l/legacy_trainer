@@ -1,10 +1,8 @@
 import type { User } from "./getMe.types";
-
-const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 export async function getMe(signal?: AbortSignal) : Promise<User | null> {
-	const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+	const response = await fetch(`${API_V1_BASE_URL}/auth/me`, {
 		method: "GET",
 		credentials: "include",
 		signal

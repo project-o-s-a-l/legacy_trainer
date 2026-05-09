@@ -1,6 +1,5 @@
 import type { RegisterResponse } from "@/shared";
-
-const API_BASE_URL = "https://localhost:7032/api"; // ЗАГЛУШКА
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 export async function register_request(
 	username: string,
@@ -8,7 +7,7 @@ export async function register_request(
 	password: string,
 ): Promise<RegisterResponse> {
 	const response = await fetch(
-		`${API_BASE_URL}/register`, {
+		`${API_V1_BASE_URL}/auth/register`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
