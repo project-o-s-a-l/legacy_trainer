@@ -1,13 +1,15 @@
-const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 export type TaskResponse = {
-	id: string;
+	id: number;
 	title: string;
 	description: string;
+	requirements: string;
+	legacyCode: string | null;
 	language: string;
 	difficulty: string;
 };
+
 
 export async function getTask(
 	language: string,
@@ -18,7 +20,7 @@ export async function getTask(
 		difficulty,
 	});
 
-	const response = await fetch(`${API_BASE_URL}/api/getTask?${params}`, {
+	const response = await fetch(`${API_V1_BASE_URL}/tasks?${params}`, {
 		method: "GET",
 		credentials: "include",
 	});
@@ -29,3 +31,4 @@ export async function getTask(
 
 	return response.json();
 }
+

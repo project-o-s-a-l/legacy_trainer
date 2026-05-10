@@ -1,28 +1,36 @@
 import type { RegisterResponse } from "@/shared";
-
-const API_BASE_URL = "https://localhost:7032/api"; // ЗАГЛУШКА
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 export async function register_request(
 	username: string,
 	email: string,
 	password: string,
 ): Promise<RegisterResponse> {
-	const response = await fetch(
-		`${API_BASE_URL}/register`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json",
-			},
-			body: JSON.stringify({
-				username:username,
-				email:email,
-				password: password
-			}),
-		});
+	const response = await fetch(`${API_V1_BASE_URL}/auth/register`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify({
+			username: username,
+			email: email,
+			password: password,
+		}),
+	});
+
+	const responseText = await response.text();
+
 	if (!response.ok) {
-		throw new Error("Registration Failed");
+		console.error("REGISTER FAILED:", {
+			status: response.status,
+			statusText: response.statusText,
+			body: responseText,
+		});
+
+		throw new Error(
+			`Registration failed: ${response.status} ${response.statusText} ${responseText}`,
+		);
 	}
-	const data: RegisterResponse = await response.json();
-	return data;
+  	return JSON.parse(responseText) as RegisterResponse;
 }

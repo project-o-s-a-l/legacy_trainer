@@ -78,13 +78,13 @@ export default function SolutionResult() {
 								))}
 							</ul>
 						</div>
-
-						<div className="solution-action">
+						{/*TODO: Feature func*/}
+						{/* <div className="solution-action">
 							<button className="solution-link">
 								AI Analysis
 							</button>
 							<span>Learn more about errors</span>
-						</div>
+						</div> */}
 					</div>
 
 					<div className="result-message">

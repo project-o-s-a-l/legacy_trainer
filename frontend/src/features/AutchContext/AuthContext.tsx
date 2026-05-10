@@ -9,6 +9,7 @@ import {
 } from "react";
 import { getMe } from "./getMe";
 import type { User } from "./getMe.types";
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 type AuthContextType = {
 	user: User | null;
@@ -19,10 +20,6 @@ type AuthContextType = {
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
-
 
 export function AuthProvider({ children }: {children: ReactNode}) {
 	const [user, setUser] = useState<User | null>(null);
@@ -35,6 +32,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 			setUser(me);
 		} catch(error) {
 			console.error("Auth check failed: ", error);
+			setUser(null);
 		} finally {
 			setLoading(false);
 		}
@@ -42,7 +40,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
 	const logout = useCallback(async () => {
 		try {
-			await fetch(`${API_BASE_URL}/api/auth/logout`, {
+			await fetch(`${API_V1_BASE_URL}/auth/logout`, {
 				method: "POST",
 				credentials: "include"
 			});
@@ -61,7 +59,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 	const value = useMemo(
 		() => ({
 			user,
-			isAuthenticated: !!user,
+			isAuthenticated: Boolean(user),
 			loading,
 			refreshAuth,
 			logout

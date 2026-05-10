@@ -1,5 +1,4 @@
-const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+import { API_V1_BASE_URL } from "@/shared/api/config";
 
 export type CheckSolutionProps = {
 	ok: boolean;
@@ -12,7 +11,7 @@ export async function checkSolution(
 	language: string,
 	taskLevel: string,
 ): Promise<CheckSolutionProps> {
-	const response = await fetch(`${API_BASE_URL}/api/runSolutionTests`, {
+	const response = await fetch(`${API_V1_BASE_URL}/submission/check`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
