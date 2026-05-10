@@ -170,7 +170,7 @@ describe("AuthProvider", () => {
 		});
 
 		expect(globalThis.fetch).toHaveBeenCalledWith(
-			expect.stringContaining("/api/auth/logout"),
+			expect.stringContaining("/api/v1/auth/logout"),
 			{
 				method: "POST",
 				credentials: "include",

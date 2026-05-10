@@ -1,13 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+vi.mock("@/shared/api/config", () => ({
+	API_V1_BASE_URL: "http://localhost:8080/api/v1",
+}));
+
 import { getScore, type SolutionResultsProps } from "./getScoreForSolution.ts";
 
-const API_URL = "https://localhost:8080/api/getScore";
+const API_URL = "http://localhost:8080/api/v1/submissions/score";
 
-
-function mockResponse(body:unknown, ok = true): Response {
+function mockResponse(body: unknown, ok = true): Response {
 	return {
 		ok,
-		json: vi.fn().mockResolvedValue(body)
+		json: vi.fn().mockResolvedValue(body),
 	} as unknown as Response;
 }
 
@@ -25,7 +29,7 @@ describe("getScore", () => {
 		const responseData: SolutionResultsProps = {
 			Architecture: 90,
 			CodeLogic: 85,
-			Standards: 80
+			Standards: 80,
 		};
 
 		const fetchMock = vi.mocked(fetch);
@@ -37,7 +41,7 @@ describe("getScore", () => {
 
 		expect(fetchMock).toHaveBeenCalledWith(API_URL, {
 			method: "GET",
-			credentials: "include"
+			credentials: "include",
 		});
 	});
 
@@ -45,7 +49,7 @@ describe("getScore", () => {
 		const responseData: SolutionResultsProps = {
 			Architecture: 75,
 			CodeLogic: 95,
-			Standards: 88, 
+			Standards: 88,
 		};
 
 		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(responseData));
@@ -66,4 +70,4 @@ describe("getScore", () => {
 
 		await expect(getScore()).rejects.toThrow("Network error");
 	});
-})
+});
