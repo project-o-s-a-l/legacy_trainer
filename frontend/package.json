@@ -16,7 +16,7 @@
     "test:e2e:report": "playwright show-report",
 
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc --noEmit -p tsconfig.app.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

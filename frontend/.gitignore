@@ -1,4 +1,6 @@
 /.vite
+/dist
+/*.tsbuildinfo
 
 # Playwright
 node_modules/

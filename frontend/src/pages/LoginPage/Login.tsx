@@ -2,12 +2,18 @@ import "./Login.css";
 import st from "../../shared/assets/images/svg/nextBtn.svg";
 import { login_request } from "@/features";
 import { useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/AutchContext/AuthContext";
+
+type LoginLocationState = {
+	notice?: string;
+};
 
 function Login() {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { refreshAuth } = useAuth();
+	const notice = (location.state as LoginLocationState | null)?.notice;
 
 	const [password, setPassword] = useState("");
 	const [identity, setIdentity] = useState("");
@@ -73,6 +79,7 @@ function Login() {
 				</div>
 
 				{error && <p className="login-error">{error}</p>}
+				{notice && <p className="login-notice">{notice}</p>}
 
 				<button
 					className="btn-ghost next-btn-login"
@@ -82,9 +89,9 @@ function Login() {
 					<img src={st} alt="next" />
 				</button>
 
-				<a className="forgot-password-login" href="#">
+				<Link className="forgot-password-login" to="/forgot-password">
 					Forgot password?
-				</a>
+				</Link>
 			</form>
 		</main>
 	);

@@ -1,5 +1,6 @@
 import type { RegisterResponse } from "@/shared";
 import { API_V1_BASE_URL } from "@/shared/api/config";
+import { getErrorMessage } from "@/shared/api/getErrorMessage";
 
 export async function register_request(
 	username: string,
@@ -19,18 +20,11 @@ export async function register_request(
 		}),
 	});
 
-	const responseText = await response.text();
-
 	if (!response.ok) {
-		console.error("REGISTER FAILED:", {
-			status: response.status,
-			statusText: response.statusText,
-			body: responseText,
-		});
-
 		throw new Error(
-			`Registration failed: ${response.status} ${response.statusText} ${responseText}`,
+			await getErrorMessage(response, "Registration failed"),
 		);
 	}
-  	return JSON.parse(responseText) as RegisterResponse;
+
+	return response.json() as Promise<RegisterResponse>;
 }

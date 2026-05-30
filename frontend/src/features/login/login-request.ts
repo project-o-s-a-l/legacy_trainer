@@ -1,5 +1,6 @@
 import type { LoginResponse } from "@/shared";
 import { API_V1_BASE_URL } from "@/shared/api/config";
+import { getErrorMessage } from "@/shared/api/getErrorMessage";
 
 export async function login_request(
 	login: string,
@@ -19,7 +20,7 @@ export async function login_request(
 	});
 
 	if (!response.ok) {
-		throw new Error("Login failed");
+		throw new Error(await getErrorMessage(response, "Login failed"));
 	}
 
 	return response.json();

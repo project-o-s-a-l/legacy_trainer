@@ -1,4 +1,5 @@
 import { API_V1_BASE_URL } from "@/shared/api/config";
+import { getErrorMessage } from "@/shared/api/getErrorMessage";
 
 export type TaskResponse = {
 	id: number;
@@ -26,9 +27,8 @@ export async function getTask(
 	});
 
 	if (!response.ok) {
-		throw new Error("Get task failed");
+		throw new Error(await getErrorMessage(response, "Get task failed"));
 	}
 
 	return response.json();
 }
-

@@ -1,21 +1,46 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import "./Registration.css";
 import { register_request } from "@/features/registr/registr-request";
+import { useNavigate } from "react-router-dom";
 
 function Registration() {
+	const navigate = useNavigate();
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
+	const [error, setError] = useState<string | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
+		if (password !== confirmPassword) {
+			setError("Passwords do not match");
+			return;
+		}
+
 		try {
-			alert("Registration successful!");
-			await register_request(username, email, password);
+			setError(null);
+			setIsSubmitting(true);
+
+			const response = await register_request(username, email, password);
+
+			navigate("/confirm-email", {
+				state: {
+					email: response.user.email,
+					flow: "registration",
+				},
+			});
 		} catch (error) {
 			console.error(error);
+			setError(
+				error instanceof Error
+					? error.message
+					: "Registration failed",
+			);
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
@@ -34,17 +59,21 @@ function Registration() {
 							type="text"
 							placeholder="Enter username"
 							className="input form-input"
+							value={username}
 							onChange={(e) => setUsername(e.target.value)}
+							required
 						/>
 					</label>
 
 					<label className="form-label">
 						Email
 						<input
-							type="text"
+							type="email"
 							placeholder="Enter email"
 							className="input form-input"
+							value={email}
 							onChange={(e) => setEmail(e.target.value)}
+							required
 						/>
 					</label>
 					<label className="form-label">
@@ -53,7 +82,9 @@ function Registration() {
 							type="password"
 							placeholder="Enter password"
 							className="input form-input"
+							value={password}
 							onChange={(e) => setPassword(e.target.value)}
+							required
 						/>
 					</label>
 
@@ -63,20 +94,20 @@ function Registration() {
 							type="password"
 							placeholder="Confirm your password"
 							className="input form-input"
-							onChange={(e) => {
-								setConfirmPassword(e.target.value);
-								if (confirmPassword !== password) {
-									console.log("Incorrect password!");
-								}
-							}}
+							value={confirmPassword}
+							onChange={(e) => setConfirmPassword(e.target.value)}
+							required
 						/>
 					</label>
+
+					{error && <p className="registration-error">{error}</p>}
 
 					<button
 						type="submit"
 						className="btn-ghost btn-submit-registration"
+						disabled={isSubmitting}
 					>
-						Get code
+						{isSubmitting ? "Creating..." : "Get code"}
 					</button>
 				</form>
 			</div>

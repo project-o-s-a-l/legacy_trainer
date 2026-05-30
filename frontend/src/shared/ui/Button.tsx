@@ -20,7 +20,7 @@ export default function Button({
 	return (
 		<button
 			type={type}
-			className={`specific-btn ${className}`}
+			className={`specific-btn specific-btn--${variant} ${className}`}
 			onClick={onClick}
 			disabled={disabled}
 		>
