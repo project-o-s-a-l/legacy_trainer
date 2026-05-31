@@ -10,8 +10,8 @@ class RegisterRequest(BaseModel):
 
 
 class RegisterResponse(BaseModel):
-    message: str = "User registered successfully"
-    user: UserShortResponse
+    message: str = "Verification code sent successfully"
+    email: EmailStr
 
 
 class LoginRequest(BaseModel):
