@@ -7,6 +7,8 @@ export { Login } from "./LoginPage/index.ts";
 export { CodeEditor } from "./CodeBlockPage/index.ts";
 export { Registration } from "./RegistrationPage/index.ts";
 export { CodePage } from "./GetEmailCodePage/index.ts";
+export { ForgotPassword } from "./ForgotPasswordPage/index.ts";
+export { ResetPassword } from "./ResetPasswordPage/index.ts";
 export { ChooseTask } from "./ChooseTaskPage/index.ts";
 export { Profile } from "./ProfilePage/index.ts";
 export { SolutionResult } from "./SolutionResultPage/index.ts";

@@ -1,17 +1,21 @@
 import { API_V1_BASE_URL } from "@/shared/api/config";
+import { getErrorMessage } from "@/shared/api/getErrorMessage";
 
 export type CheckSolutionProps = {
-	ok: boolean;
+	submissionId: number;
+	taskId: number;
+	status: string;
+	score: number;
 	message: string;
 	testPassed: number;
 };
 
 export async function checkSolution(
+	taskId: number,
 	code: string,
 	language: string,
-	taskLevel: string,
 ): Promise<CheckSolutionProps> {
-	const response = await fetch(`${API_V1_BASE_URL}/submission/check`, {
+	const response = await fetch(`${API_V1_BASE_URL}/tasks/${taskId}/submit`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -21,9 +25,17 @@ export async function checkSolution(
 		body: JSON.stringify({
 			code,
 			language,
-			taskLevel,
 		}),
 	});
+
+	if (!response.ok) {
+		throw new Error(
+			await getErrorMessage(
+				response,
+				"Server error while checking solution",
+			),
+		);
+	}
 
 	let data: CheckSolutionProps | null = null;
 
@@ -33,14 +45,8 @@ export async function checkSolution(
 		data = null;
 	}
 
-	if (!response.ok) {
-		throw new Error(
-			data?.message || "Server error while checking solution",
-		);
-	}
-
 	if (!data) {
-		throw new Error("Server can`t return solution score");
+		throw new Error("Server cannot return submission result");
 	}
 
 	return data;

@@ -1,5 +1,5 @@
 .specific-btn {
-	padding: 27px 54px;
+	padding: clamp(16px, 2.2vw, 27px) clamp(24px, 4vw, 54px);
 	background: var(--main-color-light-theme);
 	border: 1px solid var(--btn-border-color-light-theme);
 	color: var(--btn-color-light-theme);
@@ -9,6 +9,7 @@
 	border-radius: 14px;
 	cursor: pointer;
 	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
+	max-width: 100%;
 
 	transition:
 		background-color var(--transition-timer-in-sec) ease,
@@ -30,4 +31,11 @@
 	border-color: #3b82f6;
 	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.16);
 	transform: translateY(0);
+}
+
+.specific-btn:disabled {
+	cursor: not-allowed;
+	opacity: 0.65;
+	box-shadow: none;
+	transform: none;
 }

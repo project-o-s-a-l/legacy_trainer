@@ -35,6 +35,11 @@
   max-width: 450px;
 }
 
+.registration-error {
+  margin: 0;
+  font-size: 18px;
+  color: #b42318;
+}
 
 .btn-submit-registration {
   position: absolute;

@@ -35,6 +35,21 @@
 	gap: 25px;
 }
 
+.login-notice,
+.login-error {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.login-notice {
+	color: #145f39;
+}
+
+.login-error {
+	color: #b42318;
+}
+
 .headers-login {
 	margin-top: -10px;
 	font-size: 62px;

@@ -38,8 +38,8 @@ export default function CodeEditor() {
 	const RESULT_PANEL_MAX_HEIGHT = 380;
 
 	const monacoLanguage = chooseLanguage
-		? languageMap[chooseLanguage] || "plaintext"
-		: "plaintext";
+		? languageMap[chooseLanguage] || task?.language || "plaintext"
+		: task?.language || "plaintext";
 	const defaultCode = task?.legacyCode ?? "";
 
 	const [resultPanelHeight, setResultPanelHeight] = useState(
@@ -47,6 +47,7 @@ export default function CodeEditor() {
 	);
 	const [isResultPanelDragging, setIsResultPanelDragging] = useState(false);
 	const [isChecking, setIsChecking] = useState(false);
+	const [isLoadingResult, setIsLoadingResult] = useState(false);
 	const [checkResult, setCheckResult] = useState<CheckSolutionProps | null>(
 		null,
 	);
@@ -54,14 +55,29 @@ export default function CodeEditor() {
 	const [code, setCode] = useState(defaultCode);
 
 	const handleSubmit = async () => {
+		if (!task) {
+			const missingTaskResult: CheckSolutionProps = {
+				submissionId: 0,
+				taskId: 0,
+				status: "error",
+				score: 0,
+				message: "Please choose a task before submitting a solution",
+				testPassed: 0,
+			};
+
+			setCheckResult(missingTaskResult);
+			setResultPanelHeight(RESULT_PANEL_MAX_HEIGHT);
+
+			return null;
+		}
+
 		setIsChecking(true);
 		setCheckResult(null);
-
 		try {
 			const result = await checkSolution(
+				task.id,
 				code,
-				chooseLanguage as string,
-				chooseDificulty as string,
+				task.language || (chooseLanguage as string),
 			);
 
 			setCheckResult(result);
@@ -70,7 +86,10 @@ export default function CodeEditor() {
 			return result;
 		} catch (error) {
 			const result: CheckSolutionProps = {
-				ok: false,
+				submissionId: 0,
+				taskId: task.id,
+				status: "failed",
+				score: 0,
 				message:
 					error instanceof Error
 						? error.message
@@ -166,23 +185,45 @@ export default function CodeEditor() {
 					onClick={async () => {
 						const result = await handleSubmit();
 
-						if (!result || !result.ok) {
+						if (!result || result.status !== "passed") {
 							return;
 						}
 
-						const analysis = await getScore();
+						try {
+							setIsLoadingResult(true);
+							const analysis = await getScore(result.submissionId);
 
-						nav("/result", {
-							state: {
-								Architecture: analysis.Architecture,
-								CodeLogic: analysis.CodeLogic,
-								Standards: analysis.Standards,
-							},
-						});
+							nav("/result", {
+								state: {
+									result: analysis,
+									code,
+									taskTitle: task?.title,
+								},
+							});
+						} catch (error) {
+							setCheckResult({
+								submissionId: result.submissionId,
+								taskId: result.taskId,
+								status: "failed",
+								score: 0,
+								message:
+									error instanceof Error
+										? error.message
+										: "Failed to load submission result",
+								testPassed: result.testPassed,
+							});
+							setResultPanelHeight(RESULT_PANEL_MAX_HEIGHT);
+						} finally {
+							setIsLoadingResult(false);
+						}
 					}}
-					disabled={isChecking}
+					disabled={isChecking || isLoadingResult}
 				>
-					{isChecking ? "Checking..." : "Submit"}
+					{isChecking
+						? "Checking..."
+						: isLoadingResult
+							? "Loading result..."
+							: "Submit"}
 				</Button>
 				<button
 					type="button"
@@ -194,8 +235,8 @@ export default function CodeEditor() {
 			</div>
 			<div className="flex">
 				<span className="chosed-fields">
-					Language: {chooseLanguage || "not selected"}|Difficulty:{" "}
-					{chooseDificulty || "not selected"}
+					Language: {chooseLanguage || task?.language || "not selected"}
+					|Difficulty: {chooseDificulty || task?.difficulty || "not selected"}
 				</span>
 			</div>
 			<CodeBlock
@@ -212,7 +253,7 @@ export default function CodeEditor() {
 			{checkResult && (
 				<div
 					className={`check-result-bar ${
-						checkResult.ok
+						checkResult.status === "passed"
 							? "check-result-bar-success"
 							: "check-result-bar-error"
 					} ${isResultPanelDragging ? "check-result-bar-dragging" : ""}`}
@@ -226,7 +267,9 @@ export default function CodeEditor() {
 						onPointerCancel={handleResultPanelPointerUp}
 					>
 						<span className="check-result-title">
-							{checkResult.ok ? "Success" : "Error"}
+							{checkResult.status === "passed"
+								? "Success"
+								: "Error"}
 						</span>
 					</div>
 
@@ -236,7 +279,8 @@ export default function CodeEditor() {
 						</pre>
 
 						<div className="check-result-tests">
-							Tests passed: {checkResult.testPassed}
+							Tests passed: {checkResult.testPassed} | Score:{" "}
+							{checkResult.score}
 						</div>
 					</div>
 				</div>

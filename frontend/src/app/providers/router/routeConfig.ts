@@ -1,4 +1,3 @@
-import { CodeBlock } from "@/pages/CodeBlockPage/CodeBlock";
 import {
 	About,
 	Contact,
@@ -8,13 +7,14 @@ import {
 	Login,
 	Registration,
 	CodePage,
+	ForgotPassword,
+	ResetPassword,
 	CodeEditor,
 	ChooseTask,
 	Profile,
 	SolutionResult,
 } from "@/pages/index";
 
-import { ProfileImg } from "@/shared/index.ts";
 import type { AppPage } from "@/shared/index.ts";
 
 export const mainPageRoutes: AppPage[] = [
@@ -23,6 +23,7 @@ export const mainPageRoutes: AppPage[] = [
 		label: "About the company",
 		component: About,
 		showInNavbar: false,
+		showNavBar: true,
 		access: "public",
 	},
 	{
@@ -30,6 +31,7 @@ export const mainPageRoutes: AppPage[] = [
 		label: "Home",
 		component: Home,
 		showInNavbar: true,
+		showNavBar: true,
 		access: "public",
 	},
 	{
@@ -37,6 +39,7 @@ export const mainPageRoutes: AppPage[] = [
 		label: "Possibilites",
 		component: Possibilites,
 		showInNavbar: false,
+		showNavBar: true,
 		access: "public",
 	},
 	{
@@ -44,6 +47,7 @@ export const mainPageRoutes: AppPage[] = [
 		label: "Contact",
 		component: Contact,
 		showInNavbar: false,
+		showNavBar: true,
 		access: "public",
 	},
 	{
@@ -51,6 +55,7 @@ export const mainPageRoutes: AppPage[] = [
 		label: "Support",
 		component: Support,
 		showInNavbar: false,
+		showNavBar: true,
 		access: "public",
 	},
 	{
@@ -58,6 +63,7 @@ export const mainPageRoutes: AppPage[] = [
 		label: "Login",
 		component: Login,
 		showInNavbar: true,
+		showNavBar: true,
 		access: "guest",
 	},
 	{
@@ -65,6 +71,31 @@ export const mainPageRoutes: AppPage[] = [
 		label: "Registration",
 		component: Registration,
 		showInNavbar: true,
+		showNavBar: true,
+		access: "guest",
+	},
+	{
+		path: "/confirm-email",
+		label: "Confirm email",
+		component: CodePage,
+		showInNavbar: false,
+		showNavBar: true,
+		access: "guest",
+	},
+	{
+		path: "/forgot-password",
+		label: "Forgot password",
+		component: ForgotPassword,
+		showInNavbar: false,
+		showNavBar: true,
+		access: "guest",
+	},
+	{
+		path: "/reset-password",
+		label: "Reset password",
+		component: ResetPassword,
+		showInNavbar: false,
+		showNavBar: true,
 		access: "guest",
 	},
 	{
@@ -72,34 +103,39 @@ export const mainPageRoutes: AppPage[] = [
 		label: "CodePage",
 		component: CodePage,
 		showInNavbar: false,
-		access: "private"
+		showNavBar: true,
+		access: "guest",
 	},
 	{
 		path: "/CodeBlock",
 		label: "CodeBlock",
 		component: CodeEditor,
 		showInNavbar: false,
-		access: "private"
+		showNavBar: false,
+		access: "private",
 	},
 	{
 		path: "/ChooseTask",
 		label: "ChooseTask",
 		component: ChooseTask,
 		showInNavbar: true,
-		access: "private"
+		showNavBar: true,
+		access: "private",
 	},
 	{
 		path: "/profile",
 		label: "Profile",
 		component: Profile,
 		showInNavbar: true,
-		access: "private"
+		showNavBar: true,
+		access: "private",
 	},
 	{
 		path: "/result",
 		label: "Solution Result",
 		component: SolutionResult,
-		showInNavbar: true,
-		access: "private"
-	}
+		showInNavbar: false,
+		showNavBar: true,
+		access: "private",
+	},
 ];

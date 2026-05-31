@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import "./Profile.css";
-import { Button, ProfileImg } from "@/shared";
+import { ProfileImg } from "@/shared";
 import { LowerRank } from "@/shared";
 import { StaticProfileImg } from "@/shared";
 import type { Profile } from "./lib/profileInterface";
@@ -91,6 +91,22 @@ export default function Profile() {
 		setCurrentImg(newUrl);
 	};
 
+	const formatDate = (value: string | null) => {
+		if (!value) {
+			return "n/a";
+		}
+
+		const date = new Date(value);
+		if (Number.isNaN(date.getTime())) {
+			return value;
+		}
+
+		return new Intl.DateTimeFormat("en-GB", {
+			dateStyle: "medium",
+			timeStyle: "short",
+		}).format(date);
+	};
+
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -134,10 +150,14 @@ export default function Profile() {
 						<span className="value">{profile.email}</span>
 
 						<span className="label">Member Since:</span>
-						<span className="value">{profile.memberSince}</span>
+						<span className="value">
+							{formatDate(profile.memberSince)}
+						</span>
 
 						<span className="label">Last Seen:</span>
-						<span className="value">{profile.lastSeen}</span>
+						<span className="value">
+							{formatDate(profile.lastSeen)}
+						</span>
 
 						<span className="label">Now is online</span>
 						<span className="value">
@@ -174,19 +194,23 @@ export default function Profile() {
 						</span>
 					</div>
 					<div className="flex margin-task-complete">
-						<span>
-							Task completed:
-							<li>Easy: {profile.tasksCompleted.easy}</li>
-							<li>Medium: {profile.tasksCompleted.medium}</li>
-							<li>Hard: {profile.tasksCompleted.hard}</li>
-						</span>
+						<div>
+							<span>Task completed:</span>
+							<ul>
+								<li>Easy: {profile.tasksCompleted.easy}</li>
+								<li>Medium: {profile.tasksCompleted.medium}</li>
+								<li>Hard: {profile.tasksCompleted.hard}</li>
+							</ul>
+						</div>
 					</div>
-					<span>
-						Average grade:
-						<li>Easy: {profile.averageGrade.easy}</li>
-						<li>Medium: {profile.averageGrade.medium}</li>
-						<li>Hard: {profile.averageGrade.hard}</li>
-					</span>
+					<div>
+						<span>Average grade:</span>
+						<ul>
+							<li>Easy: {profile.averageGrade.easy}</li>
+							<li>Medium: {profile.averageGrade.medium}</li>
+							<li>Hard: {profile.averageGrade.hard}</li>
+						</ul>
+					</div>
 				</div>
 				<img
 					src={StaticProfileImg}

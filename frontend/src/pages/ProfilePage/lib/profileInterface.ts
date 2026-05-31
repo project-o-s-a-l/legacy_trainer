@@ -1,7 +1,7 @@
 export type Profile = {
 	email: string;
 	username: string;
-	lastSeen: string;
+	lastSeen: string | null;
 	memberSince: string;
 	avatarUrl?: string;
 	isOnline: boolean;
