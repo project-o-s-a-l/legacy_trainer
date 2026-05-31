@@ -1,4 +1,7 @@
 from fastapi.testclient import TestClient
+from sqlalchemy import select
+
+from backend.app.models.user import User
 
 
 def build_register_payload(
@@ -59,7 +62,7 @@ def login_user(
     )
 
 
-def test_register_success(client: TestClient) -> None:
+def test_register_success(client: TestClient, db_session) -> None:
     response = client.post(
         "/api/v1/auth/register",
         json=build_register_payload(),
@@ -72,6 +75,11 @@ def test_register_success(client: TestClient) -> None:
     assert body["user"]["id"] > 0
     assert body["user"]["username"] == "tester"
     assert body["user"]["email"] == "tester@example.com"
+
+    stmt = select(User).where(User.email == "tester@example.com")
+    user = db_session.scalar(stmt)
+    assert user is not None
+    assert user.email_verified_at is None
 
 
 def test_register_duplicate_email(client: TestClient) -> None:
