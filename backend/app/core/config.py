@@ -29,6 +29,16 @@ class Settings:
             "http://localhost:3000,https://localhost:3000",
         )
     )
+    smtp_host: str = os.getenv("SMTP_HOST", "")
+    smtp_port: int = int(os.getenv("SMTP_PORT", "587"))
+    smtp_username: str = os.getenv("SMTP_USERNAME", "")
+    smtp_password: str = os.getenv("SMTP_PASSWORD", "")
+    smtp_from_email: str = os.getenv("SMTP_FROM_EMAIL", "")
+    smtp_use_tls: bool = os.getenv("SMTP_USE_TLS", "true").lower() == "true"
+    smtp_timeout_seconds: int = int(os.getenv("SMTP_TIMEOUT_SECONDS", "10"))
+    verification_code_ttl_minutes: int = int(
+        os.getenv("VERIFICATION_CODE_TTL_MINUTES", "10")
+    )
 
 
 settings = Settings()
