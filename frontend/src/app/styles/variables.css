@@ -17,16 +17,16 @@
 	--color-btn-text: var(--btn-color-light-theme);
 
 	/* Типографика */
-	--main-font-size: 32px;
-	--btn-font-size: 28px;
-	--text-sm: 24px;
-	--text-md: 28px;
-	--text-lg: 36px;
-	--text-xl: 48px;
-	--text-2xl: 62px;
+	--main-font-size: clamp(18px, 1.8vw, 32px);
+	--btn-font-size: clamp(18px, 1.4vw, 28px);
+	--text-sm: clamp(16px, 1.2vw, 24px);
+	--text-md: clamp(18px, 1.4vw, 28px);
+	--text-lg: clamp(24px, 2vw, 36px);
+	--text-xl: clamp(32px, 2.7vw, 48px);
+	--text-2xl: clamp(38px, 4vw, 62px);
 
 	/* Отступы и расстояния */
-	--margin-main: 50px;
+	--margin-main: clamp(24px, 4vw, 50px);
 	--space-xs: 5px;
 	--space-sm: 10px;
 	--space-md: 15px;

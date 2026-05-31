@@ -1,11 +1,13 @@
 .navbar {
 	background-color: var(--color-surface);
 	border-radius: var(--radius-pill);
-	margin: 17px 38px 0px 38px;
-	padding: 20px;
+	margin: 17px clamp(16px, 3vw, 38px) 0;
+	padding: 20px clamp(20px, 3vw, 28px);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 20px 32px;
 	box-shadow:
 		0 8px 24px var(--shadow-soft),
 		0 16px 40px var(--shadow-soft-lg);
@@ -17,6 +19,7 @@
 	align-items: center;
 	gap: 20px;
 	flex-shrink: 0;
+	text-decoration: none;
 }
 
 .project-name {
@@ -30,9 +33,24 @@
 .nav-links {
 	display: flex;
 	align-items: center;
-	gap: 28px;
+	gap: 12px 0;
 	flex-wrap: wrap;
 	justify-content: flex-end;
+	flex: 1 1 420px;
+	min-width: 0;
+}
+
+.nav-item {
+	display: flex;
+	align-items: center;
+}
+
+.nav-item + .nav-item::before {
+	content: "|";
+	margin: 0 18px;
+	color: var(--color-btn-text);
+	font-weight: 500;
+	opacity: 0.7;
 }
 
 .navlink {
@@ -44,20 +62,44 @@
 	position: relative;
 	cursor: pointer;
 	letter-spacing: 0.2px;
+	background: transparent;
+	border: none;
+	padding: 0;
 	transition: color var(--transition-base) ease;
 }
 
-.navlink:not(:last-child)::after {
-	content: "|";
-	margin-left: 28px;
-	color: var(--color-btn-text);
-	font-weight: 500;
+.navlink-active {
+	color: var(--color-link-hover);
+	text-decoration: underline;
+	text-underline-offset: 6px;
+	text-decoration-thickness: 2px;
 }
 
-.navlink:hover {
+.navlink:hover,
+.navlink:focus-visible {
 	color: var(--color-link-hover);
+	outline: none;
 }
 
-.navlink:hover::after {
-	color: var(--color-link-hover);
+.navlink-button:hover,
+.navlink-button:focus-visible {
+	text-decoration: underline;
+	text-underline-offset: 6px;
+	text-decoration-thickness: 2px;
+}
+
+@media (max-width: 900px) {
+	.navbar {
+		border-radius: 28px;
+	}
+
+	.nav-links {
+		justify-content: flex-start;
+		gap: 12px 18px;
+	}
+
+	.nav-item + .nav-item::before {
+		content: none;
+		margin: 0;
+	}
 }

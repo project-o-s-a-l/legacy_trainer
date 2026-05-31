@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import "./Registration.css";
 import { register_request } from "@/features/registr/registr-request";
+import { requestRegistrationVerificationCode } from "@/features/verificationCode/verificationCode";
 import { useNavigate } from "react-router-dom";
 
 function Registration() {
@@ -25,6 +26,7 @@ function Registration() {
 			setIsSubmitting(true);
 
 			const response = await register_request(username, email, password);
+			await requestRegistrationVerificationCode(response.user.email);
 
 			navigate("/confirm-email", {
 				state: {
@@ -107,7 +109,7 @@ function Registration() {
 						className="btn-ghost btn-submit-registration"
 						disabled={isSubmitting}
 					>
-						{isSubmitting ? "Creating..." : "Get code"}
+						{isSubmitting ? "Sending code..." : "Get code"}
 					</button>
 				</form>
 			</div>

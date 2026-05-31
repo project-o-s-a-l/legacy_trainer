@@ -104,6 +104,12 @@
   color: var(--color-link-hover);
 }
 
+.code-link:disabled,
+.code-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .code-secondary-actions {
   display: flex;
   flex-direction: column;

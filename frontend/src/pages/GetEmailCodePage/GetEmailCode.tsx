@@ -1,12 +1,17 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+	confirmPasswordRecoveryCode,
+	confirmRegistrationVerificationCode,
+	requestPasswordRecoveryCode,
+	requestRegistrationVerificationCode,
+	type VerificationFlowMode,
+} from "@/features/verificationCode/verificationCode";
 import "./GetEmailCode.css";
-
-type FlowMode = "registration" | "recovery";
 
 type LocationState = {
 	email?: string;
-	flow?: FlowMode;
+	flow?: VerificationFlowMode;
 };
 
 export default function CodePage() {
@@ -14,10 +19,13 @@ export default function CodePage() {
 	const location = useLocation();
 	const [code, setCode] = useState("");
 	const [error, setError] = useState<string | null>(null);
-	const [resent, setResent] = useState(false);
+	const [statusMessage, setStatusMessage] = useState<string | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isResending, setIsResending] = useState(false);
 
 	const state = (location.state as LocationState | null) ?? null;
 	const flow = state?.flow ?? "registration";
+	const email = state?.email?.trim() ?? "";
 
 	const pageCopy = useMemo(
 		() =>
@@ -37,24 +45,77 @@ export default function CodePage() {
 		[flow],
 	);
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (!/^\d{4,6}$/.test(code.trim())) {
-			setError("Enter a valid verification code");
+		if (!email) {
+			setError("Open this page from the previous step to continue.");
 			return;
 		}
 
-		setError(null);
-		navigate("/login", {
-			replace: true,
-			state: {
-				notice:
-					flow === "recovery"
-						? "Code accepted in the UI flow. Continue from login."
-						: "Registration completed. You can sign in now.",
-			},
-		});
+		try {
+			setError(null);
+			setStatusMessage(null);
+			setIsSubmitting(true);
+
+			if (flow === "recovery") {
+				const response = await confirmPasswordRecoveryCode(email, code);
+				navigate("/reset-password", {
+					replace: true,
+					state: {
+						email,
+						resetToken: response.resetToken,
+					},
+				});
+				return;
+			}
+
+			const response = await confirmRegistrationVerificationCode(email, code);
+			navigate("/login", {
+				replace: true,
+				state: {
+					notice: response.message || "Registration completed. You can sign in now.",
+				},
+			});
+		} catch (error) {
+			setError(
+				error instanceof Error
+					? error.message
+					: "Unable to verify the code",
+			);
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
+	const handleResend = async () => {
+		if (!email) {
+			setError("Open this page from the previous step to continue.");
+			return;
+		}
+
+		try {
+			setError(null);
+			setStatusMessage(null);
+			setIsResending(true);
+
+			const response =
+				flow === "recovery"
+					? await requestPasswordRecoveryCode(email)
+					: await requestRegistrationVerificationCode(email);
+
+			setStatusMessage(
+				response.message || "A new verification code request was sent.",
+			);
+		} catch (error) {
+			setError(
+				error instanceof Error
+					? error.message
+					: "Unable to resend the code",
+			);
+		} finally {
+			setIsResending(false);
+		}
 	};
 
 	return (
@@ -64,9 +125,11 @@ export default function CodePage() {
 					<p className="code-kicker">{pageCopy.kicker}</p>
 					<h1 className="code-title">{pageCopy.title}</h1>
 					<p className="code-description">{pageCopy.description}</p>
-					{state?.email && (
-						<p className="code-email">Code destination: {state.email}</p>
-					)}
+					<p className="code-email">
+						{email
+							? `Code destination: ${email}`
+							: "Email is unavailable. Restart the flow from the previous screen."}
+					</p>
 				</div>
 
 				<form className="code-form" onSubmit={handleSubmit}>
@@ -82,14 +145,20 @@ export default function CodePage() {
 						onChange={(event) => setCode(event.target.value)}
 						inputMode="numeric"
 						autoComplete="one-time-code"
+						disabled={!email || isSubmitting}
 						required
 					/>
 
 					{error && <p className="code-error">{error}</p>}
+					{statusMessage && <p className="code-resent">{statusMessage}</p>}
 
 					<div className="code-actions">
-						<button type="submit" className="btn-ghost code-button">
-							Next
+						<button
+							type="submit"
+							className="btn-ghost code-button"
+							disabled={!email || isSubmitting}
+						>
+							{isSubmitting ? "Checking..." : "Next"}
 						</button>
 
 						<div className="code-secondary-actions">
@@ -97,15 +166,13 @@ export default function CodePage() {
 							<button
 								type="button"
 								className="code-link"
-								onClick={() => setResent(true)}
+								onClick={() => {
+									void handleResend();
+								}}
+								disabled={!email || isResending}
 							>
-								Resend it
+								{isResending ? "Resending..." : "Resend it"}
 							</button>
-							{resent && (
-								<span className="code-resent">
-									A new code request was prepared in the UI flow.
-								</span>
-							)}
 						</div>
 					</div>
 				</form>

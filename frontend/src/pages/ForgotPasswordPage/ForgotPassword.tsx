@@ -1,14 +1,16 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@/shared/ui/Button";
+import { requestPasswordRecoveryCode } from "@/features/verificationCode/verificationCode";
 import "./ForgotPassword.css";
 
 export default function ForgotPassword() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [error, setError] = useState<string | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (!email.trim()) {
@@ -16,13 +18,25 @@ export default function ForgotPassword() {
 			return;
 		}
 
-		setError(null);
-		navigate("/confirm-email", {
-			state: {
-				email: email.trim(),
-				flow: "recovery",
-			},
-		});
+		try {
+			setError(null);
+			setIsSubmitting(true);
+			await requestPasswordRecoveryCode(email.trim());
+			navigate("/confirm-email", {
+				state: {
+					email: email.trim(),
+					flow: "recovery",
+				},
+			});
+		} catch (error) {
+			setError(
+				error instanceof Error
+					? error.message
+					: "Unable to request password recovery code",
+			);
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
@@ -55,8 +69,12 @@ export default function ForgotPassword() {
 					{error && <p className="forgot-password-error">{error}</p>}
 
 					<div className="forgot-password-actions">
-						<Button className="forgot-password-submit" type="submit">
-							Send code
+						<Button
+							className="forgot-password-submit"
+							type="submit"
+							disabled={isSubmitting}
+						>
+							{isSubmitting ? "Sending..." : "Send code"}
 						</Button>
 						<Link className="forgot-password-link" to="/login">
 							Back to login

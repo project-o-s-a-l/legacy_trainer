@@ -43,11 +43,11 @@
 
 .input {
 	width: 100%;
-	max-width: 450px;
-	padding: 30px;
+	max-width: min(100%, 450px);
+	padding: clamp(18px, 2.5vw, 30px);
 	border: 1px solid black;
 	border-radius: var(--radius-xl);
-	font-size: 36px;
+	font-size: clamp(20px, 2vw, 36px);
 	font-weight: 350;
 	outline: none;
 	background: #fff;
@@ -59,7 +59,7 @@
 	height: 64px;
 	padding: 0 18px;
 	border-radius: var(--radius-sm);
-	font-size: 28px;
+	font-size: clamp(18px, 1.6vw, 28px);
 	background: #f2f4f7;
 	border: 2px solid #000;
 	color: #111;
@@ -73,9 +73,8 @@
 }
 
 .card-auth {
-	height: 100vh;
-	width: 800px;
-	padding: 50px;
+	width: min(100%, 800px);
+	padding: clamp(24px, 4vw, 50px);
 	background: var(--gradient-card-auth);
 }
 
