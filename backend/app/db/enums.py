@@ -38,3 +38,7 @@ class CheckStatus(str, enum.Enum):
     PASSED = "passed"
     FAILED = "failed"
     ERROR = "error"
+
+class VerificationFlow(str, enum.Enum):
+    REGISTRATION = "registration"
+    RECOVERY = "recovery"
