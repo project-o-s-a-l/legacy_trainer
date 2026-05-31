@@ -1,4 +1,9 @@
+from datetime import datetime, timezone
+
 from fastapi.testclient import TestClient
+from sqlalchemy import select
+
+from backend.app.models.user import User
 
 
 def build_register_payload(
@@ -59,7 +64,7 @@ def login_user(
     )
 
 
-def test_register_success(client: TestClient) -> None:
+def test_register_success(client: TestClient, db_session) -> None:
     response = client.post(
         "/api/v1/auth/register",
         json=build_register_payload(),
@@ -73,9 +78,22 @@ def test_register_success(client: TestClient) -> None:
     assert body["user"]["username"] == "tester"
     assert body["user"]["email"] == "tester@example.com"
 
+    stmt = select(User).where(User.email == "tester@example.com")
+    user = db_session.scalar(stmt)
+    assert user is not None
+    assert user.email_verified_at is None
 
-def test_register_duplicate_email(client: TestClient) -> None:
+
+def test_register_duplicate_email_for_verified_user(
+    client: TestClient,
+    db_session,
+) -> None:
     register_user(client, username="tester1", email="same@example.com")
+
+    user = db_session.scalar(select(User).where(User.email == "same@example.com"))
+    assert user is not None
+    user.email_verified_at = datetime.now(timezone.utc)
+    db_session.commit()
 
     response = client.post(
         "/api/v1/auth/register",
@@ -182,3 +200,39 @@ def test_logout_clears_auth(client: TestClient) -> None:
 
     assert me_response.status_code == 401
     assert me_response.json()["detail"] == "Not authenticated"
+
+
+def test_register_allows_retry_for_unverified_user(
+    client: TestClient,
+    db_session,
+) -> None:
+    first_response = client.post(
+        "/api/v1/auth/register",
+        json={
+            "username": "firstuser",
+            "email": "retry@example.com",
+            "password": "password123",
+        },
+    )
+    assert first_response.status_code == 201
+
+    second_response = client.post(
+        "/api/v1/auth/register",
+        json={
+            "username": "seconduser",
+            "email": "retry@example.com",
+            "password": "newpassword123",
+        },
+    )
+    assert second_response.status_code == 201
+
+    body = second_response.json()
+    assert body["user"]["email"] == "retry@example.com"
+    assert body["user"]["username"] == "seconduser"
+
+    stmt = select(User).where(User.email == "retry@example.com")
+    user = db_session.scalar(stmt)
+    assert user is not None
+    assert user.username == "seconduser"
+    assert user.login == "seconduser"
+    assert user.email_verified_at is None
