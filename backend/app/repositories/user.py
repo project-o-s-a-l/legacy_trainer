@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -37,8 +39,31 @@ class UserRepository:
             email=email,
             login=login,
             password_hash=password_hash,
+            email_verified_at=None,
         )
         self.db.add(user)
         self.db.flush()
         self.db.refresh(user)
         return user
+
+    def update_unverified_user_registration(
+        self,
+        user: User,
+        *,
+        username: str,
+        login: str,
+        password_hash: str,
+    ) -> User:
+        user.username = username
+        user.login = login
+        user.password_hash = password_hash
+        user.updated_at = datetime.now(timezone.utc)
+        self.db.flush()
+        self.db.refresh(user)
+        return user
+
+    def mark_email_as_verified(self, user: User) -> None:
+        user.email_verified_at = datetime.now(timezone.utc)
+
+    def is_email_verified(self, user: User) -> bool:
+        return user.email_verified_at is not None

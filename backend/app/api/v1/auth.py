@@ -12,8 +12,13 @@ from backend.app.schemas.auth import (
     RegisterResponse,
 )
 from backend.app.schemas.user import UserShortResponse
+from backend.app.schemas.verification import (
+    RequestVerificationCodeRequest,
+    RequestVerificationCodeResponse,
+)
 from backend.app.services.auth import AuthService
 from backend.app.services.token import create_access_token
+from backend.app.services.verification import VerificationService
 
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
@@ -29,6 +34,17 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)) -> RegisterRe
     return RegisterResponse(
         user=UserShortResponse.model_validate(user),
     )
+
+
+@router.post(
+    "/request-verification-code",
+    response_model=RequestVerificationCodeResponse,
+)
+def request_verification_code(
+    data: RequestVerificationCodeRequest,
+    db: Session = Depends(get_db),
+) -> RequestVerificationCodeResponse:
+    return VerificationService(db).request_code(data)
 
 
 @router.post("/login", response_model=LoginResponse)

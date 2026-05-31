@@ -42,6 +42,10 @@ class User(Base):
         DateTime(timezone=True),
         nullable=True,
     )
+    email_verified_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
     avatar_url: Mapped[str | None] = mapped_column(nullable=True)
 
     tasks: Mapped[list["Task"]] = relationship(back_populates="author")
