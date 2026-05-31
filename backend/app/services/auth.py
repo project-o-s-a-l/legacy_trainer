@@ -5,14 +5,47 @@ from sqlalchemy.orm import Session
 
 from backend.app.models.user import User
 from backend.app.repositories.user import UserRepository
-from backend.app.schemas.auth import LoginRequest
-from backend.app.services.security import verify_password
+from backend.app.schemas.auth import LoginRequest, RegisterRequest
+from backend.app.services.security import hash_password, verify_password
 
 
 class AuthService:
     def __init__(self, db: Session) -> None:
         self.db = db
         self.users = UserRepository(db)
+
+    def register(self, data: RegisterRequest) -> User:
+        email = data.email.strip().lower()
+        username = data.username.strip()
+
+        if self.users.get_by_email(email):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already exists",
+            )
+
+        if self.users.get_by_username(username):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Username already exists",
+            )
+
+        if self.users.get_by_login(username):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Login already exists",
+            )
+
+        user = self.users.create_user(
+            username=username,
+            email=email,
+            login=username,
+            password_hash=hash_password(data.password),
+        )
+
+        self.db.commit()
+        self.db.refresh(user)
+        return user
 
     def login(self, data: LoginRequest) -> User:
         user = self.users.get_by_email(data.login)

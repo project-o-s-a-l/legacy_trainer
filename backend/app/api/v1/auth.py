@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
 
 from backend.app.core.config import settings
@@ -11,6 +11,7 @@ from backend.app.schemas.auth import (
     RegisterRequest,
     RegisterResponse,
 )
+from backend.app.schemas.user import UserShortResponse
 from backend.app.schemas.verification import (
     RequestVerificationCodeRequest,
     RequestVerificationCodeResponse,
@@ -23,12 +24,16 @@ from backend.app.services.verification import VerificationService
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
 
-@router.post("/register", response_model=RegisterResponse)
-def register(
-    data: RegisterRequest,
-    db: Session = Depends(get_db),
-) -> RegisterResponse:
-    return VerificationService(db).start_registration(data)
+@router.post(
+    "/register",
+    response_model=RegisterResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def register(data: RegisterRequest, db: Session = Depends(get_db)) -> RegisterResponse:
+    user = AuthService(db).register(data)
+    return RegisterResponse(
+        user=UserShortResponse.model_validate(user),
+    )
 
 
 @router.post(
