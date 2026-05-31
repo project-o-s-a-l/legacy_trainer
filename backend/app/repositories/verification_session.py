@@ -46,8 +46,6 @@ class VerificationSessionRepository:
         flow: VerificationFlow,
         code_hash: str,
         expires_at: datetime,
-        registration_username: str | None = None,
-        registration_password_hash: str | None = None,
     ) -> VerificationSession:
         session = VerificationSession(
             user_id=user_id,
@@ -55,8 +53,6 @@ class VerificationSessionRepository:
             flow=flow,
             code_hash=code_hash,
             expires_at=expires_at,
-            registration_username=registration_username,
-            registration_password_hash=registration_password_hash,
         )
         self.db.add(session)
         self.db.flush()

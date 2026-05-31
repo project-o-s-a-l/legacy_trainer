@@ -40,14 +40,6 @@ class VerificationSession(Base):
         DateTime(timezone=True),
         nullable=True,
     )
-    registration_username: Mapped[str | None] = mapped_column(
-        String(35),
-        nullable=True,
-    )
-    registration_password_hash: Mapped[str | None] = mapped_column(
-        String(255),
-        nullable=True,
-    )
     reset_token_hash: Mapped[str | None] = mapped_column(
         String(255),
         nullable=True,
