@@ -46,6 +46,22 @@ class UserRepository:
         self.db.refresh(user)
         return user
 
+    def update_unverified_user_registration(
+        self,
+        user: User,
+        *,
+        username: str,
+        login: str,
+        password_hash: str,
+    ) -> User:
+        user.username = username
+        user.login = login
+        user.password_hash = password_hash
+        user.updated_at = datetime.now(timezone.utc)
+        self.db.flush()
+        self.db.refresh(user)
+        return user
+
     def mark_email_as_verified(self, user: User) -> None:
         user.email_verified_at = datetime.now(timezone.utc)
 

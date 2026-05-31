@@ -17,30 +17,50 @@ class AuthService:
     def register(self, data: RegisterRequest) -> User:
         email = data.email.strip().lower()
         username = data.username.strip()
+        password_hash = hash_password(data.password)
 
-        if self.users.get_by_email(email):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email already exists",
-            )
+        existing_user = self.users.get_by_email(email)
 
-        if self.users.get_by_username(username):
+        username_owner = self.users.get_by_username(username)
+        if username_owner is not None and (
+            existing_user is None or username_owner.id != existing_user.id
+        ):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Username already exists",
             )
 
-        if self.users.get_by_login(username):
+        login_owner = self.users.get_by_login(username)
+        if login_owner is not None and (
+            existing_user is None or login_owner.id != existing_user.id
+        ):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Login already exists",
             )
 
+        if existing_user is not None:
+            if existing_user.email_verified_at is not None:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Email already exists",
+                )
+
+            user = self.users.update_unverified_user_registration(
+                existing_user,
+                username=username,
+                login=username,
+                password_hash=password_hash,
+            )
+            self.db.commit()
+            self.db.refresh(user)
+            return user
+
         user = self.users.create_user(
             username=username,
             email=email,
             login=username,
-            password_hash=hash_password(data.password),
+            password_hash=password_hash,
         )
 
         self.db.commit()
