@@ -6,6 +6,7 @@ from backend.app.models.tag import Tag
 from backend.app.models.task import Task
 from backend.app.models.user import User
 from backend.app.models.user_task_progress import UserTaskProgress
+from backend.app.models.verification_session import VerificationSession
 
 __all__ = [
     "AIReview",
@@ -16,4 +17,5 @@ __all__ = [
     "Task",
     "User",
     "UserTaskProgress",
+    "VerificationSession",
 ]
