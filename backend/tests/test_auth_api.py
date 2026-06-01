@@ -64,6 +64,13 @@ def login_user(
     )
 
 
+def mark_user_verified(db_session, email: str) -> None:
+    user = db_session.scalar(select(User).where(User.email == email))
+    assert user is not None
+    user.email_verified_at = datetime.now(timezone.utc)
+    db_session.commit()
+
+
 def test_register_success(client: TestClient, db_session) -> None:
     response = client.post(
         "/api/v1/auth/register",
@@ -89,11 +96,7 @@ def test_register_duplicate_email_for_verified_user(
     db_session,
 ) -> None:
     register_user(client, username="tester1", email="same@example.com")
-
-    user = db_session.scalar(select(User).where(User.email == "same@example.com"))
-    assert user is not None
-    user.email_verified_at = datetime.now(timezone.utc)
-    db_session.commit()
+    mark_user_verified(db_session, "same@example.com")
 
     response = client.post(
         "/api/v1/auth/register",
@@ -122,8 +125,18 @@ def test_register_duplicate_username(client: TestClient) -> None:
     assert response.json()["detail"] == "Username already exists"
 
 
-def test_login_success_with_username(client: TestClient) -> None:
+def test_login_requires_verified_email(client: TestClient) -> None:
     register_user(client)
+
+    response = login_user(client)
+
+    assert response.status_code == 403
+    assert response.json()["detail"] == "Email is not verified"
+
+
+def test_login_success_with_username(client: TestClient, db_session) -> None:
+    register_user(client)
+    mark_user_verified(db_session, "tester@example.com")
 
     response = login_user(client)
 
@@ -136,8 +149,9 @@ def test_login_success_with_username(client: TestClient) -> None:
     assert response.cookies.get("access_token") is not None
 
 
-def test_login_success_with_email(client: TestClient) -> None:
+def test_login_success_with_email(client: TestClient, db_session) -> None:
     register_user(client)
+    mark_user_verified(db_session, "tester@example.com")
 
     response = login_user(client, login="tester@example.com")
 
@@ -164,8 +178,9 @@ def test_me_requires_auth(client: TestClient) -> None:
     assert response.json()["detail"] == "Not authenticated"
 
 
-def test_me_returns_current_user(client: TestClient) -> None:
+def test_me_returns_current_user(client: TestClient, db_session) -> None:
     register_user(client)
+    mark_user_verified(db_session, "tester@example.com")
     login_response = login_user(client)
 
     assert login_response.status_code == 200
@@ -184,8 +199,9 @@ def test_me_returns_current_user(client: TestClient) -> None:
     assert body["isOnline"] is False
 
 
-def test_logout_clears_auth(client: TestClient) -> None:
+def test_logout_clears_auth(client: TestClient, db_session) -> None:
     register_user(client)
+    mark_user_verified(db_session, "tester@example.com")
     login_response = login_user(client)
 
     assert login_response.status_code == 200
