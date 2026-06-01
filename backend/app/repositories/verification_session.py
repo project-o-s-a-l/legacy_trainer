@@ -12,10 +12,10 @@ class VerificationSessionRepository:
         self.db = db
 
     def get_active_sessions(
-        self,
-        *,
-        email: str,
-        flow: VerificationFlow,
+            self,
+            *,
+            email: str,
+            flow: VerificationFlow,
     ) -> list[VerificationSession]:
         stmt = (
             select(VerificationSession)
@@ -30,10 +30,10 @@ class VerificationSessionRepository:
         return list(self.db.scalars(stmt).all())
 
     def get_latest_active_session(
-        self,
-        *,
-        email: str,
-        flow: VerificationFlow,
+            self,
+            *,
+            email: str,
+            flow: VerificationFlow,
     ) -> VerificationSession | None:
         stmt = (
             select(VerificationSession)
@@ -48,9 +48,27 @@ class VerificationSessionRepository:
         )
         return self.db.scalar(stmt)
 
+    def get_session_by_reset_token(
+            self,
+            *,
+            email: str,
+            reset_token_hash: str,
+    ) -> VerificationSession | None:
+        stmt = (
+            select(VerificationSession)
+            .where(
+                VerificationSession.email == email,
+                VerificationSession.flow == VerificationFlow.RECOVERY,
+                VerificationSession.reset_token_hash == reset_token_hash,
+            )
+            .order_by(VerificationSession.id.desc())
+            .limit(1)
+        )
+        return self.db.scalar(stmt)
+
     def mark_sessions_as_consumed(
-        self,
-        sessions: list[VerificationSession],
+            self,
+            sessions: list[VerificationSession],
     ) -> None:
         now = datetime.now(timezone.utc)
         for session in sessions:
@@ -68,11 +86,11 @@ class VerificationSessionRepository:
         session.updated_at = now
 
     def attach_reset_token(
-        self,
-        session: VerificationSession,
-        *,
-        reset_token_hash: str,
-        reset_token_expires_at: datetime,
+            self,
+            session: VerificationSession,
+            *,
+            reset_token_hash: str,
+            reset_token_expires_at: datetime,
     ) -> None:
         now = datetime.now(timezone.utc)
         session.verified_at = now
@@ -82,13 +100,13 @@ class VerificationSessionRepository:
         session.updated_at = now
 
     def create_session(
-        self,
-        *,
-        user_id: int | None,
-        email: str,
-        flow: VerificationFlow,
-        code_hash: str,
-        expires_at: datetime,
+            self,
+            *,
+            user_id: int | None,
+            email: str,
+            flow: VerificationFlow,
+            code_hash: str,
+            expires_at: datetime,
     ) -> VerificationSession:
         session = VerificationSession(
             user_id=user_id,
@@ -101,3 +119,8 @@ class VerificationSessionRepository:
         self.db.flush()
         self.db.refresh(session)
         return session
+
+    def clear_reset_token(self, session: VerificationSession) -> None:
+        session.reset_token_hash = None
+        session.reset_token_expires_at = None
+        session.updated_at = datetime.now(timezone.utc)

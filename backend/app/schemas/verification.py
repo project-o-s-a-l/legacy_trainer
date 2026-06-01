@@ -11,6 +11,7 @@ class RequestVerificationCodeRequest(BaseModel):
 class RequestVerificationCodeResponse(BaseModel):
     message: str = "Verification code sent successfully"
 
+
 class VerifyVerificationCodeRequest(BaseModel):
     email: EmailStr
     code: str = Field(min_length=4, max_length=6)
@@ -28,3 +29,21 @@ class VerifyVerificationCodeRequest(BaseModel):
 class VerifyVerificationCodeResponse(BaseModel):
     message: str
     resetToken: str | None = None
+
+
+class ResetPasswordRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=8, max_length=128)
+    resetToken: str = Field(min_length=1, max_length=255)
+
+    @field_validator("resetToken")
+    @classmethod
+    def validate_reset_token(cls, value: str) -> str:
+        token = value.strip()
+        if not token:
+            raise ValueError("Reset token is required")
+        return token
+
+
+class ResetPasswordResponse(BaseModel):
+    message: str = "Password updated successfully"

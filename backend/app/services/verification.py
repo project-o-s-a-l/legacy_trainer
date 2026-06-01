@@ -14,10 +14,13 @@ from backend.app.repositories.verification_session import (
 from backend.app.schemas.verification import (
     RequestVerificationCodeRequest,
     RequestVerificationCodeResponse,
+    ResetPasswordRequest,
+    ResetPasswordResponse,
     VerifyVerificationCodeRequest,
     VerifyVerificationCodeResponse,
 )
 from backend.app.services.email import EmailService
+from backend.app.services.security import hash_password
 
 
 class VerificationService:
@@ -28,8 +31,8 @@ class VerificationService:
         self.email = EmailService()
 
     def request_code(
-        self,
-        data: RequestVerificationCodeRequest,
+            self,
+            data: RequestVerificationCodeRequest,
     ) -> RequestVerificationCodeResponse:
         email = data.email.strip().lower()
 
@@ -47,8 +50,8 @@ class VerificationService:
         )
 
     def verify_code(
-        self,
-        data: VerifyVerificationCodeRequest,
+            self,
+            data: VerifyVerificationCodeRequest,
     ) -> VerifyVerificationCodeResponse:
         email = data.email.strip().lower()
         code = data.code.strip()
@@ -157,9 +160,9 @@ class VerificationService:
         self.db.commit()
 
     def _verify_registration_code(
-        self,
-        email: str,
-        code: str,
+            self,
+            email: str,
+            code: str,
     ) -> VerifyVerificationCodeResponse:
         user = self.users.get_by_email(email)
         if user is None:
@@ -190,9 +193,9 @@ class VerificationService:
         )
 
     def _verify_recovery_code(
-        self,
-        email: str,
-        code: str,
+            self,
+            email: str,
+            code: str,
     ) -> VerifyVerificationCodeResponse:
         user = self.users.get_by_email(email)
         if user is None or not self.users.is_email_verified(user):
@@ -213,7 +216,7 @@ class VerificationService:
             session,
             reset_token_hash=self._hash_secret(reset_token),
             reset_token_expires_at=datetime.now(timezone.utc)
-            + timedelta(minutes=settings.password_reset_token_ttl_minutes),
+                                   + timedelta(minutes=settings.password_reset_token_ttl_minutes),
         )
         self.db.commit()
 
@@ -223,16 +226,16 @@ class VerificationService:
         )
 
     def _get_valid_active_session(
-        self,
-        *,
-        email: str,
-        flow: VerificationFlow,
+            self,
+            *,
+            email: str,
+            flow: VerificationFlow,
     ):
         session = self.sessions.get_latest_active_session(email=email, flow=flow)
         if session is None:
             self._raise_invalid_code()
 
-        if session.expires_at <= datetime.now(timezone.utc):
+        if self._is_expired(session.expires_at):
             self.sessions.mark_sessions_as_consumed([session])
             self.db.commit()
             self._raise_invalid_code()
@@ -251,6 +254,51 @@ class VerificationService:
             detail="Verification code is invalid or expired",
         )
 
+    def reset_password(
+            self,
+            data: ResetPasswordRequest,
+    ) -> ResetPasswordResponse:
+        email = data.email.strip().lower()
+        reset_token = data.resetToken.strip()
+
+        user = self.users.get_by_email(email)
+        if user is None or not self.users.is_email_verified(user):
+            self._raise_invalid_reset_token()
+
+        session = self.sessions.get_session_by_reset_token(
+            email=email,
+            reset_token_hash=self._hash_secret(reset_token),
+        )
+        if session is None:
+            self._raise_invalid_reset_token()
+
+        if session.user_id is not None and session.user_id != user.id:
+            self._raise_invalid_reset_token()
+
+        if (
+                session.reset_token_expires_at is None
+                or self._is_expired(session.reset_token_expires_at)
+        ):
+            self.sessions.clear_reset_token(session)
+            self.db.commit()
+            self._raise_invalid_reset_token()
+
+        active_sessions = self.sessions.get_active_sessions(
+            email=email,
+            flow=VerificationFlow.RECOVERY,
+        )
+        if active_sessions:
+            self.sessions.mark_sessions_as_consumed(active_sessions)
+
+        self.users.update_password(
+            user,
+            password_hash=hash_password(data.password),
+        )
+        self.sessions.clear_reset_token(session)
+        self.db.commit()
+
+        return ResetPasswordResponse()
+
     def _generate_code(self) -> str:
         return str(secrets.randbelow(900000) + 100000)
 
@@ -261,3 +309,17 @@ class VerificationService:
         return hashlib.sha256(
             f"{value}:{settings.secret_key}".encode("utf-8")
         ).hexdigest()
+
+    def _normalize_utc(self, value: datetime) -> datetime:
+        if value.tzinfo is None:
+            return value.replace(tzinfo=timezone.utc)
+        return value.astimezone(timezone.utc)
+
+    def _is_expired(self, value: datetime) -> bool:
+        return self._normalize_utc(value) <= datetime.now(timezone.utc)
+
+    def _raise_invalid_reset_token(self) -> None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password reset token is invalid or expired",
+        )

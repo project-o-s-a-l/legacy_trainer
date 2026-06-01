@@ -15,13 +15,14 @@ from backend.app.schemas.user import UserShortResponse
 from backend.app.schemas.verification import (
     RequestVerificationCodeRequest,
     RequestVerificationCodeResponse,
+    ResetPasswordRequest,
+    ResetPasswordResponse,
     VerifyVerificationCodeRequest,
     VerifyVerificationCodeResponse,
 )
 from backend.app.services.auth import AuthService
 from backend.app.services.token import create_access_token
 from backend.app.services.verification import VerificationService
-
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
@@ -43,8 +44,8 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)) -> RegisterRe
     response_model=RequestVerificationCodeResponse,
 )
 def request_verification_code(
-    data: RequestVerificationCodeRequest,
-    db: Session = Depends(get_db),
+        data: RequestVerificationCodeRequest,
+        db: Session = Depends(get_db),
 ) -> RequestVerificationCodeResponse:
     return VerificationService(db).request_code(data)
 
@@ -54,17 +55,28 @@ def request_verification_code(
     response_model=VerifyVerificationCodeResponse,
 )
 def verify_verification_code(
-    data: VerifyVerificationCodeRequest,
-    db: Session = Depends(get_db),
+        data: VerifyVerificationCodeRequest,
+        db: Session = Depends(get_db),
 ) -> VerifyVerificationCodeResponse:
     return VerificationService(db).verify_code(data)
 
 
+@router.post(
+    "/reset-password",
+    response_model=ResetPasswordResponse,
+)
+def reset_password(
+        data: ResetPasswordRequest,
+        db: Session = Depends(get_db),
+) -> ResetPasswordResponse:
+    return VerificationService(db).reset_password(data)
+
+
 @router.post("/login", response_model=LoginResponse)
 def login(
-    data: LoginRequest,
-    response: Response,
-    db: Session = Depends(get_db),
+        data: LoginRequest,
+        response: Response,
+        db: Session = Depends(get_db),
 ) -> LoginResponse:
     user = AuthService(db).login(data)
     token = create_access_token(user.id)
