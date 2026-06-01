@@ -22,6 +22,7 @@ class Settings:
     access_token_expire_minutes: int = int(
         os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
     )
+    cookie_secure: bool = os.getenv("COOKIE_SECURE", "true").lower() == "true"
     frontend_origins: list[str] = _split_csv(
         os.getenv(
             "FRONTEND_ORIGINS",
@@ -38,6 +39,9 @@ class Settings:
     smtp_timeout_seconds: int = int(os.getenv("SMTP_TIMEOUT_SECONDS", "10"))
     verification_code_ttl_minutes: int = int(
         os.getenv("VERIFICATION_CODE_TTL_MINUTES", "10")
+    )
+    password_reset_token_ttl_minutes: int = int(
+        os.getenv("PASSWORD_RESET_TOKEN_TTL_MINUTES", "30")
     )
 
 

@@ -29,6 +29,25 @@ class VerificationSessionRepository:
         )
         return list(self.db.scalars(stmt).all())
 
+    def get_latest_active_session(
+        self,
+        *,
+        email: str,
+        flow: VerificationFlow,
+    ) -> VerificationSession | None:
+        stmt = (
+            select(VerificationSession)
+            .where(
+                VerificationSession.email == email,
+                VerificationSession.flow == flow,
+                VerificationSession.verified_at.is_(None),
+                VerificationSession.consumed_at.is_(None),
+            )
+            .order_by(VerificationSession.id.desc())
+            .limit(1)
+        )
+        return self.db.scalar(stmt)
+
     def mark_sessions_as_consumed(
         self,
         sessions: list[VerificationSession],
@@ -37,6 +56,30 @@ class VerificationSessionRepository:
         for session in sessions:
             session.consumed_at = now
             session.updated_at = now
+
+    def increment_attempts(self, session: VerificationSession) -> None:
+        session.attempts_count += 1
+        session.updated_at = datetime.now(timezone.utc)
+
+    def mark_session_as_verified(self, session: VerificationSession) -> None:
+        now = datetime.now(timezone.utc)
+        session.verified_at = now
+        session.consumed_at = now
+        session.updated_at = now
+
+    def attach_reset_token(
+        self,
+        session: VerificationSession,
+        *,
+        reset_token_hash: str,
+        reset_token_expires_at: datetime,
+    ) -> None:
+        now = datetime.now(timezone.utc)
+        session.verified_at = now
+        session.consumed_at = now
+        session.reset_token_hash = reset_token_hash
+        session.reset_token_expires_at = reset_token_expires_at
+        session.updated_at = now
 
     def create_session(
         self,

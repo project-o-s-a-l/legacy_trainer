@@ -15,6 +15,8 @@ from backend.app.schemas.user import UserShortResponse
 from backend.app.schemas.verification import (
     RequestVerificationCodeRequest,
     RequestVerificationCodeResponse,
+    VerifyVerificationCodeRequest,
+    VerifyVerificationCodeResponse,
 )
 from backend.app.services.auth import AuthService
 from backend.app.services.token import create_access_token
@@ -47,6 +49,17 @@ def request_verification_code(
     return VerificationService(db).request_code(data)
 
 
+@router.post(
+    "/verify-verification-code",
+    response_model=VerifyVerificationCodeResponse,
+)
+def verify_verification_code(
+    data: VerifyVerificationCodeRequest,
+    db: Session = Depends(get_db),
+) -> VerifyVerificationCodeResponse:
+    return VerificationService(db).verify_code(data)
+
+
 @router.post("/login", response_model=LoginResponse)
 def login(
     data: LoginRequest,
@@ -61,7 +74,7 @@ def login(
         value=token,
         httponly=True,
         samesite="lax",
-        secure=True,
+        secure=settings.cookie_secure,
         max_age=settings.access_token_expire_minutes * 60,
         path="/",
     )
