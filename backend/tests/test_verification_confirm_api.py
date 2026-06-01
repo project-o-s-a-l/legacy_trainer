@@ -100,6 +100,8 @@ def test_verify_registration_code_marks_email_as_verified(
     assert response.status_code == 200
     assert response.json()["message"] == "Email verified successfully"
 
+    db_session.expire_all()
+
     refreshed_user = db_session.scalar(select(User).where(User.id == user.id))
     refreshed_session = get_session(db_session, session.id)
 
@@ -142,6 +144,8 @@ def test_verify_registration_code_returns_400_for_invalid_code(
     assert response.status_code == 400
     assert response.json()["detail"] == "Verification code is invalid or expired"
 
+    db_session.expire_all()
+
     refreshed_session = get_session(db_session, session.id)
     assert refreshed_session is not None
     assert refreshed_session.attempts_count == 1
@@ -182,6 +186,8 @@ def test_verify_registration_code_returns_400_for_expired_code(
     assert response.status_code == 400
     assert response.json()["detail"] == "Verification code is invalid or expired"
 
+    db_session.expire_all()
+
     refreshed_session = get_session(db_session, session.id)
     assert refreshed_session is not None
     assert refreshed_session.consumed_at is not None
@@ -221,6 +227,8 @@ def test_verify_recovery_code_returns_reset_token(
 
     assert body["message"] == "Verification code confirmed"
     assert body["resetToken"]
+
+    db_session.expire_all()
 
     refreshed_session = get_session(db_session, session.id)
     assert refreshed_session is not None
