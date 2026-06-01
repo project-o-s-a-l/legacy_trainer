@@ -78,6 +78,12 @@ class AuthService:
                 detail="Invalid credentials",
             )
 
+        if user.email_verified_at is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Email is not verified",
+            )
+
         user.last_login_at = datetime.now(timezone.utc)
         self.db.commit()
         self.db.refresh(user)
