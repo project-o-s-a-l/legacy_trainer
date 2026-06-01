@@ -46,7 +46,7 @@ def prepare_database() -> Generator[None, None, None]:
 
 @pytest.fixture
 def client() -> Generator[TestClient, None, None]:
-    with TestClient(app) as test_client:
+    with TestClient(app, base_url="https://testserver") as test_client:
         yield test_client
 
 
