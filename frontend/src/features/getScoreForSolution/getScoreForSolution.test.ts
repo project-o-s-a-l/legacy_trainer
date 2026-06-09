@@ -6,13 +6,15 @@ vi.mock("@/shared/api/config", () => ({
 
 import { getScore, type SolutionResultsProps } from "./getScoreForSolution.ts";
 
-const API_URL = "http://localhost:8080/api/v1/submissions/score";
+const SUBMISSION_ID = 73;
 
-function mockResponse(body: unknown, ok = true): Response {
-	return {
-		ok,
-		json: vi.fn().mockResolvedValue(body),
-	} as unknown as Response;
+function jsonResponse(body: unknown, status = 200): Response {
+	return new Response(JSON.stringify(body), {
+		status,
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
 }
 
 describe("getScore", () => {
@@ -25,49 +27,119 @@ describe("getScore", () => {
 		vi.clearAllMocks();
 	});
 
-	it("response GET for get score", async () => {
-		const responseData: SolutionResultsProps = {
-			Architecture: 90,
-			CodeLogic: 85,
-			Standards: 80,
+	it("response GET for submission and checks", async () => {
+		const submission = {
+			id: SUBMISSION_ID,
+			taskId: 11,
+			userId: 7,
+			language: "python",
+			status: "passed",
+			score: 90,
+			submittedAt: "2026-06-09T12:00:00.000Z",
+			checkedAt: "2026-06-09T12:00:05.000Z",
+			memoryUsedKb: 128,
+			executionTimeMs: 42,
 		};
+		const checks = [
+			{
+				id: 1,
+				checkType: "tests",
+				status: "passed",
+				score: 90,
+				report: {
+					total: 10,
+					passed: 9,
+					failed: 1,
+				},
+				createdAt: "2026-06-09T12:00:05.000Z",
+			},
+		];
 
 		const fetchMock = vi.mocked(fetch);
-		fetchMock.mockResolvedValueOnce(mockResponse(responseData));
+		fetchMock
+			.mockResolvedValueOnce(jsonResponse(submission))
+			.mockResolvedValueOnce(jsonResponse(checks));
 
-		await getScore();
+		await getScore(SUBMISSION_ID);
 
-		expect(fetchMock).toHaveBeenCalledTimes(1);
-
-		expect(fetchMock).toHaveBeenCalledWith(API_URL, {
-			method: "GET",
-			credentials: "include",
-		});
+		expect(fetchMock).toHaveBeenCalledTimes(2);
+		expect(fetchMock).toHaveBeenNthCalledWith(
+			1,
+			`http://localhost:8080/api/v1/submissions/${SUBMISSION_ID}`,
+			{
+				method: "GET",
+				credentials: "include",
+			},
+		);
+		expect(fetchMock).toHaveBeenNthCalledWith(
+			2,
+			`http://localhost:8080/api/v1/submissions/${SUBMISSION_ID}/checks`,
+			{
+				method: "GET",
+				credentials: "include",
+			},
+		);
 	});
 
 	it("return score, if server response is ok", async () => {
+		const submission = {
+			id: SUBMISSION_ID,
+			taskId: 11,
+			userId: 7,
+			language: "typescript",
+			status: "passed",
+			score: 88,
+			submittedAt: "2026-06-09T12:00:00.000Z",
+			checkedAt: "2026-06-09T12:00:05.000Z",
+			memoryUsedKb: 256,
+			executionTimeMs: 55,
+		};
+		const checks = [
+			{
+				id: 1,
+				checkType: "tests",
+				status: "passed",
+				score: 88,
+				report: {
+					total: 12,
+					passed: 11,
+					failed: 1,
+					details: [{ name: "test_valid_input", status: "passed" }],
+				},
+				createdAt: "2026-06-09T12:00:05.000Z",
+			},
+		];
 		const responseData: SolutionResultsProps = {
-			Architecture: 75,
-			CodeLogic: 95,
-			Standards: 88,
+			submission,
+			checks,
+			totalTests: 12,
+			testsPassed: 11,
+			failedTests: 1,
+			overallScore: 88,
 		};
 
-		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(responseData));
+		vi.mocked(fetch)
+			.mockResolvedValueOnce(jsonResponse(submission))
+			.mockResolvedValueOnce(jsonResponse(checks));
 
-		const result = await getScore();
+		const result = await getScore(SUBMISSION_ID);
 
 		expect(result).toEqual(responseData);
 	});
 
-	it("Throws error, if response not ok", async () => {
-		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(null, false));
+	it("Throws error, if submission response is not ok", async () => {
+		vi.mocked(fetch)
+			.mockResolvedValueOnce(new Response("", { status: 500 }))
+			.mockResolvedValueOnce(jsonResponse([]));
 
-		await expect(getScore()).rejects.toThrow("Failed to fetch score");
+		await expect(getScore(SUBMISSION_ID)).rejects.toThrow(
+			"Failed to fetch submission result",
+		);
 	});
 
 	it("Throws error, if fetch down stream", async () => {
-		vi.mocked(fetch).mockRejectedValueOnce(new Error("Network error"));
+		vi.mocked(fetch).mockRejectedValue(new Error("Network error"));
 
-		await expect(getScore()).rejects.toThrow("Network error");
+		await expect(getScore(SUBMISSION_ID)).rejects.toThrow("Network error");
 	});
 });

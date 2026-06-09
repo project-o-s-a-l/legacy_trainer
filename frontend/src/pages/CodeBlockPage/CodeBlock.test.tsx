@@ -41,6 +41,11 @@ vi.mock("react-resizable-panels", () => ({
 describe("CodeBlock", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
+		Object.defineProperty(window, "innerWidth", {
+			configurable: true,
+			writable: true,
+			value: 1400,
+		});
 	});
 
 	it("renders task title and Solution header", () => {

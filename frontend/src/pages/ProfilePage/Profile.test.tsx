@@ -1,5 +1,5 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import { MemoryRouter, replace } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import Profile from "./Profile";
 import { fetchProfileInfo } from "@/features/getProfileInfo/getProfileInfo";
@@ -44,6 +44,17 @@ const profileMock = {
 	},
 };
 
+function formatDate(value: string | null) {
+	if (!value) {
+		return "n/a";
+	}
+
+	return new Intl.DateTimeFormat("en-GB", {
+		dateStyle: "medium",
+		timeStyle: "short",
+	}).format(new Date(value));
+}
+
 function renderProfile() {
 	return render(
 		<MemoryRouter>
@@ -78,16 +89,21 @@ describe("Profile", () => {
 
 		renderProfile();
 
+		const formattedMemberSince = formatDate(profileMock.memberSince);
+		const formattedLastSeen = formatDate(profileMock.lastSeen);
+
 		expect(
 			await screen.findByText(profileMock.username),
 		).toBeInTheDocument();
-		expect(screen.getByText(profileMock.email)).toBeInTheDocument();
-		expect(screen.getByText(profileMock.memberSince)).toBeInTheDocument();
-		expect(screen.getByText(profileMock.lastSeen)).toBeInTheDocument();
+		expect(screen.getAllByText(profileMock.email)).toHaveLength(2);
+		expect(screen.getByText(`Member since ${formattedMemberSince}`)).toBeInTheDocument();
+		expect(screen.getByText(`Last seen ${formattedLastSeen}`)).toBeInTheDocument();
+		expect(screen.getAllByText(formattedMemberSince)).toHaveLength(1);
+		expect(screen.getAllByText(formattedLastSeen)).toHaveLength(1);
 		expect(screen.getByText("online")).toBeInTheDocument();
-		expect(
-			screen.getByText("Points: " + profileMock.points.toString()),
-		).toBeInTheDocument();
+		expect(screen.getByText("Online now")).toBeInTheDocument();
+		expect(screen.getByText("Points")).toBeInTheDocument();
+		expect(screen.getByText(profileMock.points.toString())).toBeInTheDocument();
 
 		const img = screen.getByAltText("Profile Image") as HTMLImageElement;
 		expect(img.src).toContain(profileMock.avatarUrl);
@@ -121,7 +137,6 @@ describe("Profile", () => {
 		await screen.findByText("whitefox");
 
 		const input = screen.getByTestId("avatar-input") as HTMLInputElement;
-
 		const file = new File(["avatar"], "avatar.png", { type: "image/png" });
 
 		fireEvent.change(input, {

@@ -6,6 +6,15 @@ vi.mock("@/shared/api/config", () => ({
 
 import { register_request } from "./registr-request";
 
+function jsonResponse(body: unknown, status = 200): Response {
+	return new Response(JSON.stringify(body), {
+		status,
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+}
+
 describe("register_request", () => {
 	beforeEach(() => {
 		vi.stubGlobal("fetch", vi.fn());
@@ -19,15 +28,14 @@ describe("register_request", () => {
 	it("must return data on a successful response", async () => {
 		const fakeResponse = {
 			message: "User registered successfully",
-			token: "test-token",
+			user: {
+				id: 1,
+				username: "admin",
+				email: "admin@test.com",
+			},
 		};
 
-		vi.mocked(fetch).mockResolvedValueOnce({
-			ok: true,
-			status: 200,
-			statusText: "OK",
-			text: vi.fn().mockResolvedValue(JSON.stringify(fakeResponse)),
-		} as unknown as Response);
+		vi.mocked(fetch).mockResolvedValueOnce(jsonResponse(fakeResponse));
 
 		const result = await register_request(
 			"admin",
@@ -55,17 +63,12 @@ describe("register_request", () => {
 	});
 
 	it("must throw an error on a failed response", async () => {
-		vi.mocked(fetch).mockResolvedValueOnce({
-			ok: false,
-			status: 400,
-			statusText: "Bad Request",
-			text: vi.fn().mockResolvedValue("User already exists"),
-		} as unknown as Response);
+		vi.mocked(fetch).mockResolvedValueOnce(
+			jsonResponse({ detail: "User already exists" }, 400),
+		);
 
 		await expect(
 			register_request("admin", "admin@test.com", "wrong"),
-		).rejects.toThrow(
-			"Registration failed: 400 Bad Request User already exists",
-		);
+		).rejects.toThrow("User already exists");
 	});
 });

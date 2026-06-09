@@ -6,20 +6,16 @@ vi.mock("@/shared/api/config", () => ({
 
 import { checkSolution, type CheckSolutionProps } from "./CheckSolution";
 
-const API_URL = "http://localhost:8080/api/v1/submission/check";
+const TASK_ID = 42;
+const API_URL = `http://localhost:8080/api/v1/tasks/${TASK_ID}/submit`;
 
-function mockResponse(body: unknown, ok = true): Response {
-	return {
-		ok,
-		json: vi.fn().mockResolvedValue(body),
-	} as unknown as Response;
-}
-
-function mockInvalidJsonResponse(ok = true): Response {
-	return {
-		ok,
-		json: vi.fn().mockRejectedValue(new SyntaxError("Invalid JSON")),
-	} as unknown as Response;
+function jsonResponse(body: unknown, status = 200): Response {
+	return new Response(JSON.stringify(body), {
+		status,
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
 }
 
 describe("checkSolution", () => {
@@ -32,20 +28,22 @@ describe("checkSolution", () => {
 		vi.clearAllMocks();
 	});
 
-	it("response POST with code, language and taskLevel", async () => {
+	it("response POST with code and language", async () => {
 		const responseData: CheckSolutionProps = {
-			ok: true,
+			submissionId: 73,
+			taskId: TASK_ID,
+			status: "passed",
+			score: 100,
 			message: "All tests passed",
 			testPassed: 5,
 		};
 
 		const fetchMock = vi.mocked(fetch);
-		fetchMock.mockResolvedValueOnce(mockResponse(responseData));
+		fetchMock.mockResolvedValueOnce(jsonResponse(responseData));
 
-		await checkSolution("print('hello')", "python", "easy");
+		await checkSolution(TASK_ID, "print('hello')", "python");
 
 		expect(fetchMock).toHaveBeenCalledTimes(1);
-
 		expect(fetchMock).toHaveBeenCalledWith(API_URL, {
 			method: "POST",
 			headers: {
@@ -56,52 +54,50 @@ describe("checkSolution", () => {
 			body: JSON.stringify({
 				code: "print('hello')",
 				language: "python",
-				taskLevel: "easy",
 			}),
 		});
 	});
 
 	it("return data, if server response is ok", async () => {
 		const responseData: CheckSolutionProps = {
-			ok: true,
+			submissionId: 15,
+			taskId: TASK_ID,
+			status: "queued",
+			score: 60,
 			message: "Success",
 			testPassed: 3,
 		};
 
-		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(responseData));
+		vi.mocked(fetch).mockResolvedValueOnce(jsonResponse(responseData));
 
-		const result = await checkSolution("def test(): pass", "python", "medium");
+		const result = await checkSolution(TASK_ID, "def test(): pass", "python");
 
 		expect(result).toEqual(responseData);
 	});
 
-	it("throw error with message server, if response not ok", async () => {
-		const responseData: CheckSolutionProps = {
-			ok: false,
-			message: "Compilation error",
-			testPassed: 0,
-		};
-
-		vi.mocked(fetch).mockResolvedValueOnce(mockResponse(responseData, false));
+	it("throw error with server message, if response not ok", async () => {
+		vi.mocked(fetch).mockResolvedValueOnce(
+			jsonResponse({ message: "Compilation error" }, 400),
+		);
 
 		await expect(
-			checkSolution("test_fun(): return 5", "python", "easy"),
+			checkSolution(TASK_ID, "test_fun(): return 5", "python"),
 		).rejects.toThrow("Compilation error");
 	});
 
-	it("Throws default error if response not ok and JSON not parsing", async () => {
-		vi.mocked(fetch).mockResolvedValueOnce(mockInvalidJsonResponse(false));
+	it("Throws default error if response not ok and body is empty", async () => {
+		vi.mocked(fetch).mockResolvedValueOnce(new Response("", { status: 500 }));
 
 		await expect(
-			checkSolution("broken code", "python", "easy"),
+			checkSolution(TASK_ID, "broken code", "python"),
 		).rejects.toThrow("Server error while checking solution");
 	});
 
 	it("Throws error if response is ok, but server does not return JSON", async () => {
-		vi.mocked(fetch).mockResolvedValueOnce(mockInvalidJsonResponse(true));
+		vi.mocked(fetch).mockResolvedValueOnce(new Response("", { status: 200 }));
 
 		await expect(
-			checkSolution("print('hello')", "python", "easy"),
-		).rejects.toThrow("Server can`t return solution score");
+			checkSolution(TASK_ID, "print('hello')", "python"),
+		).rejects.toThrow("Server cannot return submission result");
 	});
 });
