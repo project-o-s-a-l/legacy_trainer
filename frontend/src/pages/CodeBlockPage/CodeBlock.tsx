@@ -50,6 +50,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 
 	const groupOrientation = isCompactLayout ? "vertical" : "horizontal";
 	const editorHeight = isCompactLayout ? "640px" : height;
+	const descriptionDefaultSize = isCompactLayout ? 38 : 50;
+	const solutionDefaultSize = isCompactLayout ? 62 : 50;
+	const descriptionMinSize = isCompactLayout ? 25 : 35;
+	const solutionMinSize = isCompactLayout ? 30 : 35;
 
 	return (
 		<div>
@@ -59,7 +63,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 				}`}
 			>
 				<Group orientation={groupOrientation} className="resizable-group">
-					<Panel defaultSize={isCompactLayout ? 38 : 35} minSize={25}>
+					<Panel
+						defaultSize={descriptionDefaultSize}
+						minSize={descriptionMinSize}
+					>
 						<div className="editor-panel">
 							<div className="panel-header">
 								<span className="panel-title">
@@ -82,7 +89,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 							isCompactLayout ? "separator-vertical" : "separator-horizontal"
 						}`}
 					/>
-					<Panel minSize={30}>
+					<Panel
+						defaultSize={solutionDefaultSize}
+						minSize={solutionMinSize}
+					>
 						<div className="editor-panel">
 							<div
 								className={`code-editor-container ${

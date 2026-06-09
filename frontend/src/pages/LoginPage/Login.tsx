@@ -1,4 +1,4 @@
-import "./Login.css";
+import "../AuthProfileTheme.css";
 import st from "../../shared/assets/images/svg/nextBtn.svg";
 import { login_request } from "@/features";
 import { useState, type FormEvent } from "react";
@@ -40,60 +40,69 @@ function Login() {
 	};
 
 	return (
-		<main className="main-login flex-center">
-			<form className="card card-auth login-card" onSubmit={handleSubmit}>
-				<h1 className="headers-login">Login</h1>
+		<main className="auth-profile-page">
+			<section className="auth-profile-shell auth-profile-shell--single">
+				<section className="auth-profile-card auth-profile-form-panel auth-profile-form-panel--single">
+					<div className="auth-profile-form-header">
+						<p className="auth-profile-panel-kicker">Credentials</p>
+						<h2 className="auth-profile-panel-title">Login</h2>
+					</div>
 
-				<div className="form-group-login">
-					<label className="label-email-login" htmlFor="identity">
-						Email or username
-					</label>
+					<form className="auth-profile-form" onSubmit={handleSubmit}>
+						<label className="auth-profile-field" htmlFor="identity">
+							<span className="auth-profile-label">Email or username</span>
+							<input
+								id="identity"
+								className="input auth-profile-input"
+								type="text"
+								placeholder="Enter your email or username"
+								value={identity}
+								onChange={(e) => setIdentity(e.target.value)}
+								autoComplete="username"
+								required
+							/>
+						</label>
 
-					<input
-						id="identity"
-						className="input"
-						type="text"
-						placeholder="Enter your email or username"
-						value={identity}
-						onChange={(e) => setIdentity(e.target.value)}
-						autoComplete="username"
-						required
-					/>
-				</div>
+						<label className="auth-profile-field" htmlFor="password">
+							<span className="auth-profile-label">Password</span>
+							<input
+								id="password"
+								className="input auth-profile-input"
+								type="password"
+								placeholder="Enter your password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								autoComplete="current-password"
+								required
+							/>
+						</label>
 
-				<div className="form-group-login flex-col">
-					<label className="label-password-login" htmlFor="password">
-						Password
-					</label>
+						{error && (
+							<p className="auth-profile-message auth-profile-message--error">
+								{error}
+							</p>
+						)}
+						{notice && (
+							<p className="auth-profile-message auth-profile-message--success">
+								{notice}
+							</p>
+						)}
 
-					<input
-						id="password"
-						className="input"
-						type="password"
-						placeholder="Enter your password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						autoComplete="current-password"
-						required
-					/>
-				</div>
-
-				{error && <p className="login-error">{error}</p>}
-				{notice && <p className="login-notice">{notice}</p>}
-
-				<div className="login-footer">
-					<Link className="forgot-password-login" to="/forgot-password">
-						Forgot password?
-					</Link>
-					<button
-						className="btn-ghost next-btn-login"
-						type="submit"
-						disabled={isSubmitting}
-					>
-						<img src={st} alt="next" />
-					</button>
-				</div>
-			</form>
+						<div className="auth-profile-actions">
+							<Link className="auth-profile-link" to="/forgot-password">
+								Forgot password?
+							</Link>
+							<button
+								className="btn-ghost auth-profile-arrow-button"
+								type="submit"
+								disabled={isSubmitting}
+							>
+								<img src={st} alt="next" />
+							</button>
+						</div>
+					</form>
+				</section>
+			</section>
 		</main>
 	);
 }
