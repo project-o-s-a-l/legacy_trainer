@@ -1,38 +1,40 @@
 .registration-page {
-  padding: 20px;
+  min-height: calc(100vh - 120px);
+  padding: 32px 20px 48px;
+  box-sizing: border-box;
 }
 
 .registration-card {
-  width: 800px;
-  min-height: 1000px;
-  padding: 50px;
+  width: min(100%, 800px);
+  min-height: 0;
+  padding: clamp(28px, 4vw, 50px);
   box-sizing: border-box;
 }
 
 .registration-title {
   text-align: center;
-  font-size: 62px;
+  font-size: clamp(46px, 5vw, 62px);
   font-weight: 350;
-  margin-top: -10px;
+  margin-top: 0;
   margin-bottom: 30px;
   color: var(--color-text-main);
 }
 
 .registration-form {
-  gap: 25px;
+  gap: clamp(18px, 2vw, 25px);
 }
 
 .form-label {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  font-size: 48px;
+  gap: clamp(16px, 2vw, 25px);
+  font-size: clamp(30px, 4vw, 48px);
   font-weight: 350;
   color: var(--color-text-main);
 }
 
 .form-input {
-  max-width: 450px;
+  max-width: min(100%, 520px);
 }
 
 .registration-error {
@@ -42,10 +44,16 @@
 }
 
 .btn-submit-registration {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  font-size: 44px;
+  position: static;
+  align-self: flex-end;
+  margin-top: 12px;
+  font-size: clamp(30px, 4vw, 44px);
   font-weight: 10;
   color: var(--color-text-main);
+}
+
+@media (max-width: 960px) {
+  .registration-page {
+    padding-inline: 16px;
+  }
 }

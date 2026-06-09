@@ -81,17 +81,18 @@ function Login() {
 				{error && <p className="login-error">{error}</p>}
 				{notice && <p className="login-notice">{notice}</p>}
 
-				<button
-					className="btn-ghost next-btn-login"
-					type="submit"
-					disabled={isSubmitting}
-				>
-					<img src={st} alt="next" />
-				</button>
-
-				<Link className="forgot-password-login" to="/forgot-password">
-					Forgot password?
-				</Link>
+				<div className="login-footer">
+					<Link className="forgot-password-login" to="/forgot-password">
+						Forgot password?
+					</Link>
+					<button
+						className="btn-ghost next-btn-login"
+						type="submit"
+						disabled={isSubmitting}
+					>
+						<img src={st} alt="next" />
+					</button>
+				</div>
 			</form>
 		</main>
 	);

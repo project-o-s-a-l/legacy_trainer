@@ -13,7 +13,7 @@
 
 .solution-result-layout {
 	display: grid;
-	grid-template-columns: minmax(560px, 0.95fr) minmax(520px, 1.05fr);
+	grid-template-columns: minmax(460px, 0.95fr) minmax(420px, 1.05fr);
 	gap: 28px;
 
 	max-width: 1530px;
@@ -28,9 +28,9 @@
 
 .solution-result-summary {
 	display: grid;
-	grid-template-columns: 118px 280px 220px;
+	grid-template-columns: 118px minmax(240px, 1fr) minmax(160px, 220px);
 	align-items: center;
-	column-gap: 40px;
+	column-gap: clamp(20px, 3vw, 40px);
 
 	width: 100%;
 	margin: 0;
@@ -75,7 +75,7 @@
 	display: flex;
 	justify-content: space-between;
 	gap: 32px;
-	max-width: 210px;
+	max-width: none;
 }
 
 .score-list strong {
@@ -232,9 +232,20 @@
 	color: var(--color-link-hover);
 }
 
+@media (max-width: 1320px) {
+	.solution-result-page {
+		padding-inline: 24px;
+	}
+
+	.solution-result-layout {
+		gap: 20px;
+	}
+}
+
 @media (max-width: 1100px) {
 	.solution-result-layout {
 		grid-template-columns: 1fr;
+		max-width: 980px;
 	}
 
 	.solution-left {
@@ -257,11 +268,11 @@
 	}
 
 	.code-preview-panel pre {
-		padding-top: 80px;
+		padding-top: 32px;
 	}
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
 	.solution-result-page {
 		padding: 28px 20px 48px;
 	}
@@ -272,5 +283,14 @@
 
 	.result-message h1 {
 		font-size: 38px;
+	}
+
+	.code-preview-header {
+		flex-wrap: wrap;
+		padding: 22px 24px 0;
+	}
+
+	.code-preview-panel pre {
+		padding: 24px;
 	}
 }

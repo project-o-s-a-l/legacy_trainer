@@ -1,10 +1,19 @@
 import { Button } from "@/shared/index.ts";
+import { useNavigate } from "react-router-dom";
 import { pc } from "@/shared/index";
 import { zeroGlith } from "@/shared/index";
 import { firstGlith } from "@/shared/index";
 import "./Home.css";
+import { useAuth } from "@/features/AutchContext/AuthContext";
 
 export default function Home() {
+	const { isAuthenticated, loading } = useAuth();
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
+	const nav = useNavigate();
 	return (
 		<div>
 			<div className="about-site">
@@ -25,7 +34,7 @@ export default function Home() {
 					<img className="img-pc-main" src={pc} alt="" />
 				</div>
 			</div>
-			<div className="flex-between-center padding-bottom-main">
+			<div className="home-cta-section flex-between-center padding-bottom-main">
 				<img className="first-bug-main" src={zeroGlith} alt="" />
 				<div className="text-main main-page-login-text-container text-center flex-col-center box-light">
 					<div className="">
@@ -41,10 +50,30 @@ export default function Home() {
 						</span>
 					</div>
 					<div className="btn-main-page-login-container">
-						<Button>Registration</Button>
-						<Button className="btn-main-page-sign-in">
-							Sign In
-						</Button>
+						{isAuthenticated ? (
+							<Button onClick={() => nav("/profile")}>
+								Profile
+							</Button>
+						) : (
+							<Button onClick={() => nav("/Registration")}>
+								Registration
+							</Button>
+						)}
+						{isAuthenticated ? (
+							<Button
+								onClick={() => nav("/ChooseTask")}
+								className="btn-main-page-sign-in"
+							>
+								Generate Task
+							</Button>
+						) : (
+							<Button
+								onClick={() => nav("/login")}
+								className="btn-main-page-sign-in"
+							>
+								Sign In
+							</Button>
+						)}
 					</div>
 				</div>
 				<img className="second-bug-main" src={firstGlith} alt="" />

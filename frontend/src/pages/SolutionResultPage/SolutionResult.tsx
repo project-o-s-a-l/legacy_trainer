@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
 import "./SolutionResult.css";
-import svgMatrix from "@/shared/assets/images/svg/matrix-static-dense-gray-transparent.svg";
 import { Link, useLocation } from "react-router-dom";
 import type { SolutionResultsProps } from "@/features/getScoreForSolution/getScoreForSolution";
 
@@ -123,7 +122,7 @@ export default function SolutionResult() {
 				</div>
 
 				<div className="code-preview-panel">
-					<img src={svgMatrix} alt="" className="result-matrix-bg" />
+					{/* <img src={svgMatrix} alt="" className="result-matrix-bg" /> */}
 					<div className="code-preview-header">
 						<span>Submitted code</span>
 						<span>#{result.submission.id}</span>

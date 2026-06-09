@@ -1,38 +1,37 @@
 .login-card {
-	/* width: 800px; */
-	height: 750px;
-	/* border-radius: 20px; */
-	/* padding: 50px; */
-	/* background: linear-gradient( */
-		/* to top, */
-		/* rgba(115, 115, 115, 0.46), */
-		/* rgba(198, 227, 255, 0.46) */
-	/* ); */
-	/* display: flex; */
-	/* flex-direction: column; */
-	gap: 15px;
-	/* position: relative; */
+	width: min(100%, 800px);
+	min-height: clamp(620px, 74vh, 750px);
+	height: auto;
+	gap: clamp(15px, 2vw, 24px);
 }
+
 .main-login {
-	/* display: flex;
-	justify-content: center;
-	align-items: center;
-	 */
-	height: 100vh;
+	min-height: calc(100vh - 120px);
+	height: auto;
+	padding: 24px 20px 48px;
+	box-sizing: border-box;
 }
 
 .forgot-password-login {
 	color: var(--color-text-main);
 	text-decoration: none;
-	font-size: 36px;
+	font-size: clamp(28px, 2.6vw, 36px);
 	font-weight: 350;
-	margin-top: 10px;
+	margin-top: 0;
 }
 
 .form-group-login {
-	/* display: flex;
-	flex-direction: column; */
-	gap: 25px;
+	display: flex;
+	flex-direction: column;
+	gap: clamp(16px, 2vw, 25px);
+}
+
+.login-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	margin-top: auto;
 }
 
 .login-notice,
@@ -51,24 +50,45 @@
 }
 
 .headers-login {
-	margin-top: -10px;
-	font-size: 62px;
+	margin-top: 0;
+	font-size: clamp(46px, 5vw, 62px);
 	font-weight: 350;
 	color: var(--color-text-main);
 }
 
 .label-password-login, 
 .label-email-login {
-	font-size: 48px;
+	font-size: clamp(30px, 4vw, 48px);
 	font-weight: 350;
 	color: var(--color-text-main)
 }
 
 
 .next-btn-login {
-	font-size: 34px;
+	font-size: clamp(26px, 3vw, 34px);
 	font-weight: 10;
-	position: absolute;
-	bottom: 20px;
-	right: 20px;
+	position: static;
+	margin-top: 0;
+	align-self: auto;
+}
+
+@media (max-width: 960px) {
+	.main-login {
+		padding-inline: 16px;
+	}
+
+	.login-card {
+		min-height: 0;
+	}
+}
+
+@media (max-width: 720px) {
+	.login-footer {
+		flex-wrap: wrap;
+		justify-content: flex-start;
+	}
+
+	.forgot-password-login {
+		font-size: 24px;
+	}
 }
