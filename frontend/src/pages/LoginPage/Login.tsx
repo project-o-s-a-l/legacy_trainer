@@ -3,7 +3,7 @@ import st from "../../shared/assets/images/svg/nextBtn.svg";
 import { login_request } from "@/features";
 import { useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "@/features/AutchContext/AuthContext";
+import { useAuth } from "@/features/AutchContext/useAuth";
 
 type LoginLocationState = {
 	notice?: string;

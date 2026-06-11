@@ -28,14 +28,18 @@ export async function getErrorMessage(
 				return validationMessage;
 			}
 		}
-	} catch {}
+	} catch {
+		// Ignore JSON parsing errors and fall back to text or a default message.
+	}
 
 	try {
 		const text = await response.clone().text();
 		if (text.trim()) {
 			return text;
 		}
-	} catch {}
+	} catch {
+		// Ignore text parsing errors and return the fallback below.
+	}
 
 	return fallbackMessage;
 }

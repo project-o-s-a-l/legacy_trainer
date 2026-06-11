@@ -40,7 +40,11 @@ const createLinks = (): AppPage[] => [
 const renderNavbar = (links: AppPage[]) => {
 	return render(
 		<MemoryRouter>
-			<Navbar links={links} />
+			<Navbar
+				links={links}
+				isAuthenticated={false}
+				onLogout={vi.fn()}
+			/>
 		</MemoryRouter>,
 	);
 };
@@ -52,6 +56,7 @@ describe("Navbar", () => {
 		expect(screen.getByText("LegacyTrainer")).toBeInTheDocument();
 		expect(screen.getByAltText("logo Project O.S.A.L")).toBeInTheDocument();
 	});
+
 	it("renders only links with showInNavbar=true", () => {
 		renderNavbar(createLinks());
 
@@ -68,11 +73,9 @@ describe("Navbar", () => {
 			"href",
 			"/",
 		);
-
 		expect(
 			screen.getByRole("link", { name: "About the company" }),
 		).toHaveAttribute("href", "/about");
-
 		expect(screen.getByRole("link", { name: "Contact" })).toHaveAttribute(
 			"href",
 			"/contact",
@@ -80,20 +83,19 @@ describe("Navbar", () => {
 	});
 
 	it("renders no navigation links when links array is empty", () => {
-		renderNavbar([]);
+		const { container } = renderNavbar([]);
 
-		expect(screen.queryByRole("link")).not.toBeInTheDocument();
+		expect(container.querySelectorAll(".nav-links a")).toHaveLength(0);
 		expect(screen.getByAltText("logo Project O.S.A.L")).toBeInTheDocument();
-
 		expect(screen.getByText("LegacyTrainer")).toBeInTheDocument();
 	});
 
 	it("renders the exact number of visible links", () => {
 		const links = createLinks();
-		renderNavbar(links);
+		const { container } = renderNavbar(links);
 
 		const visibleLinks = links.filter((link) => link.showInNavbar).length;
-		const renderedLinks = screen.getAllByRole("link");
+		const renderedLinks = container.querySelectorAll(".nav-links a");
 
 		expect(renderedLinks).toHaveLength(visibleLinks);
 	});

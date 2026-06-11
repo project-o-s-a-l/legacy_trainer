@@ -4,16 +4,16 @@ import { pc } from "@/shared/index";
 import { zeroGlith } from "@/shared/index";
 import { firstGlith } from "@/shared/index";
 import "./Home.css";
-import { useAuth } from "@/features/AutchContext/AuthContext";
+import { useAuth } from "@/features/AutchContext/useAuth";
 
 export default function Home() {
+	const nav = useNavigate();
 	const { isAuthenticated, loading } = useAuth();
 
 	if (loading) {
 		return <div>Loading...</div>;
 	}
 
-	const nav = useNavigate();
 	return (
 		<div>
 			<div className="about-site">

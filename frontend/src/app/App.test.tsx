@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 
-vi.mock("@/features/AutchContext/AuthContext", () => ({
+vi.mock("@/features/AutchContext/useAuth", () => ({
 	useAuth: () => ({
 		user: null,
 		isAuthenticated: false,

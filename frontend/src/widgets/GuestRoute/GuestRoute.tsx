@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "@/features/AutchContext/AuthContext";
+import { useAuth } from "@/features/AutchContext/useAuth";
 import type { ReactNode } from "react";
 
 type Props = {

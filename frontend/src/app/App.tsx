@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import "./App.css";
 import { Navbar } from "@/widgets/index";
 import { Routes, useLocation, useNavigate } from "react-router-dom";
@@ -7,26 +7,27 @@ import { renderRoutes } from "./providers/router/renderRoutes";
 import { Footer } from "@/widgets/index";
 import { NavbarContext } from "@/shared/index.ts";
 import "./styles/variables.css";
-import { useAuth } from "@/features/AutchContext/AuthContext";
+import { useAuth } from "@/features/AutchContext/useAuth";
+import type { AppPage } from "@/shared";
 
-function App() {
-	const location = useLocation();
-	const navigate = useNavigate();
-	const currentRoute = mainPageRoutes.find(
-		(route) => route.path === location.pathname,
-	);
+type AppLayoutProps = {
+	defaultNavbarVisible: boolean;
+	isAuthenticated: boolean;
+	navBarLinks: AppPage[];
+	onLogout: () => void;
+};
 
-	const defaultNavbarVisible = currentRoute?.showNavBar ?? true;
-
+function AppLayout({
+	defaultNavbarVisible,
+	isAuthenticated,
+	navBarLinks,
+	onLogout,
+}: AppLayoutProps) {
 	const [isNavbarVisible, setNavbarVisible] = useState(defaultNavbarVisible);
 
-	useEffect(() => {
-		setNavbarVisible(defaultNavbarVisible);
-	}, [defaultNavbarVisible, location.pathname]);
-
-	const toggleNavbar = () => {
+	const toggleNavbar = useCallback(() => {
 		setNavbarVisible((prev) => !prev);
-	};
+	}, []);
 
 	const navbarConetxtValue = useMemo(
 		() => ({
@@ -34,8 +35,39 @@ function App() {
 			setNavbarVisible,
 			toggleNavbar,
 		}),
-		[isNavbarVisible],
+		[isNavbarVisible, toggleNavbar],
 	);
+
+	return (
+		<NavbarContext.Provider value={navbarConetxtValue}>
+			<div className="App">
+				<div
+					className={`navbar-shell ${isNavbarVisible ? "navbar-visible" : "navbar-hidden"}`}
+				>
+					<Navbar
+						links={navBarLinks}
+						isAuthenticated={isAuthenticated}
+						onLogout={onLogout}
+					/>
+				</div>
+				<div className="app-content">
+					<div className="app-route">
+						<Routes>{renderRoutes(mainPageRoutes)}</Routes>
+					</div>
+				</div>
+				<Footer />
+			</div>
+		</NavbarContext.Provider>
+	);
+}
+
+function App() {
+	const location = useLocation();
+	const navigate = useNavigate();
+	const currentRoute = mainPageRoutes.find(
+		(route) => route.path === location.pathname,
+	);
+	const defaultNavbarVisible = currentRoute?.showNavBar ?? true;
 	const { isAuthenticated, loading, logout } = useAuth();
 
 	if (loading) {
@@ -58,29 +90,15 @@ function App() {
 	};
 
 	return (
-		<NavbarContext.Provider value={navbarConetxtValue}>
-			<div className="App">
-				<div
-					className={`navbar-shell ${isNavbarVisible ? "navbar-visible" : "navbar-hidden"}`}
-				>
-					<Navbar
-						links={navBarLinks.filter(
-							(route) => route.showInNavbar,
-						)}
-						isAuthenticated={isAuthenticated}
-						onLogout={() => {
-							void handleLogout();
-						}}
-					/>
-				</div>
-				<div className="app-content">
-					<div className="app-route">
-						<Routes>{renderRoutes(mainPageRoutes)}</Routes>
-					</div>
-				</div>
-				<Footer />
-			</div>
-		</NavbarContext.Provider>
+		<AppLayout
+			key={location.pathname}
+			defaultNavbarVisible={defaultNavbarVisible}
+			isAuthenticated={isAuthenticated}
+			navBarLinks={navBarLinks}
+			onLogout={() => {
+				void handleLogout();
+			}}
+		/>
 	);
 }
 

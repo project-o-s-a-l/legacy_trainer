@@ -1,3 +1,4 @@
+import type { MouseEventHandler, ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import ChooseTask from "./ChooseTask";
@@ -15,8 +16,14 @@ vi.mock("@/features/getTask/getTask", () => ({
 	getTask: getTaskMock,
 }));
 
+type MockButtonProps = {
+	children: ReactNode;
+	onClick?: MouseEventHandler<HTMLButtonElement>;
+	className?: string;
+};
+
 vi.mock("@/shared", () => ({
-	Button: ({ children, onClick, className }: any) => (
+	Button: ({ children, onClick, className }: MockButtonProps) => (
 		<button onClick={onClick} className={className}>
 			{children}
 		</button>

@@ -1,14 +1,31 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { useAuth } from "@/features/AutchContext/AuthContext";
+import { useAuth } from "@/features/AutchContext/useAuth";
+import type { User } from "@/features/AutchContext/getMe.types";
 import GuestRoute from "../GuestRoute/GuestRoute";
 
-vi.mock("@/features/AutchContext/AuthContext", () => ({
+vi.mock("@/features/AutchContext/useAuth", () => ({
 	useAuth: vi.fn(),
 }));
 
 const mockedUseAuth = vi.mocked(useAuth);
+
+type MockAuthState = ReturnType<typeof useAuth>;
+
+function createAuthState(
+	overrides: Partial<MockAuthState> = {},
+	user: User | null = null,
+): MockAuthState {
+	return {
+		isAuthenticated: false,
+		loading: false,
+		user,
+		refreshAuth: async () => {},
+		logout: async () => {},
+		...overrides,
+	};
+}
 
 describe("GuestRoute", () => {
 	beforeEach(() => {
@@ -16,13 +33,9 @@ describe("GuestRoute", () => {
 	});
 
 	it("Show loading, if auth checking", () => {
-		mockedUseAuth.mockReturnValue({
-			isAuthenticated: false,
+		mockedUseAuth.mockReturnValue(createAuthState({
 			loading: true,
-			user: null,
-			login: vi.fn(),
-			logout: vi.fn(),
-		} as any);
+		}));
 
 		render(
 			<MemoryRouter initialEntries={["/login"]}>
@@ -44,13 +57,7 @@ describe("GuestRoute", () => {
 	});
 
 	it("render children< if user not auth", () => {
-		mockedUseAuth.mockReturnValue({
-			isAuthenticated: false,
-			loading: false,
-			user: null,
-			login: vi.fn(),
-			logout: vi.fn(),
-		} as any);
+		mockedUseAuth.mockReturnValue(createAuthState());
 
 		render(
 			<MemoryRouter initialEntries={["/login"]}>
@@ -71,20 +78,21 @@ describe("GuestRoute", () => {
 	});
 
 	it("redirect on /profile, if user auth", () => {
-		mockedUseAuth.mockReturnValue({
-			isAuthenticated: true,
-			loading: false,
-			user: {
-				email: "test@test.com",
-				username: "testuser",
-				lastSeen: "2023-10-05T12:34:00Z",
-				memberSince: "2023-09-01T00:00:00",
-				isOnline: true,
-				points: 0,
-			},
-			login: vi.fn(),
-			logout: vi.fn(),
-		} as any);
+		mockedUseAuth.mockReturnValue(
+			createAuthState(
+				{
+					isAuthenticated: true,
+				},
+				{
+					email: "test@test.com",
+					username: "testuser",
+					lastSeen: "2023-10-05T12:34:00Z",
+					memberSince: "2023-09-01T00:00:00",
+					isOnline: true,
+					points: 0,
+				},
+			),
+		);
 
 		render(
 			<MemoryRouter initialEntries={["/login"]}>

@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import CodeEditor from "./CodeEditor";
+import type { CodeBlockProps } from "./model/types";
 
 const { toggleNavbarMock, codeBlockMock, mockUseLocation, navigateMock } =
 	vi.hoisted(() => ({
@@ -23,7 +24,7 @@ vi.mock("@/shared/index", () => ({
 }));
 
 vi.mock("./CodeBlock", () => ({
-	CodeBlock: (props: any) => {
+	CodeBlock: (props: CodeBlockProps) => {
 		codeBlockMock(props);
 		return <div data-testid="code-block-mock">Mock CodeBlock</div>;
 	},
