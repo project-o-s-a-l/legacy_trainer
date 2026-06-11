@@ -1,7 +1,24 @@
+import type {
+	ChangeEvent,
+	HTMLAttributes,
+	PropsWithChildren,
+} from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { CodeBlock } from "./CodeBlock";
 import { BLUE_LIGHT_THEME_NAME, blueLightTheme } from "./lib/blueLightTheme";
+
+type EditorMockProps = {
+	language?: string;
+	height?: string | number;
+	theme?: string;
+	value?: string;
+	onChange?: (value: string | undefined) => void;
+};
+
+type MockGroupProps = PropsWithChildren<HTMLAttributes<HTMLDivElement>>;
+type MockPanelProps = PropsWithChildren;
+type MockSeparatorProps = HTMLAttributes<HTMLDivElement>;
 
 const monacoSpies = vi.hoisted(() => ({
 	defineTheme: vi.fn(),
@@ -10,14 +27,16 @@ const monacoSpies = vi.hoisted(() => ({
 
 vi.mock("@monaco-editor/react", () => ({
 	__esModule: true,
-	default: (props: any) => (
+	default: (props: EditorMockProps) => (
 		<textarea
 			data-testid="editor"
 			data-language={props.language}
 			data-height={props.height}
 			data-theme={props.theme}
 			value={props.value}
-			onChange={(e) => props.onChange?.(e.target.value)}
+			onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+				props.onChange?.(e.target.value)
+			}
 		/>
 	),
 	useMonaco: () => ({
@@ -29,13 +48,15 @@ vi.mock("@monaco-editor/react", () => ({
 }));
 
 vi.mock("react-resizable-panels", () => ({
-	Group: ({ children, ...props }: any) => (
+	Group: ({ children, ...props }: MockGroupProps) => (
 		<div data-testid="group" {...props}>
 			{children}
 		</div>
 	),
-	Panel: ({ children }: any) => <div>{children}</div>,
-	Separator: (props: any) => <div data-testid="separator" {...props} />,
+	Panel: ({ children }: MockPanelProps) => <div>{children}</div>,
+	Separator: (props: MockSeparatorProps) => (
+		<div data-testid="separator" {...props} />
+	),
 }));
 
 describe("CodeBlock", () => {

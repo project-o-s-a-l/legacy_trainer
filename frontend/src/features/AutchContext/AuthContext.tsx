@@ -1,25 +1,14 @@
 import {
-	createContext,
 	useCallback,
-	useContext,
 	useEffect,
 	useMemo,
 	useState,
 	type ReactNode,
 } from "react";
 import { getMe } from "./getMe";
-import type { User } from "./getMe.types";
 import { API_V1_BASE_URL } from "@/shared/api/config";
-
-type AuthContextType = {
-	user: User | null;
-	isAuthenticated: boolean;
-	loading: boolean;
-	refreshAuth: () => Promise<void>;
-	logout: () => Promise<void>;
-};
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { AuthContext } from "./AuthContext.shared";
+import type { User } from "./getMe.types";
 
 export function AuthProvider({ children }: {children: ReactNode}) {
 	const [user, setUser] = useState<User | null>(null);
@@ -68,14 +57,4 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth() {
-	const context = useContext(AuthContext);
-
-	if(!context) {
-		throw new Error("useAuth must be used inside AuthProvider");
-	}
-
-	return context;
 }

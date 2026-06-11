@@ -156,7 +156,9 @@ export default function CodeEditor() {
 
 		try {
 			event.currentTarget.releasePointerCapture(event.pointerId);
-		} catch {}
+		} catch {
+			// Ignore release errors when the pointer capture is already cleared.
+		}
 	};
 
 	return (

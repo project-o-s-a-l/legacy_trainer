@@ -1,13 +1,27 @@
 import { fireEvent, screen, waitFor, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { AuthProvider, useAuth } from "./AuthContext";
+import { AuthProvider } from "./AuthContext";
 import { getMe } from "./getMe";
+import type { User } from "./getMe.types";
+import { useAuth } from "./useAuth";
 
 vi.mock("./getMe.ts", () => ({
 	getMe: vi.fn(),
 }));
 
 const mockedGetMe = vi.mocked(getMe);
+
+function createUser(overrides: Partial<User> = {}): User {
+	return {
+		email: "test@example.com",
+		username: "testuser",
+		lastSeen: "2023-10-05T12:00:00Z",
+		memberSince: "2023-05-05T12:00:00Z",
+		isOnline: false,
+		points: 0,
+		...overrides,
+	};
+}
 
 function TestConsumer() {
 	const { user, isAuthenticated, loading, refreshAuth, logout } = useAuth();
@@ -42,15 +56,13 @@ describe("AuthProvider", () => {
 	});
 
 	it("calls getMe on mount and sets authenticated user", async () => {
-		mockedGetMe.mockResolvedValue({
-			id: 1,
+		mockedGetMe.mockResolvedValue(
+			createUser({
 			email: "test@exapmle.com",
-			username: "testuser",
 			lastSeen: "2023-04-01T12:00:00Z",
 			memberSince: "2023-03-01T12:00:00Z",
-			isOnline: false,
-			points: 0,
-		} as any);
+			}),
+		);
 
 		render(
 			<AuthProvider>
@@ -96,14 +108,14 @@ describe("AuthProvider", () => {
 	});
 
 	it("handles getMe, error and finishes loading", async () => {
-		mockedGetMe.mockResolvedValueOnce(null).mockResolvedValueOnce({
+		mockedGetMe.mockResolvedValueOnce(null).mockResolvedValueOnce(
+			createUser({
 			email: "newuser@example.com",
 			username: "newuser",
 			lastSeen: "2023-10-05T12:00Z",
 			memberSince: "2023-05-05T12:00Z",
-			isOnline: false,
-			points: 0,
-		} as any);
+			}),
+		);
 
 		render(
 			<AuthProvider>
@@ -138,14 +150,14 @@ describe("AuthProvider", () => {
 	});
 
 	it("logout send request and clear user", async () => {
-		mockedGetMe.mockResolvedValue({
+		mockedGetMe.mockResolvedValue(
+			createUser({
 			email: "newuser@example.com",
 			username: "new_user",
-			lastSeen: "2023-10-05T12:00Z",
-			memberSince: "2023-05-05T12:00Z",
 			isOnline: true,
 			points: 1000,
-		} as any);
+			}),
+		);
 
 		vi.mocked(globalThis.fetch).mockResolvedValue({
 			ok: true,
@@ -191,14 +203,14 @@ describe("AuthProvider", () => {
 			.spyOn(console, "error")
 			.mockImplementation(() => {});
 
-		mockedGetMe.mockResolvedValue({
+		mockedGetMe.mockResolvedValue(
+			createUser({
 			email: "newuser@example.com",
 			username: "new_user",
-			lastSeen: "2023-10-05T12:00Z",
-			memberSince: "2023-05-05T12:00Z",
 			isOnline: true,
 			points: 1000,
-		} as any);
+			}),
+		);
 
 		vi.mocked(globalThis.fetch).mockRejectedValue(
 			new Error("Logout failed"),

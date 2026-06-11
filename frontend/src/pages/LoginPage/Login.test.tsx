@@ -24,7 +24,7 @@ vi.mock("react-router-dom", async () => {
 	};
 });
 
-vi.mock("@/features/AutchContext/AuthContext", () => ({
+vi.mock("@/features/AutchContext/useAuth", () => ({
 	useAuth: () => ({
 		refreshAuth: refreshAuthMock,
 	}),
