@@ -161,70 +161,73 @@ export default function CodeEditor() {
 
 	return (
 		<>
-			<div className="flex-between-center">
-				<button
-					type="button"
-					className="btn btn-icon run-wrapper"
-					onClick={() => handleSubmit()}
-				>
-					<svg className="btn-run-code" viewBox="0 0 128 128">
-						<path
-							d="  M52 42
-								 Q52 36 58 40
-								 L84 60
-								 Q92 64 84 68
-								 L58 88
-								 Q52 92 52 86
-								 Z"
-							fill="currentColor"
-						/>
-					</svg>
-				</button>
-				<Button
-					className="btn-check-solution"
-					onClick={async () => {
-						const result = await handleSubmit();
+			<div className="code-editor-toolbar">
+				<div className="code-editor-toolbar-spacer" aria-hidden="true" />
+				<div className="code-editor-actions">
+					<button
+						type="button"
+						className="btn btn-icon run-wrapper"
+						onClick={() => handleSubmit()}
+					>
+						<svg className="btn-run-code" viewBox="0 0 128 128">
+							<path
+								d="  M52 42
+									 Q52 36 58 40
+									 L84 60
+									 Q92 64 84 68
+									 L58 88
+									 Q52 92 52 86
+									 Z"
+								fill="currentColor"
+							/>
+						</svg>
+					</button>
+					<Button
+						className="btn-check-solution"
+						onClick={async () => {
+							const result = await handleSubmit();
 
-						if (!result || result.status !== "passed") {
-							return;
-						}
+							if (!result || result.status !== "passed") {
+								return;
+							}
 
-						try {
-							setIsLoadingResult(true);
-							const analysis = await getScore(result.submissionId);
+							try {
+								setIsLoadingResult(true);
+								const analysis = await getScore(result.submissionId);
 
-							nav("/result", {
-								state: {
-									result: analysis,
-									code,
-									taskTitle: task?.title,
-								},
-							});
-						} catch (error) {
-							setCheckResult({
-								submissionId: result.submissionId,
-								taskId: result.taskId,
-								status: "failed",
-								score: 0,
-								message:
-									error instanceof Error
-										? error.message
-										: "Failed to load submission result",
-								testPassed: result.testPassed,
-							});
-							setResultPanelHeight(RESULT_PANEL_MAX_HEIGHT);
-						} finally {
-							setIsLoadingResult(false);
-						}
-					}}
-					disabled={isChecking || isLoadingResult}
-				>
-					{isChecking
-						? "Checking..."
-						: isLoadingResult
-							? "Loading result..."
-							: "Submit"}
-				</Button>
+								nav("/result", {
+									state: {
+										result: analysis,
+										code,
+										taskTitle: task?.title,
+									},
+								});
+							} catch (error) {
+								setCheckResult({
+									submissionId: result.submissionId,
+									taskId: result.taskId,
+									status: "failed",
+									score: 0,
+									message:
+										error instanceof Error
+											? error.message
+											: "Failed to load submission result",
+									testPassed: result.testPassed,
+								});
+								setResultPanelHeight(RESULT_PANEL_MAX_HEIGHT);
+							} finally {
+								setIsLoadingResult(false);
+							}
+						}}
+						disabled={isChecking || isLoadingResult}
+					>
+						{isChecking
+							? "Checking..."
+							: isLoadingResult
+								? "Loading result..."
+								: "Submit"}
+					</Button>
+				</div>
 				<button
 					type="button"
 					onClick={toggleNavbar}
@@ -233,7 +236,7 @@ export default function CodeEditor() {
 					{isNavbarVisible ? "^" : "\u2228"}
 				</button>
 			</div>
-			<div className="flex">
+			<div className="code-editor-meta">
 				<span className="chosed-fields">
 					Language: {chooseLanguage || task?.language || "not selected"}
 					|Difficulty: {chooseDificulty || task?.difficulty || "not selected"}

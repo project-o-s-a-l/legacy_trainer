@@ -1,8 +1,4 @@
 import {
-	About,
-	Contact,
-	Possibilites,
-	Support,
 	Home,
 	Login,
 	Registration,
@@ -19,42 +15,10 @@ import type { AppPage } from "@/shared/index.ts";
 
 export const mainPageRoutes: AppPage[] = [
 	{
-		path: "/about",
-		label: "About the company",
-		component: About,
-		showInNavbar: false,
-		showNavBar: true,
-		access: "public",
-	},
-	{
 		path: "/",
 		label: "Home",
 		component: Home,
 		showInNavbar: true,
-		showNavBar: true,
-		access: "public",
-	},
-	{
-		path: "/possibilites",
-		label: "Possibilites",
-		component: Possibilites,
-		showInNavbar: false,
-		showNavBar: true,
-		access: "public",
-	},
-	{
-		path: "/contact",
-		label: "Contact",
-		component: Contact,
-		showInNavbar: false,
-		showNavBar: true,
-		access: "public",
-	},
-	{
-		path: "/support",
-		label: "Support",
-		component: Support,
-		showInNavbar: false,
 		showNavBar: true,
 		access: "public",
 	},

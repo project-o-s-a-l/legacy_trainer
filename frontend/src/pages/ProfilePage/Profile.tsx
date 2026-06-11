@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import "./Profile.css";
 import { ProfileImg } from "@/shared";
-import { LowerRank } from "@/shared";
-import { StaticProfileImg } from "@/shared";
 import type { Profile } from "./lib/profileInterface";
 import { fetchProfileInfo } from "@/features/getProfileInfo/getProfileInfo";
 import { useNavigate } from "react-router-dom";
@@ -119,107 +117,174 @@ export default function Profile() {
 		return <div>No profile data</div>;
 	}
 
+	const completedTotal =
+		profile.tasksCompleted.easy +
+		profile.tasksCompleted.medium +
+		profile.tasksCompleted.hard;
+
+	const averageSummary = Math.round(
+		(profile.averageGrade.easy +
+			profile.averageGrade.medium +
+			profile.averageGrade.hard) /
+			3,
+	);
+
 	return (
-		<div>
-			<div className="profile-container flex box-light">
-				<img
-					className="profile-img"
-					src={currentImg}
-					alt="Profile Image"
-					width={219}
-					height={219}
-					onClick={handleImgClick}
-				/>
+		<section className="profile-page">
+			<div className="profile-shell">
+				<section className="profile-hero box-light">
+					<div className="profile-hero-main">
+						<div className="profile-avatar-block">
+							<img
+								className="profile-avatar"
+								src={currentImg}
+								alt="Profile Image"
+								width={219}
+								height={219}
+								onClick={handleImgClick}
+							/>
+							<p className="profile-avatar-note">
+								Click the avatar to update it
+							</p>
+						</div>
 
-				<input
-					type="file"
-					accept="image/png, image/jpeg"
-					ref={fileInputRef}
-					onChange={handleFileChange}
-					style={{ display: "none" }}
-					data-testid="avatar-input"
-				/>
-				<div className="profile-right">
-					<div className="flex profile-info-container">
-						<span className="profile-info">{profile.username}</span>
-						<span className="profile-info">Rank</span>
-						<span className="profile-info">Streak</span>
-					</div>
-					<div className="profile-info-deeper flex-col">
-						<span className="label">email:</span>
-						<span className="value">{profile.email}</span>
+						<input
+							type="file"
+							accept="image/png, image/jpeg"
+							ref={fileInputRef}
+							onChange={handleFileChange}
+							style={{ display: "none" }}
+							data-testid="avatar-input"
+						/>
 
-						<span className="label">Member Since:</span>
-						<span className="value">
-							{formatDate(profile.memberSince)}
-						</span>
+						<div className="profile-hero-copy">
+							<div className="profile-hero-header">
+								<div>
+									<p className="profile-kicker">Profile overview</p>
+									<h1 className="profile-name">{profile.username}</h1>
+									<p className="profile-email">{profile.email}</p>
+								</div>
+								<button className="btn-settings-profile btn-ghost">
+									Settings
+								</button>
+							</div>
 
-						<span className="label">Last Seen:</span>
-						<span className="value">
-							{formatDate(profile.lastSeen)}
-						</span>
-
-						<span className="label">Now is online</span>
-						<span className="value">
-							{profile.isOnline ? "online" : "offline"}
-						</span>
-					</div>
-				</div>
-				<img
-					src={StaticProfileImg}
-					alt=""
-					width={300}
-					height={300}
-					className="margin-static-profile-img"
-				/>
-				<button className="btn-settings-profile flex btn-ghost">
-					Settings
-				</button>
-			</div>
-			<div className="lower-profile-container flex box-light">
-				<img
-					src={LowerRank}
-					alt="Rank"
-					width={219}
-					height={219}
-					className="rank-profile"
-				/>
-				<div className="lower-profile-container-text profile-info-deeper">
-					<div className="flex-col point-rank-container">
-						<span className="margin-rank-profile">
-							Points: {profile.points}
-						</span>
-						<span className="margin-point-to-next-rank">
-							Points to next rank:
-						</span>
-					</div>
-					<div className="flex margin-task-complete">
-						<div>
-							<span>Task completed:</span>
-							<ul>
-								<li>Easy: {profile.tasksCompleted.easy}</li>
-								<li>Medium: {profile.tasksCompleted.medium}</li>
-								<li>Hard: {profile.tasksCompleted.hard}</li>
-							</ul>
+							<div className="profile-status-row">
+								<span className="profile-status-chip">
+									Member since {formatDate(profile.memberSince)}
+								</span>
+								<span className="profile-status-chip">
+									Last seen {formatDate(profile.lastSeen)}
+								</span>
+								<span className="profile-status-chip">
+									{profile.isOnline ? "Online now" : "Currently offline"}
+								</span>
+							</div>
 						</div>
 					</div>
-					<div>
-						<span>Average grade:</span>
-						<ul>
-							<li>Easy: {profile.averageGrade.easy}</li>
-							<li>Medium: {profile.averageGrade.medium}</li>
-							<li>Hard: {profile.averageGrade.hard}</li>
-						</ul>
+
+					<div className="profile-stats-grid">
+						<div className="profile-stat-card">
+							<span className="profile-stat-label">Points</span>
+							<strong className="profile-stat-value">
+								{profile.points}
+							</strong>
+						</div>
+						<div className="profile-stat-card">
+							<span className="profile-stat-label">Tasks completed</span>
+							<strong className="profile-stat-value">
+								{completedTotal}
+							</strong>
+						</div>
+						<div className="profile-stat-card">
+							<span className="profile-stat-label">Average grade</span>
+							<strong className="profile-stat-value">
+								{averageSummary}
+							</strong>
+						</div>
 					</div>
-				</div>
-				<img
-					src={StaticProfileImg}
-					alt=""
-					width={300}
-					height={300}
-					className="margin-static-profile-img"
-				/>
+				</section>
+
+				<section className="profile-grid">
+					<article className="profile-panel box-light">
+						<h2 className="profile-panel-title">Account details</h2>
+						<div className="profile-detail-list">
+							<div className="profile-detail-item">
+								<span className="profile-detail-label">Email</span>
+								<span className="profile-detail-value">
+									{profile.email}
+								</span>
+							</div>
+							<div className="profile-detail-item">
+								<span className="profile-detail-label">Member since</span>
+								<span className="profile-detail-value">
+									{formatDate(profile.memberSince)}
+								</span>
+							</div>
+							<div className="profile-detail-item">
+								<span className="profile-detail-label">Last seen</span>
+								<span className="profile-detail-value">
+									{formatDate(profile.lastSeen)}
+								</span>
+							</div>
+							<div className="profile-detail-item">
+								<span className="profile-detail-label">Status</span>
+								<span className="profile-detail-value">
+									{profile.isOnline ? "online" : "offline"}
+								</span>
+							</div>
+						</div>
+					</article>
+
+					<article className="profile-panel box-light">
+						<h2 className="profile-panel-title">Tasks completed</h2>
+						<div className="profile-breakdown-grid">
+							<div className="profile-breakdown-card">
+								<span className="profile-breakdown-label">Easy</span>
+								<strong className="profile-breakdown-value">
+									{profile.tasksCompleted.easy}
+								</strong>
+							</div>
+							<div className="profile-breakdown-card">
+								<span className="profile-breakdown-label">Medium</span>
+								<strong className="profile-breakdown-value">
+									{profile.tasksCompleted.medium}
+								</strong>
+							</div>
+							<div className="profile-breakdown-card">
+								<span className="profile-breakdown-label">Hard</span>
+								<strong className="profile-breakdown-value">
+									{profile.tasksCompleted.hard}
+								</strong>
+							</div>
+						</div>
+					</article>
+
+					<article className="profile-panel box-light">
+						<h2 className="profile-panel-title">Average grade</h2>
+						<div className="profile-breakdown-grid">
+							<div className="profile-breakdown-card">
+								<span className="profile-breakdown-label">Easy</span>
+								<strong className="profile-breakdown-value">
+									{profile.averageGrade.easy}
+								</strong>
+							</div>
+							<div className="profile-breakdown-card">
+								<span className="profile-breakdown-label">Medium</span>
+								<strong className="profile-breakdown-value">
+									{profile.averageGrade.medium}
+								</strong>
+							</div>
+							<div className="profile-breakdown-card">
+								<span className="profile-breakdown-label">Hard</span>
+								<strong className="profile-breakdown-value">
+									{profile.averageGrade.hard}
+								</strong>
+							</div>
+						</div>
+					</article>
+				</section>
 			</div>
-		</div>
+		</section>
 	);
 }

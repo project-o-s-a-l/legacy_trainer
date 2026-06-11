@@ -2,14 +2,20 @@
 	margin: 0 10px 10px 16px;
 }
 
+.main-code-editor-container--stacked {
+	margin-right: 16px;
+}
+
 .resizable-group {
 	width: 100%;
 	height: 100%;
+	min-height: clamp(720px, 78vh, 920px);
 }
 .editor-panel {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	min-height: 0;
 }
 
 .scroll-bar-container {
@@ -21,6 +27,7 @@
 	background-color: var(--color-surface);
 	scrollbar-width: thin;
 	scrollbar-color: var(--color-primary) var(--main-color-light-theme);
+	min-height: 0;
 }
 
 .panel-title {
@@ -31,25 +38,74 @@
 }
 
 .task-container {
-	height: 800px;
+	min-height: 800px;
+	height: 100%;
 	width: 100%;
 	box-sizing: border-box;
+	padding: 24px;
+	white-space: pre-wrap;
 }
 
 .separator {
 	border-radius: 25px 25px 25px 25px;
-	width: 2px;
 	background-color: transparent;
+}
+
+.separator-horizontal {
+	width: 2px;
 	cursor: col-resize;
 	margin-left: 1px;
 	margin-right: 1px;
 }
 
+.separator-vertical {
+	width: 100%;
+	height: 2px;
+	cursor: row-resize;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
 .code-editor-container {
-	width: 99.9%;
+	width: 100%;
 	height: 100%;
+	min-height: 0;
 }
 
 .editor {
 	border: 2px solid var(--color-primary);
+	min-height: 0;
+}
+
+.task-container--stacked {
+	min-height: 320px;
+}
+
+.code-editor-container--stacked {
+	min-height: 640px;
+}
+
+@media (max-width: 1280px) {
+	.main-code-editor-container {
+		margin-left: 10px;
+	}
+
+	.task-container {
+		min-height: 680px;
+	}
+}
+
+@media (max-width: 960px) {
+	.main-code-editor-container,
+	.main-code-editor-container--stacked {
+		margin: 0 0 10px;
+	}
+
+	.panel-title {
+		font-size: clamp(18px, 2.6vw, 25px);
+	}
+
+	.task-container {
+		padding: 18px;
+	}
 }

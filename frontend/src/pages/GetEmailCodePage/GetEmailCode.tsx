@@ -7,7 +7,7 @@ import {
 	requestRegistrationVerificationCode,
 	type VerificationFlowMode,
 } from "@/features/verificationCode/verificationCode";
-import "./GetEmailCode.css";
+import "../AuthProfileTheme.css";
 
 type LocationState = {
 	email?: string;
@@ -119,53 +119,58 @@ export default function CodePage() {
 	};
 
 	return (
-		<main className="code-page">
-			<section className="code-shell card card-code-gradient">
-				<div className="code-copy">
-					<p className="code-kicker">{pageCopy.kicker}</p>
-					<h1 className="code-title">{pageCopy.title}</h1>
-					<p className="code-description">{pageCopy.description}</p>
-					<p className="code-email">
-						{email
-							? `Code destination: ${email}`
-							: "Email is unavailable. Restart the flow from the previous screen."}
-					</p>
-				</div>
+		<main className="auth-profile-page">
+			<section className="auth-profile-shell auth-profile-shell--single">
+				<section className="auth-profile-card auth-profile-form-panel auth-profile-form-panel--single">
+					<div className="auth-profile-form-header">
+						<p className="auth-profile-panel-kicker">{pageCopy.kicker}</p>
+						<h2 className="auth-profile-panel-title">{pageCopy.title}</h2>
+						<p className="auth-profile-message">{pageCopy.description}</p>
+						<p className="auth-profile-message">
+							{email
+								? `Code destination: ${email}`
+								: "Email is unavailable. Restart the flow from the previous screen."}
+						</p>
+					</div>
 
-				<form className="code-form" onSubmit={handleSubmit}>
-					<label className="code-label" htmlFor="verification-code">
-						Verification code
-					</label>
-					<input
-						id="verification-code"
-						type="text"
-						placeholder="Enter code"
-						className="input code-input"
-						value={code}
-						onChange={(event) => setCode(event.target.value)}
-						inputMode="numeric"
-						autoComplete="one-time-code"
-						disabled={!email || isSubmitting}
-						required
-					/>
+					<form className="auth-profile-form" onSubmit={handleSubmit}>
+						<label className="auth-profile-field" htmlFor="verification-code">
+							<span className="auth-profile-label">Verification code</span>
+							<input
+								id="verification-code"
+								type="text"
+								placeholder="Enter code"
+								className="input auth-profile-input"
+								value={code}
+								onChange={(event) => setCode(event.target.value)}
+								inputMode="numeric"
+								autoComplete="one-time-code"
+								disabled={!email || isSubmitting}
+								required
+							/>
+						</label>
 
-					{error && <p className="code-error">{error}</p>}
-					{statusMessage && <p className="code-resent">{statusMessage}</p>}
+						{error && (
+							<p className="auth-profile-message auth-profile-message--error">
+								{error}
+							</p>
+						)}
+						{statusMessage && (
+							<p className="auth-profile-message auth-profile-message--success">
+								{statusMessage}
+							</p>
+						)}
 
-					<div className="code-actions">
-						<button
-							type="submit"
-							className="btn-ghost code-button"
-							disabled={!email || isSubmitting}
-						>
-							{isSubmitting ? "Checking..." : "Next"}
-						</button>
-
-						<div className="code-secondary-actions">
-							<p className="code-text">Didn't receive the code?</p>
+						<div className="auth-profile-helper-panel">
+							<p className="auth-profile-helper-title">
+								Didn't receive the code?
+							</p>
+							<p className="auth-profile-helper-text">
+								Request a new one and continue from the same step.
+							</p>
 							<button
 								type="button"
-								className="code-link"
+								className="auth-profile-link-button"
 								onClick={() => {
 									void handleResend();
 								}}
@@ -174,15 +179,24 @@ export default function CodePage() {
 								{isResending ? "Resending..." : "Resend it"}
 							</button>
 						</div>
-					</div>
-				</form>
 
-				<Link
-					className="code-back-link"
-					to={flow === "recovery" ? "/forgot-password" : "/Registration"}
-				>
-					Back
-				</Link>
+						<div className="auth-profile-actions">
+							<Link
+								className="auth-profile-link"
+								to={flow === "recovery" ? "/forgot-password" : "/Registration"}
+							>
+								Back
+							</Link>
+							<button
+								type="submit"
+								className="auth-profile-submit"
+								disabled={!email || isSubmitting}
+							>
+								{isSubmitting ? "Checking..." : "Next"}
+							</button>
+						</div>
+					</form>
+				</section>
 			</section>
 		</main>
 	);

@@ -13,6 +13,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 	task,
 }) => {
 	const [code, setCode] = useState(defaultValue);
+	const [isCompactLayout, setIsCompactLayout] = useState<boolean>(() =>
+		typeof window !== "undefined" ? window.innerWidth <= 1180 : false,
+	);
 	const monaco = useMonaco();
 
 	useEffect(() => {
@@ -22,17 +25,48 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 		monaco.editor.setTheme(BLUE_LIGHT_THEME_NAME);
 	}, [monaco]);
 
+	useEffect(() => {
+		if (typeof window === "undefined") {
+			return;
+		}
+
+		const mediaQuery = window.matchMedia("(max-width: 1180px)");
+		const updateLayout = () => setIsCompactLayout(mediaQuery.matches);
+
+		updateLayout();
+
+		mediaQuery.addEventListener("change", updateLayout);
+
+		return () => {
+			mediaQuery.removeEventListener("change", updateLayout);
+		};
+	}, []);
+
 	const handelEditorChange = (value: string | undefined) => {
 		const newValue = value || "";
 		setCode(newValue);
 		onChange?.(newValue);
 	};
 
+	const groupOrientation = isCompactLayout ? "vertical" : "horizontal";
+	const editorHeight = isCompactLayout ? "640px" : height;
+	const descriptionDefaultSize = isCompactLayout ? 38 : 50;
+	const solutionDefaultSize = isCompactLayout ? 62 : 50;
+	const descriptionMinSize = isCompactLayout ? 25 : 35;
+	const solutionMinSize = isCompactLayout ? 30 : 35;
+
 	return (
 		<div>
-			<div className="main-code-editor-container">
-				<Group orientation="horizontal" className="resizable-group">
-					<Panel defaultSize="35%" minSize="20%">
+			<div
+				className={`main-code-editor-container ${
+					isCompactLayout ? "main-code-editor-container--stacked" : ""
+				}`}
+			>
+				<Group orientation={groupOrientation} className="resizable-group">
+					<Panel
+						defaultSize={descriptionDefaultSize}
+						minSize={descriptionMinSize}
+					>
 						<div className="editor-panel">
 							<div className="panel-header">
 								<span className="panel-title">
@@ -40,16 +74,31 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 								</span>
 							</div>
 							<div className="scroll-bar-container">
-								<div className="task-container">
+								<div
+									className={`task-container ${
+										isCompactLayout ? "task-container--stacked" : ""
+									}`}
+								>
 									<span>{task?.description}</span>
 								</div>
 							</div>
 						</div>
 					</Panel>
-					<Separator className="separator" />
-					<Panel minSize="30%">
+					<Separator
+						className={`separator ${
+							isCompactLayout ? "separator-vertical" : "separator-horizontal"
+						}`}
+					/>
+					<Panel
+						defaultSize={solutionDefaultSize}
+						minSize={solutionMinSize}
+					>
 						<div className="editor-panel">
-							<div className="code-editor-container">
+							<div
+								className={`code-editor-container ${
+									isCompactLayout ? "code-editor-container--stacked" : ""
+								}`}
+							>
 								<div className="panel-header">
 									<span className="panel-title">
 										Solution:
@@ -59,7 +108,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 									className="editor"
 									language={language}
 									value={code}
-									height={height}
+									height={editorHeight}
 									theme={BLUE_LIGHT_THEME_NAME}
 									onChange={handelEditorChange}
 									options={{

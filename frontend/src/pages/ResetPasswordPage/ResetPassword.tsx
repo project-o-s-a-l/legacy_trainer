@@ -1,8 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Button from "@/shared/ui/Button";
 import { completePasswordRecoveryReset } from "@/features/verificationCode/verificationCode";
-import "./ResetPassword.css";
+import "../AuthProfileTheme.css";
 
 type ResetPasswordLocationState = {
 	email?: string;
@@ -58,71 +57,68 @@ export default function ResetPassword() {
 	};
 
 	return (
-		<main className="reset-password-page">
-			<section className="reset-password-shell card card-code-gradient">
-				<div className="reset-password-copy">
-					<p className="reset-password-kicker">Password recovery</p>
-					<h1 className="reset-password-title">Choose a new password</h1>
-					<p className="reset-password-text">
-						Set a new password for your account and finish the recovery
-						flow.
-					</p>
-					<p className="reset-password-email">
-						{email
-							? `Account email: ${email}`
-							: "Recovery session is missing. Restart the flow from Forgot password."}
-					</p>
-				</div>
-
-				<form className="reset-password-form" onSubmit={handleSubmit}>
-					<label className="reset-password-label" htmlFor="new-password">
-						New password
-					</label>
-					<input
-						id="new-password"
-						type="password"
-						className="input reset-password-input"
-						placeholder="Enter new password"
-						value={password}
-						onChange={(event) => setPassword(event.target.value)}
-						autoComplete="new-password"
-						disabled={!email || !resetToken || isSubmitting}
-						required
-					/>
-
-					<label
-						className="reset-password-label"
-						htmlFor="confirm-new-password"
-					>
-						Confirm new password
-					</label>
-					<input
-						id="confirm-new-password"
-						type="password"
-						className="input reset-password-input"
-						placeholder="Confirm new password"
-						value={confirmPassword}
-						onChange={(event) => setConfirmPassword(event.target.value)}
-						autoComplete="new-password"
-						disabled={!email || !resetToken || isSubmitting}
-						required
-					/>
-
-					{error && <p className="reset-password-error">{error}</p>}
-
-					<div className="reset-password-actions">
-						<Button
-							className="reset-password-submit"
-							type="submit"
-							disabled={!email || !resetToken || isSubmitting}
-						>
-							{isSubmitting ? "Saving..." : "Save password"}
-						</Button>
-						<Link className="reset-password-link" to="/forgot-password">
-							Back
-						</Link>
+		<main className="auth-profile-page">
+			<section className="auth-profile-shell auth-profile-shell--single">
+				<section className="auth-profile-card auth-profile-form-panel auth-profile-form-panel--single">
+					<div className="auth-profile-form-header">
+						<p className="auth-profile-panel-kicker">New credentials</p>
+						<h2 className="auth-profile-panel-title">Reset password</h2>
 					</div>
-				</form>
+
+					<form className="auth-profile-form" onSubmit={handleSubmit}>
+						<label className="auth-profile-field" htmlFor="new-password">
+							<span className="auth-profile-label">New password</span>
+							<input
+								id="new-password"
+								type="password"
+								className="input auth-profile-input"
+								placeholder="Enter new password"
+								value={password}
+								onChange={(event) => setPassword(event.target.value)}
+								autoComplete="new-password"
+								disabled={!email || !resetToken || isSubmitting}
+								required
+							/>
+						</label>
+
+						<label
+							className="auth-profile-field"
+							htmlFor="confirm-new-password"
+						>
+							<span className="auth-profile-label">Confirm new password</span>
+							<input
+								id="confirm-new-password"
+								type="password"
+								className="input auth-profile-input"
+								placeholder="Confirm new password"
+								value={confirmPassword}
+								onChange={(event) => setConfirmPassword(event.target.value)}
+								autoComplete="new-password"
+								disabled={!email || !resetToken || isSubmitting}
+								required
+							/>
+						</label>
+
+						{error && (
+							<p className="auth-profile-message auth-profile-message--error">
+								{error}
+							</p>
+						)}
+
+						<div className="auth-profile-actions">
+							<Link className="auth-profile-link" to="/forgot-password">
+								Back
+							</Link>
+							<button
+								className="auth-profile-submit"
+								type="submit"
+								disabled={!email || !resetToken || isSubmitting}
+							>
+								{isSubmitting ? "Saving..." : "Save password"}
+							</button>
+						</div>
+					</form>
+				</section>
 			</section>
 		</main>
 	);
