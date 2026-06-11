@@ -5,3 +5,4 @@
 /.env
 /certs
 /__pycache__
+/docker/.env

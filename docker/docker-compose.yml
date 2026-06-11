@@ -1,0 +1,85 @@
+name: legacy_trainer
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: legacy_trainer_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-legacy_trainer}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-legacy_trainer}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ../legacy_trainer
+      dockerfile: ../docker/backend.Dockerfile
+    container_name: legacy_trainer_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg2://postgres:postgres@db:5432/legacy_trainer}
+      DB_ECHO: ${DB_ECHO:-false}
+      SECRET_KEY: ${SECRET_KEY:-change_me}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      FRONTEND_ORIGINS: ${FRONTEND_ORIGINS:-https://localhost:3000,https://localhost:5173}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
+      SMTP_USE_TLS: ${SMTP_USE_TLS:-true}
+      SMTP_TIMEOUT_SECONDS: ${SMTP_TIMEOUT_SECONDS:-10}
+      VERIFICATION_CODE_TTL_MINUTES: ${VERIFICATION_CODE_TTL_MINUTES:-10}
+      PASSWORD_RESET_TOKEN_TTL_MINUTES: ${PASSWORD_RESET_TOKEN_TTL_MINUTES:-30}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ../legacy_trainer/backend:/app/backend
+      - ../legacy_trainer/certs:/app/certs:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - >
+        python -m backend.init_db &&
+        uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+        --ssl-certfile ${BACKEND_SSL_CERTFILE:-/app/certs/localhost.pem}
+        --ssl-keyfile ${BACKEND_SSL_KEYFILE:-/app/certs/localhost-key.pem}
+
+  frontend:
+    build:
+      context: ../legacy_trainer
+      dockerfile: ../docker/frontend.Dockerfile
+    container_name: legacy_trainer_frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-https://localhost:8000}
+      VITE_DEV_HTTPS: ${VITE_DEV_HTTPS:-true}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      - ../legacy_trainer/frontend:/app
+      - frontend_node_modules:/app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  frontend_node_modules:
