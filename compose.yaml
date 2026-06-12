@@ -1,0 +1,118 @@
+name: legacy-trainer
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  docker-daemon:
+    image: docker:28-dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    command: ["--host=tcp://0.0.0.0:2375", "--tls=false"]
+    volumes:
+      - docker-data:/var/lib/docker
+      - sandbox-workspaces:/var/lib/legacy-trainer/sandboxes
+    healthcheck:
+      test: ["CMD", "docker", "info"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  sandbox-prep:
+    image: docker:28-cli
+    depends_on:
+      docker-daemon:
+        condition: service_healthy
+    environment:
+      DOCKER_HOST: tcp://docker-daemon:2375
+    volumes:
+      - ./docker/sandbox:/workspace/docker/sandbox:ro
+    command:
+      - sh
+      - -ec
+      - |
+        docker build -f /workspace/docker/sandbox/python-runner.Dockerfile -t legacy-trainer-python-runner:latest /workspace/docker/sandbox
+        docker build -f /workspace/docker/sandbox/cpp-runner.Dockerfile -t legacy-trainer-cpp-runner:latest /workspace/docker/sandbox
+    restart: "no"
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      docker-daemon:
+        condition: service_healthy
+      sandbox-prep:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DB_ECHO: "false"
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      SEED_REFACTOR_TASKS_ON_STARTUP: "true"
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      FRONTEND_ORIGINS: ${FRONTEND_ORIGINS}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
+      SMTP_USE_TLS: ${SMTP_USE_TLS:-true}
+      SMTP_TIMEOUT_SECONDS: ${SMTP_TIMEOUT_SECONDS:-10}
+      VERIFICATION_CODE_TTL_MINUTES: ${VERIFICATION_CODE_TTL_MINUTES:-10}
+      PASSWORD_RESET_TOKEN_TTL_MINUTES: ${PASSWORD_RESET_TOKEN_TTL_MINUTES:-30}
+      CHECK_TIMEOUT_SECONDS: ${CHECK_TIMEOUT_SECONDS:-5}
+      CHECK_EXECUTION_BACKEND: docker
+      CHECK_DOCKER_PYTHON_IMAGE: legacy-trainer-python-runner:latest
+      CHECK_DOCKER_CPP_IMAGE: legacy-trainer-cpp-runner:latest
+      CHECK_DOCKER_CONTAINER_USER: 65534:65534
+      CHECK_DOCKER_WORKSPACE_DIR: /workspace
+      CHECK_WORKSPACE_ROOT: /var/lib/legacy-trainer/sandboxes
+      CHECK_DOCKER_TMP_DIR: /tmp
+      CHECK_DOCKER_MEMORY_LIMIT: ${CHECK_DOCKER_MEMORY_LIMIT:-256m}
+      CHECK_DOCKER_CPUS: ${CHECK_DOCKER_CPUS:-1.0}
+      CHECK_DOCKER_PIDS_LIMIT: ${CHECK_DOCKER_PIDS_LIMIT:-64}
+      CHECK_DOCKER_TMPFS_SIZE: ${CHECK_DOCKER_TMPFS_SIZE:-64m}
+      CHECK_DOCKER_DISABLE_NETWORK: "true"
+      CHECK_DOCKER_READ_ONLY_ROOTFS: "true"
+      CHECK_DOCKER_DROP_CAPABILITIES: "true"
+      CHECK_DOCKER_NO_NEW_PRIVILEGES: "true"
+      DOCKER_HOST: tcp://docker-daemon:2375
+    ports:
+      - "8000:8000"
+    volumes:
+      - sandbox-workspaces:/var/lib/legacy-trainer/sandboxes
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    depends_on:
+      backend:
+        condition: service_started
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres-data:
+  docker-data:
+  sandbox-workspaces:
