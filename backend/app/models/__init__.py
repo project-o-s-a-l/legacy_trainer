@@ -4,6 +4,7 @@ from backend.app.models.submission import Submission
 from backend.app.models.submission_check import SubmissionCheck
 from backend.app.models.tag import Tag
 from backend.app.models.task_check_rule import TaskCheckRule
+from backend.app.models.task_check_spec import TaskCheckSpec
 from backend.app.models.task_scenario import TaskScenario
 from backend.app.models.task import Task
 from backend.app.models.user import User
@@ -17,6 +18,7 @@ __all__ = [
     "SubmissionCheck",
     "Tag",
     "TaskCheckRule",
+    "TaskCheckSpec",
     "TaskScenario",
     "Task",
     "User",

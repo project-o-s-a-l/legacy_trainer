@@ -2,8 +2,8 @@ from datetime import datetime, timezone
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
-from backend.app.db.enums import SubmissionStatus
 from backend.app.models.submission import Submission
+from backend.app.models.user import User
 from backend.app.models.user_task_progress import UserTaskProgress
 
 
@@ -26,6 +26,14 @@ class UserProgressRepository:
             )
         )
         return self.db.scalar(stmt)
+
+    def get_user_task_progress(
+        self,
+        *,
+        user_id: int,
+        task_id: int,
+    ) -> UserTaskProgress | None:
+        return self.get_by_user_and_task(user_id=user_id, task_id=task_id)
 
     def create_progress(
         self,
@@ -51,6 +59,25 @@ class UserProgressRepository:
         self.db.flush()
         self.db.refresh(progress)
         return progress
+
+    def create_user_task_progress(
+        self,
+        *,
+        user_id: int,
+        task_id: int,
+        best_submission_id: int,
+        submitted_at: datetime,
+        is_solved: bool,
+    ) -> UserTaskProgress:
+        return self.create_progress(
+            user_id=user_id,
+            task_id=task_id,
+            best_submission_id=best_submission_id,
+            first_submission_at=submitted_at,
+            last_submission_at=submitted_at,
+            attempts_count=1,
+            is_solved=is_solved,
+        )
 
     def update_progress(
         self,
@@ -79,12 +106,19 @@ class UserProgressRepository:
             )
             .where(
                 UserTaskProgress.user_id == user_id,
-                UserTaskProgress.is_solved.is_(True),
-                Submission.status == SubmissionStatus.PASSED,
             )
         )
         result = self.db.scalar(stmt)
         return int(result or 0)
+
+    def recalculate_user_total_score(self, user_id: int) -> int:
+        total_score = self.get_total_best_score(user_id=user_id)
+        user = self.db.get(User, user_id)
+        if user is not None:
+            user.total_score = total_score
+            user.updated_at = datetime.now(timezone.utc)
+            self.db.flush()
+        return total_score
 
     def get_user_progress_rows(self, user_id: int) -> list[UserTaskProgress]:
         stmt = (
@@ -96,3 +130,6 @@ class UserProgressRepository:
             .where(UserTaskProgress.user_id == user_id)
         )
         return list(self.db.scalars(stmt).all())
+
+    def flush(self) -> None:
+        self.db.flush()

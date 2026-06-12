@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from backend.app.api.dependencies.auth import get_current_user
@@ -31,6 +31,18 @@ def submit_solution(
         task_id=task_id,
         data=data,
         current_user=current_user,
+    )
+
+
+@router.get("/submissions", response_model=list[SubmissionResponse])
+def list_submissions(
+    task_id: int | None = Query(default=None, alias="taskId"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> list[SubmissionResponse]:
+    return SubmissionService(db).list_submissions(
+        current_user=current_user,
+        task_id=task_id,
     )
 
 

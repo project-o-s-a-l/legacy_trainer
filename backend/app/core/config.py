@@ -127,6 +127,31 @@ class Settings:
         "CHECK_DOCKER_NO_NEW_PRIVILEGES",
         "true",
     )
+    checker_sandbox_image: str = os.getenv(
+        "CHECKER_SANDBOX_IMAGE",
+        "legacy-trainer-checker:local",
+    )
+    checker_docker_bin: str = os.getenv("CHECKER_DOCKER_BIN", "docker")
+    checker_sandbox_cpus: str = os.getenv("CHECKER_SANDBOX_CPUS", "0.5")
+    checker_sandbox_memory: str = os.getenv("CHECKER_SANDBOX_MEMORY", "256m")
+    checker_sandbox_pids_limit: int = int(
+        os.getenv("CHECKER_SANDBOX_PIDS_LIMIT", "128")
+    )
+    checker_sandbox_user: str = os.getenv("CHECKER_SANDBOX_USER", "10001:10001")
+    checker_sandbox_tmpfs_size: str = os.getenv(
+        "CHECKER_SANDBOX_TMPFS_SIZE",
+        "64m",
+    )
+    checker_sandbox_workspace_tmpfs_size: str = os.getenv(
+        "CHECKER_SANDBOX_WORKSPACE_TMPFS_SIZE",
+        "64m",
+    )
+    checker_sandbox_timeout_overhead_seconds: int = int(
+        os.getenv("CHECKER_SANDBOX_TIMEOUT_OVERHEAD_SECONDS", "3")
+    )
+    checker_sandbox_cleanup_timeout_seconds: int = int(
+        os.getenv("CHECKER_SANDBOX_CLEANUP_TIMEOUT_SECONDS", "5")
+    )
 
 
 settings = Settings()

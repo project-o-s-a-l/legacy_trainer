@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from backend.app.models.program_language import ProgramLanguage
     from backend.app.models.submission import Submission
     from backend.app.models.task_check_rule import TaskCheckRule
+    from backend.app.models.task_check_spec import TaskCheckSpec
     from backend.app.models.task_scenario import TaskScenario
     from backend.app.models.tag import Tag
     from backend.app.models.user import User
@@ -71,4 +72,9 @@ class Task(Base):
     check_rules: Mapped[list["TaskCheckRule"]] = relationship(
         back_populates="task",
         cascade="all, delete-orphan",
+    )
+    check_specs: Mapped[list["TaskCheckSpec"]] = relationship(
+        back_populates="task",
+        cascade="all, delete-orphan",
+        order_by="TaskCheckSpec.order",
     )

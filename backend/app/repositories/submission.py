@@ -76,3 +76,20 @@ class SubmissionRepository:
             .where(Submission.id == submission_id)
         )
         return self.db.scalar(stmt)
+
+    def list_user_submissions(
+            self,
+            *,
+            user_id: int,
+            task_id: int | None = None,
+    ) -> list[Submission]:
+        stmt = (
+            select(Submission)
+            .options(selectinload(Submission.program_language))
+            .where(Submission.user_id == user_id)
+            .order_by(Submission.submitted_at.desc(), Submission.id.desc())
+        )
+        if task_id is not None:
+            stmt = stmt.where(Submission.task_id == task_id)
+
+        return list(self.db.scalars(stmt).all())
