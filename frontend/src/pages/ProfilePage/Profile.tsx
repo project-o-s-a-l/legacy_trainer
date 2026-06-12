@@ -164,9 +164,6 @@ export default function Profile() {
 									<h1 className="profile-name">{profile.username}</h1>
 									<p className="profile-email">{profile.email}</p>
 								</div>
-								<button className="btn-settings-profile btn-ghost">
-									Settings
-								</button>
 							</div>
 
 							<div className="profile-status-row">

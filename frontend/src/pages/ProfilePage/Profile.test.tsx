@@ -104,6 +104,9 @@ describe("Profile", () => {
 		expect(screen.getByText("Online now")).toBeInTheDocument();
 		expect(screen.getByText("Points")).toBeInTheDocument();
 		expect(screen.getByText(profileMock.points.toString())).toBeInTheDocument();
+		expect(
+			screen.queryByRole("button", { name: "Settings" }),
+		).not.toBeInTheDocument();
 
 		const img = screen.getByAltText("Profile Image") as HTMLImageElement;
 		expect(img.src).toContain(profileMock.avatarUrl);
