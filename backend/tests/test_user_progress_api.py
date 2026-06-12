@@ -278,6 +278,6 @@ def test_get_me_progress_returns_aggregated_stats(
     }
     assert body["averageGrade"] == {
         "easy": 90,
-        "medium": 0,
+        "medium": 70,
         "hard": 60,
     }
