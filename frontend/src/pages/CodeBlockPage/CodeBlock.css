@@ -46,6 +46,27 @@
 	white-space: pre-wrap;
 }
 
+.task-section {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin: 0 0 28px;
+}
+
+.task-section-title {
+	margin: 0;
+	font-size: clamp(22px, 2vw, 30px);
+	font-weight: 700;
+	color: var(--color-text-main);
+}
+
+.task-section-text {
+	margin: 0;
+	font-size: clamp(18px, 1.5vw, 24px);
+	line-height: 1.55;
+	color: var(--color-text-main);
+}
+
 .separator {
 	border-radius: 25px 25px 25px 25px;
 	background-color: transparent;

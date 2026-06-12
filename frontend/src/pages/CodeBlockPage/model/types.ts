@@ -7,5 +7,6 @@ export type CodeBlockProps = {
 	task?: {
 		title: string;
 		description: string;
+		requirements?: string;
 	};
 };

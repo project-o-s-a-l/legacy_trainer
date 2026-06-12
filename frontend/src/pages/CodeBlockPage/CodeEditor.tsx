@@ -168,7 +168,8 @@ export default function CodeEditor() {
 				<div className="code-editor-actions">
 					<button
 						type="button"
-						className="btn btn-icon run-wrapper"
+						className="btn btn-icon run-wrapper code-editor-action-button"
+						aria-label="Check code"
 						onClick={() => handleSubmit()}
 					>
 						<svg className="btn-run-code" viewBox="0 0 128 128">
@@ -185,7 +186,7 @@ export default function CodeEditor() {
 						</svg>
 					</button>
 					<Button
-						className="btn-check-solution"
+						className="btn-check-solution code-editor-action-button"
 						onClick={async () => {
 							const result = await handleSubmit();
 
@@ -241,7 +242,10 @@ export default function CodeEditor() {
 			<div className="code-editor-meta">
 				<span className="chosed-fields">
 					Language: {chooseLanguage || task?.language || "not selected"}
-					|Difficulty: {chooseDificulty || task?.difficulty || "not selected"}
+				</span>
+				<span className="chosed-fields">
+					Difficulty:{" "}
+					{chooseDificulty || task?.difficulty || "not selected"}
 				</span>
 			</div>
 			<CodeBlock
@@ -251,8 +255,9 @@ export default function CodeEditor() {
 				height="850px"
 				theme="blueLight"
 				task={{
-					title: task?.title as string,
-					description: task?.description as string,
+					title: task?.title ?? "",
+					description: task?.description ?? "",
+					requirements: task?.requirements,
 				}}
 			/>
 			{checkResult && (
