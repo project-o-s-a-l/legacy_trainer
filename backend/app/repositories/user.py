@@ -71,6 +71,10 @@ class UserRepository:
         user.password_hash = password_hash
         user.updated_at = datetime.now(timezone.utc)
 
+    def update_total_score(self, user: User, *, total_score: int) -> None:
+        user.total_score = total_score
+        user.updated_at = datetime.now(timezone.utc)
+
     def mark_email_as_verified(self, user: User) -> None:
         user.email_verified_at = datetime.now(timezone.utc)
 

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+from backend.app.db.enums import SubmissionStatus
 from backend.app.repositories.user_progress import UserProgressRepository
 from backend.app.schemas.user_progress import (
     DifficultyStatsResponse,
@@ -36,7 +36,12 @@ class UserProgressService:
             if row.is_solved:
                 completed[difficulty] += 1
 
-            if row.best_submission.score is not None:
+            if (
+                    row.is_solved
+                    and row.best_submission is not None
+                    and row.best_submission.status == SubmissionStatus.PASSED
+                    and row.best_submission.score is not None
+            ):
                 score_sums[difficulty] += row.best_submission.score
                 score_counts[difficulty] += 1
 

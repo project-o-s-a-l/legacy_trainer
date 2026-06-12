@@ -1,10 +1,12 @@
 from fastapi.testclient import TestClient
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from backend.app.db.enums import TaskDifficulty, TaskStatus, UserRole
 from backend.app.models.program_language import ProgramLanguage
 from backend.app.models.task import Task
 from backend.app.models.user import User
+from backend.app.models.user_task_progress import UserTaskProgress
 from backend.app.services.security import hash_password
 from backend.app.services.token import create_access_token
 
@@ -327,3 +329,124 @@ def test_get_submission_returns_403_for_other_user(
 
     assert response.status_code == 403
     assert response.json()["detail"] == "Access denied"
+
+
+def test_failed_submission_awards_partial_points_but_does_not_solve_task(
+    client: TestClient,
+    db_session: Session,
+) -> None:
+    user = create_user(db_session)
+    python_language = create_language(
+        db_session,
+        name="python",
+        display_name="Python",
+        version="3.12",
+    )
+    task = create_task(
+        db_session,
+        author=user,
+        language=python_language,
+        title="Failed score task",
+        difficulty=TaskDifficulty.EASY,
+        status=TaskStatus.PUBLISHED,
+    )
+    db_session.commit()
+
+    authenticate_client(client, user)
+
+    response = client.post(
+        f"/api/v1/tasks/{task.id}/submit",
+        json={
+            "code": "pass",
+            "language": "python",
+        },
+    )
+
+    assert response.status_code == 201
+    body = response.json()
+    assert body["status"] == "failed"
+    assert body["score"] == 0
+
+    db_session.expire_all()
+
+    refreshed_user = db_session.scalar(select(User).where(User.id == user.id))
+    progress = db_session.scalar(
+        select(UserTaskProgress).where(
+            UserTaskProgress.user_id == user.id,
+            UserTaskProgress.task_id == task.id,
+        )
+    )
+
+    assert refreshed_user is not None
+    assert refreshed_user.total_score == 0
+    assert progress is not None
+    assert progress.is_solved is False
+    assert progress.attempts_count == 1
+
+
+def test_passed_submission_awards_points_and_persists_after_later_failure(
+    client: TestClient,
+    db_session: Session,
+) -> None:
+    user = create_user(
+        db_session,
+        username="winner",
+        email="winner@example.com",
+        login="winner",
+    )
+    python_language = create_language(
+        db_session,
+        name="python",
+        display_name="Python",
+        version="3.12",
+    )
+    task = create_task(
+        db_session,
+        author=user,
+        language=python_language,
+        title="Solved score task",
+        difficulty=TaskDifficulty.EASY,
+        status=TaskStatus.PUBLISHED,
+    )
+    db_session.commit()
+
+    authenticate_client(client, user)
+
+    passed_response = client.post(
+        f"/api/v1/tasks/{task.id}/submit",
+        json={
+            "code": "def solve(x):\n    return x + 1\nprint(solve(2))",
+            "language": "python",
+        },
+    )
+
+    assert passed_response.status_code == 201
+    assert passed_response.json()["status"] == "passed"
+    assert passed_response.json()["score"] == 100
+
+    failed_response = client.post(
+        f"/api/v1/tasks/{task.id}/submit",
+        json={
+            "code": "pass",
+            "language": "python",
+        },
+    )
+
+    assert failed_response.status_code == 201
+    assert failed_response.json()["status"] == "failed"
+
+    db_session.expire_all()
+
+    refreshed_user = db_session.scalar(select(User).where(User.id == user.id))
+    progress = db_session.scalar(
+        select(UserTaskProgress).where(
+            UserTaskProgress.user_id == user.id,
+            UserTaskProgress.task_id == task.id,
+        )
+    )
+
+    assert refreshed_user is not None
+    assert refreshed_user.total_score == 100
+    assert progress is not None
+    assert progress.is_solved is True
+    assert progress.attempts_count == 2
