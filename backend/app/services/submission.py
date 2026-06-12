@@ -6,9 +6,13 @@ from sqlalchemy.orm import Session
 from backend.app.db.enums import CheckStatus, SubmissionCheckType, SubmissionStatus
 from backend.app.models.submission import Submission
 from backend.app.models.submission_check import SubmissionCheck
+from backend.app.models.task import Task
 from backend.app.models.user import User
 from backend.app.repositories.submission import SubmissionRepository
 from backend.app.repositories.task import TaskRepository
+from backend.app.repositories.user import UserRepository
+from backend.app.repositories.user_progress import UserProgressRepository
+from backend.app.services.refactor_checks.pipeline import RefactorCheckPipeline
 from backend.app.schemas.submission import (
     SubmissionCheckResponse,
     SubmissionCreateRequest,
@@ -28,6 +32,9 @@ class SubmissionService:
         self.db = db
         self.tasks = TaskRepository(db)
         self.submissions = SubmissionRepository(db)
+        self.users = UserRepository(db)
+        self.progress = UserProgressRepository(db)
+        self.refactor_pipeline = RefactorCheckPipeline(db)
 
     def submit(
         self,
@@ -76,42 +83,77 @@ class SubmissionService:
             source_code=code,
         )
 
-        passed_tests, total_tests, score = self._evaluate_code(code)
-        failed_tests = total_tests - passed_tests
+        pipeline_result = self.refactor_pipeline.evaluate(
+            task=task,
+            language_name=program_language.name,
+            candidate_code=code,
+        )
+        if pipeline_result is None:
+            passed_tests, total_tests, raw_score = self._evaluate_code(code)
+            failed_tests = total_tests - passed_tests
 
-        report = {
-            "total": total_tests,
-            "passed": passed_tests,
-            "failed": failed_tests,
-            "details": [
-                {
-                    "name": f"test_{index + 1}",
-                    "status": "passed" if index < passed_tests else "failed",
-                }
-                for index in range(total_tests)
-            ],
-        }
+            report = {
+                "total": total_tests,
+                "passed": passed_tests,
+                "failed": failed_tests,
+                "details": [
+                    {
+                        "name": f"test_{index + 1}",
+                        "status": "passed" if index < passed_tests else "failed",
+                    }
+                    for index in range(total_tests)
+                ],
+            }
 
-        if failed_tests == 0:
-            submission.status = SubmissionStatus.PASSED
-            check_status = CheckStatus.PASSED
-            message = "All tests passed"
+            if failed_tests == 0:
+                submission.status = SubmissionStatus.PASSED
+                check_status = CheckStatus.PASSED
+                message = "All tests passed"
+            else:
+                submission.status = SubmissionStatus.FAILED
+                check_status = CheckStatus.FAILED
+                message = f"{passed_tests} of {total_tests} tests passed"
+
+            submission.score = raw_score if submission.status == SubmissionStatus.PASSED else 0
+            self.submissions.create_submission_check(
+                submission_id=submission.id,
+                check_type=SubmissionCheckType.TESTS,
+                status=check_status,
+                score=raw_score,
+                report_json=report,
+            )
         else:
-            submission.status = SubmissionStatus.FAILED
-            check_status = CheckStatus.FAILED
-            message = f"{passed_tests} of {total_tests} tests passed"
+            passed_tests = pipeline_result.test_passed
+            total_tests = pipeline_result.total_tests
+            message = pipeline_result.message
+            submission.status = pipeline_result.status
+            raw_score = pipeline_result.score
+            submission.score = raw_score if submission.status == SubmissionStatus.PASSED else 0
+            for check in pipeline_result.checks:
+                self.submissions.create_submission_check(
+                    submission_id=submission.id,
+                    check_type=check.check_type,
+                    status=check.status,
+                    score=check.score,
+                    report_json=check.report,
+                )
 
-        submission.score = score
         submission.checked_at = datetime.now(timezone.utc)
-        submission.memory_used_kb = 256 + len(code.splitlines()) * 64
-        submission.execution_time_ms = 10 + len(code.splitlines()) * 5
+        submission.memory_used_kb = (
+            pipeline_result.memory_used_kb
+            if pipeline_result is not None and pipeline_result.memory_used_kb is not None
+            else 256 + len(code.splitlines()) * 64
+        )
+        submission.execution_time_ms = (
+            pipeline_result.execution_time_ms
+            if pipeline_result is not None and pipeline_result.execution_time_ms is not None
+            else 10 + len(code.splitlines()) * 5
+        )
 
-        self.submissions.create_submission_check(
-            submission_id=submission.id,
-            check_type=SubmissionCheckType.TESTS,
-            status=check_status,
-            score=score,
-            report_json=report,
+        self._update_user_progress(
+            submission=submission,
+            task=task,
+            current_user=current_user,
         )
 
         self.db.commit()
@@ -212,6 +254,59 @@ class SubmissionService:
 
         score = int((passed_tests / total_tests) * 100)
         return passed_tests, total_tests, score
+
+    def _update_user_progress(
+        self,
+        *,
+        submission: Submission,
+        task: Task,
+        current_user: User,
+    ) -> None:
+        submitted_at = submission.submitted_at or datetime.now(timezone.utc)
+        progress = self.progress.get_by_user_and_task(
+            user_id=current_user.id,
+            task_id=task.id,
+        )
+        submission_score = submission.score or 0
+        submission_is_solved = submission.status == SubmissionStatus.PASSED
+
+        if progress is None:
+            self.progress.create_progress(
+                user_id=current_user.id,
+                task_id=task.id,
+                best_submission_id=submission.id,
+                first_submission_at=submitted_at,
+                last_submission_at=submitted_at,
+                attempts_count=1,
+                is_solved=submission_is_solved,
+            )
+        else:
+            current_best_score = (
+                progress.best_submission.score
+                if progress.best_submission is not None
+                and progress.best_submission.score is not None
+                else -1
+            )
+            current_best_is_solved = (
+                progress.best_submission is not None
+                and progress.best_submission.status == SubmissionStatus.PASSED
+            )
+            replace_best = submission_score > current_best_score or (
+                submission_score == current_best_score
+                and submission_is_solved
+                and not current_best_is_solved
+            )
+
+            self.progress.update_progress(
+                progress,
+                best_submission_id=submission.id if replace_best else None,
+                attempts_count=progress.attempts_count + 1,
+                last_submission_at=submitted_at,
+                is_solved=True if submission_is_solved else None,
+            )
+
+        total_score = self.progress.get_total_best_score(user_id=current_user.id)
+        self.users.update_total_score(current_user, total_score=total_score)
 
     def _map_check(self, check: SubmissionCheck) -> SubmissionCheckResponse:
         return SubmissionCheckResponse(
