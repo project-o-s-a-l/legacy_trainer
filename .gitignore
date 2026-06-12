@@ -1,8 +1,6 @@
-
 /node_modules
 /.env
 /.idea
 /.env
-/certs
 /__pycache__
 /docker/.env
