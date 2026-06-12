@@ -81,24 +81,25 @@ export default function ChooseTask() {
 							<Button
 								className="chose-logic-btn"
 								onClick={async () => {
-									if (chooseDificulty && chooseLanguage) {
-										const task = await getTask(chooseLanguage, chooseDificulty);
-										if(task === null)
-											return;
-										
+	                                if (!chooseDificulty || !chooseLanguage) {
+		                                alert("Please choose language and difficulty");
+		                                return;
+	                                }
 
+	                                try {
+		                                const task = await getTask(chooseLanguage, chooseDificulty);
 
-										navigate("/CodeBlock", {
-											state: {
-												chooseLanguage,
-												chooseDificulty,
-												task
-											},
-										});
-									} else {
-										alert("Please choose language and difficulty");
-									}
-								}}
+		                                navigate("/CodeBlock", {
+		                                	state: {
+		                                		chooseLanguage,
+		                                		chooseDificulty,
+		                                		task,
+		                                	},
+		                                });
+	                                } catch (error) {
+	                                	alert(error instanceof Error ? error.message : "Failed to get task");
+	                                }
+                                }}
 							>
 								Generate a task
 							</Button>

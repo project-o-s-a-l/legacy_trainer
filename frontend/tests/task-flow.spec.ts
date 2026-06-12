@@ -40,7 +40,7 @@ test("authenticated user can choose a task, submit it and open result page", asy
 		page.getByText("Refactor legacy loop scored 90 %"),
 	).toBeVisible();
 	await expect(
-		page.getByText("You have been awarded 80 for this task"),
+		page.getByText("You have been awarded 90 for this task"),
 	).toBeVisible();
 	await expect(
 		page.getByText("All available backend checks passed."),
