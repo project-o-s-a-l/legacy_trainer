@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 import "./ChooseTask.css";
 import { Button } from "@/shared";
 import svgMatrix from "@/shared/assets/images/svg/matrix-static-dense-gray-transparent.svg";
@@ -11,17 +11,45 @@ export default function ChooseTask() {
 	const [chooseDificulty, setChooseDifficulty] = useState("");
 	const navigate = useNavigate();
 
+	const toggleChooseShow = () => setChooseShow((prev) => !prev);
+
+	const handleChooseKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+		if (event.target !== event.currentTarget) {
+			return;
+		}
+
+		if (event.key !== "Enter" && event.key !== " ") {
+			return;
+		}
+
+		event.preventDefault();
+		toggleChooseShow();
+	};
+
+	const getOptionClassName = (isSelected: boolean) =>
+		`choose-task-option${
+			isSelected ? " choose-task-option--selected" : ""
+		}`;
+
 	return (
 		<section className="choose-task-page">
 			<img src={svgMatrix} alt="matrix" className="svg-choose-bg" />
 
-			<div className="choose-top-row">
-				<button
-					onClick={() => setChooseShow((prev) => !prev)}
+			<div
+				className="choose-top-row"
+				role="button"
+				tabIndex={0}
+				aria-expanded={chooseShow}
+				aria-label="Toggle task filters"
+				onClick={toggleChooseShow}
+				onKeyDown={handleChooseKeyDown}
+			>
+				<span
 					className="btn-ghost btn-hide-chooses-task"
+					aria-hidden="true"
 				>
 					{chooseShow ? "v" : ">"}
-				</button>
+				</span>
 
 				<div className="choose-task-container">
 					<div className="choose-task">
@@ -29,18 +57,47 @@ export default function ChooseTask() {
 							Choose a programming language
 						</span>
 
-						<ul
-							className={`choose-task-options-list ${
+						<div
+							className={`choose-task-options-shell ${
 								chooseShow ? "open" : "closed"
 							}`}
+							aria-hidden={!chooseShow}
 						>
-							<li onClick={() => setChooseLanguage("Python")}>
-								Python
-							</li>
-							<li onClick={() => setChooseLanguage("C++")}>
-								C++
-							</li>
-						</ul>
+							<ul className="choose-task-options-list">
+								<li>
+									<button
+										type="button"
+										className={getOptionClassName(
+											chooseLanguage === "Python",
+										)}
+										aria-pressed={chooseLanguage === "Python"}
+										tabIndex={chooseShow ? 0 : -1}
+										onClick={(event) => {
+											event.stopPropagation();
+											setChooseLanguage("Python");
+										}}
+									>
+										Python
+									</button>
+								</li>
+								<li>
+									<button
+										type="button"
+										className={getOptionClassName(
+											chooseLanguage === "C++",
+										)}
+										aria-pressed={chooseLanguage === "C++"}
+										tabIndex={chooseShow ? 0 : -1}
+										onClick={(event) => {
+											event.stopPropagation();
+											setChooseLanguage("C++");
+										}}
+									>
+										C++
+									</button>
+								</li>
+							</ul>
+						</div>
 					</div>
 
 					<div className="choose-task">
@@ -48,21 +105,63 @@ export default function ChooseTask() {
 							Difficulty level
 						</span>
 
-						<ul
-							className={`choose-task-options-list ${
+						<div
+							className={`choose-task-options-shell ${
 								chooseShow ? "open" : "closed"
 							}`}
+							aria-hidden={!chooseShow}
 						>
-							<li onClick={() => setChooseDifficulty("Easy")}>
-								Easy
-							</li>
-							<li onClick={() => setChooseDifficulty("Medium")}>
-								Medium
-							</li>
-							<li onClick={() => setChooseDifficulty("Hard")}>
-								Hard
-							</li>
-						</ul>
+							<ul className="choose-task-options-list">
+								<li>
+									<button
+										type="button"
+										className={getOptionClassName(
+											chooseDificulty === "Easy",
+										)}
+										aria-pressed={chooseDificulty === "Easy"}
+										tabIndex={chooseShow ? 0 : -1}
+										onClick={(event) => {
+											event.stopPropagation();
+											setChooseDifficulty("Easy");
+										}}
+									>
+										Easy
+									</button>
+								</li>
+								<li>
+									<button
+										type="button"
+										className={getOptionClassName(
+											chooseDificulty === "Medium",
+										)}
+										aria-pressed={chooseDificulty === "Medium"}
+										tabIndex={chooseShow ? 0 : -1}
+										onClick={(event) => {
+											event.stopPropagation();
+											setChooseDifficulty("Medium");
+										}}
+									>
+										Medium
+									</button>
+								</li>
+								<li>
+									<button
+										type="button"
+										className={getOptionClassName(
+											chooseDificulty === "Hard",
+										)}
+										aria-pressed={chooseDificulty === "Hard"}
+										tabIndex={chooseShow ? 0 : -1}
+										onClick={(event) => {
+											event.stopPropagation();
+											setChooseDifficulty("Hard");
+										}}
+									>
+										Hard
+									</button>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -81,22 +180,30 @@ export default function ChooseTask() {
 							<Button
 								className="chose-logic-btn"
 								onClick={async () => {
-									if (chooseDificulty && chooseLanguage) {
-										const task = await getTask(chooseLanguage, chooseDificulty);
-										if(task === null)
-											return;
-										
+									if (!chooseDificulty || !chooseLanguage) {
+										alert("Please choose language and difficulty");
+										return;
+									}
 
+									try {
+										const task = await getTask(
+											chooseLanguage,
+											chooseDificulty,
+										);
 
 										navigate("/CodeBlock", {
 											state: {
 												chooseLanguage,
 												chooseDificulty,
-												task
+												task,
 											},
 										});
-									} else {
-										alert("Please choose language and difficulty");
+									} catch (error) {
+										alert(
+											error instanceof Error
+												? error.message
+												: "Failed to get task",
+										);
 									}
 								}}
 							>

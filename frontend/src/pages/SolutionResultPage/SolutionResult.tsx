@@ -16,16 +16,8 @@ export default function SolutionResult() {
 	const testsCheck = result?.checks.find((check) => check.checkType === "tests");
 	const testDetails = testsCheck?.report.details ?? [];
 	const avgScore = result?.overallScore ?? 0;
+	const awardedPoints = result?.submission.score ?? 0;
 
-	const getPoints = () => {
-		const score = Math.min(avgScore, 100);
-
-		if (score > 1 && score < 20) {
-			return 5;
-		}
-
-		return Math.floor(score / 20) * 20;
-	};
 
 	const scoreRingStyle = {
 		"--score-percent": `${avgScore}%`,
@@ -100,7 +92,7 @@ export default function SolutionResult() {
 
 					<div className="result-message">
 						<h1>
-							You have been awarded {getPoints()} for this task
+							You have been awarded {awardedPoints} for this task
 						</h1>
 						<p className="result-supporting-copy">
 							{result.failedTests === 0

@@ -196,7 +196,7 @@ def test_me_returns_current_user(client: TestClient, db_session) -> None:
     assert "memberSince" in body
     assert "lastSeen" in body
     assert "avatarUrl" in body
-    assert body["isOnline"] is False
+    assert body["isOnline"] is True
 
 
 def test_logout_clears_auth(client: TestClient, db_session) -> None:

@@ -64,22 +64,41 @@ describe("ChooseTask", () => {
 		expect(
 			screen.getByRole("button", { name: "Clear choose" }),
 		).toBeInTheDocument();
-		expect(screen.getByRole("button", { name: ">" })).toBeInTheDocument();
+		expect(
+			screen.getByRole("button", { name: "Toggle task filters" }),
+		).toBeInTheDocument();
 	});
 
-	it("toggles choose list visibility", () => {
+	it("toggles choose list visibility by clicking the whole filter block", () => {
 		render(<ChooseTask />);
 
-		const toggleButton = screen.getByRole("button", { name: ">" });
-		fireEvent.click(toggleButton);
+		const toggleBlock = screen.getByRole("button", {
+			name: "Toggle task filters",
+		});
+		fireEvent.click(toggleBlock);
 
-		expect(screen.getByRole("button", { name: "v" })).toBeInTheDocument();
+		expect(toggleBlock).toHaveAttribute("aria-expanded", "true");
+		expect(screen.getByText("v")).toBeInTheDocument();
+	});
+
+	it("toggles choose list visibility by keyboard on the filter block", () => {
+		render(<ChooseTask />);
+
+		const toggleBlock = screen.getByRole("button", {
+			name: "Toggle task filters",
+		});
+		fireEvent.keyDown(toggleBlock, { key: "Enter" });
+
+		expect(toggleBlock).toHaveAttribute("aria-expanded", "true");
 	});
 
 	it("updates chose language", () => {
 		render(<ChooseTask />);
 
-		fireEvent.click(screen.getByText("Python"));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Toggle task filters" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Python" }));
 
 		expect(screen.getByText("Chose: Python")).toBeInTheDocument();
 	});
@@ -87,7 +106,10 @@ describe("ChooseTask", () => {
 	it("updates chosen difficulty", () => {
 		render(<ChooseTask />);
 
-		fireEvent.click(screen.getByText("Hard"));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Toggle task filters" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Hard" }));
 
 		expect(screen.getByText("Chose: Hard")).toBeInTheDocument();
 	});
@@ -95,17 +117,42 @@ describe("ChooseTask", () => {
 	it("updates chosen language and difficulty together", () => {
 		render(<ChooseTask />);
 
-		fireEvent.click(screen.getByText("Python"));
-		fireEvent.click(screen.getByText("Hard"));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Toggle task filters" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Python" }));
+		fireEvent.click(screen.getByRole("button", { name: "Hard" }));
 
 		expect(screen.getByText("Chose: Python Hard")).toBeInTheDocument();
+	});
+
+	it("marks selected options as pressed", () => {
+		render(<ChooseTask />);
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "Toggle task filters" }),
+		);
+
+		const pythonOption = screen.getByRole("button", { name: "Python" });
+		const hardOption = screen.getByRole("button", { name: "Hard" });
+
+		fireEvent.click(pythonOption);
+		fireEvent.click(hardOption);
+
+		expect(pythonOption).toHaveAttribute("aria-pressed", "true");
+		expect(pythonOption).toHaveClass("choose-task-option--selected");
+		expect(hardOption).toHaveAttribute("aria-pressed", "true");
+		expect(hardOption).toHaveClass("choose-task-option--selected");
 	});
 
 	it("navigates to CodeBlock with selected state", async () => {
 		render(<ChooseTask />);
 
-		fireEvent.click(screen.getByText("Python"));
-		fireEvent.click(screen.getByText("Medium"));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Toggle task filters" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "Python" }));
+		fireEvent.click(screen.getByRole("button", { name: "Medium" }));
 		fireEvent.click(
 			screen.getByRole("button", { name: "Generate a task" }),
 		);
@@ -145,8 +192,11 @@ describe("ChooseTask", () => {
 	it("clears chosen values", () => {
 		render(<ChooseTask />);
 
-		fireEvent.click(screen.getByText("C++"));
-		fireEvent.click(screen.getByText("Easy"));
+		fireEvent.click(
+			screen.getByRole("button", { name: "Toggle task filters" }),
+		);
+		fireEvent.click(screen.getByRole("button", { name: "C++" }));
+		fireEvent.click(screen.getByRole("button", { name: "Easy" }));
 
 		expect(screen.getByText("Chose: C++ Easy")).toBeInTheDocument();
 

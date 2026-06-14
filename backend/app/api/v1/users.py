@@ -20,7 +20,7 @@ def get_me(current_user: User = Depends(get_current_user)) -> UserMeResponse:
         memberSince=current_user.created_at,
         lastSeen=current_user.last_login_at,
         avatarUrl=current_user.avatar_url,
-        isOnline=False,
+        isOnline=True,
     )
 
 

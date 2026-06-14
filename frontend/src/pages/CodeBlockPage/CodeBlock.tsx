@@ -54,6 +54,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 	const solutionDefaultSize = isCompactLayout ? 62 : 50;
 	const descriptionMinSize = isCompactLayout ? 25 : 35;
 	const solutionMinSize = isCompactLayout ? 30 : 35;
+	const hasTaskContent = Boolean(task?.description || task?.requirements);
 
 	return (
 		<div>
@@ -79,7 +80,28 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 										isCompactLayout ? "task-container--stacked" : ""
 									}`}
 								>
-									<span>{task?.description}</span>
+									{hasTaskContent && (
+										<>
+											<section className="task-section">
+												<h2 className="task-section-title">
+													Описание
+												</h2>
+												<p className="task-section-text">
+													{task?.description}
+												</p>
+											</section>
+											{task?.requirements && (
+												<section className="task-section">
+													<h2 className="task-section-title">
+														Требования
+													</h2>
+													<p className="task-section-text">
+														{task.requirements}
+													</p>
+												</section>
+											)}
+										</>
+									)}
 								</div>
 							</div>
 						</div>

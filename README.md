@@ -2,7 +2,7 @@
 
 Legacy Trainer — учебная веб-платформа для практики рефакторинга legacy-кода.
 
-Пользователь получает задачу с запутанным, частично некорректным кодом, находит баги, исправляет архитектуру и отправляет решение на автоматическую проверку. Основной сценарий проекта — переход от процедурного и плохо поддерживаемого кода к более чистой, понятной и расширяемой реализации. На первом этапе платформа ориентирована на Python-задачи.
+Пользователь получает задачу с запутанным, частично некорректным кодом, находит баги, исправляет архитектуру и отправляет решение на автоматическую проверку. Основной сценарий проекта — переход от процедурного и плохо поддерживаемого кода к более чистой, понятной и расширяемой реализации. Сейчас платформа поддерживает задачи по рефакторингу на Python и C++.
 
 ## Что решает проект
 
@@ -90,17 +90,23 @@ Legacy Trainer — учебная веб-платформа для практи�
 
 Ниже приведён возможный вариант маршрутов:
 
-```http
+```https
 POST   /api/v1/auth/register
+POST   /api/v1/auth/request-verification-code
+POST   /api/v1/auth/verify-verification-code
+POST   /api/v1/auth/reset-password
 POST   /api/v1/auth/login
-GET    /api/v1/tasks
+POST   /api/v1/auth/logout
+
+GET    /api/v1/users/me
+GET    /api/v1/users/me/progress
+
+GET    /api/v1/tasks?language={language}&difficulty={difficulty}
 GET    /api/v1/tasks/{task_id}
+
 POST   /api/v1/tasks/{task_id}/submit
 GET    /api/v1/submissions/{submission_id}
 GET    /api/v1/submissions/{submission_id}/checks
-GET    /api/v1/submissions/{submission_id}/ai-review
-GET    /api/v1/users/me
-GET    /api/v1/users/me/progress
 ```
 
 Конкретный набор endpoint-ов может меняться по мере развития проекта.
@@ -123,34 +129,47 @@ docker compose up --build
 
 После запуска сервисы обычно доступны по следующим адресам:
 
-- backend API: `http://localhost:8000`
-- frontend: `http://localhost:3000`
+- backend API: `https://localhost:8000`
+- frontend: `https://localhost:5173`
 
 Если используется стандартная конфигурация FastAPI, документация API будет доступна по адресам:
 
-- `http://localhost:8000/docs`
-- `http://localhost:8000/redoc`
+- `https://localhost:8000/docs`
+- `https://localhost:8000/redoc`
 
 ## Переменные окружения
 
 Пример `.env.example`:
 
 ```env
-POSTGRES_DB=legacy_trainer
+POSTGRES_DB=legacy_trainer_db
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
+POSTGRES_PASSWORD=
 
-DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/legacy_trainer
-
-SECRET_KEY=change_me
-ACCESS_TOKEN_EXPIRE_MINUTES=60
+SECRET_KEY=
 ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=60
 
-AI_PROVIDER=openai
-AI_MODEL=gpt-4.1-mini
-AI_API_KEY=your_api_key
+FRONTEND_ORIGINS=https://localhost:5173,https://localhost:3000
+COOKIE_SECURE=true
+VITE_API_BASE_URL=https://localhost:8000
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your_email@gmail.com
+SMTP_PASSWORD=your_app_password
+SMTP_FROM_EMAIL=your_email@gmail.com
+SMTP_USE_TLS=true
+SMTP_TIMEOUT_SECONDS=10
+
+VERIFICATION_CODE_TTL_MINUTES=10
+PASSWORD_RESET_TOKEN_TTL_MINUTES=30
+
+CHECK_TIMEOUT_SECONDS=5
+CHECK_DOCKER_MEMORY_LIMIT=256m
+CHECK_DOCKER_CPUS=1.0
+CHECK_DOCKER_PIDS_LIMIT=64
+CHECK_DOCKER_TMPFS_SIZE=64m
 ```
 
 Набор переменных можно скорректировать под фактическую реализацию проекта.

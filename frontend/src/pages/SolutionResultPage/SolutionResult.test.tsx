@@ -121,17 +121,17 @@ describe("SolutionResult", () => {
 		});
 	});
 
-	it("show 80 points, if average score is 90", () => {
-		renderComponent({
-			result: createResult(90),
-		});
-
-		expect(
-			screen.getByText("You have been awarded 80 for this task"),
-		).toBeInTheDocument();
+	it("show submission score from backend", () => {
+	renderComponent({
+		result: createResult(90),
 	});
 
-	it("show 100 points, if average score is 100", () => {
+	    expect(
+	    	screen.getByText("You have been awarded 90 for this task"),
+	    ).toBeInTheDocument();
+    });
+
+	it("show 100 points when backend submission score is 100", () => {
 		renderComponent({
 			result: createResult(100),
 		});
@@ -141,15 +141,15 @@ describe("SolutionResult", () => {
 		).toBeInTheDocument();
 	});
 
-	it("show 5 points, if average score is greater than 1 and less than 20", () => {
-		renderComponent({
-			result: createResult(10),
-		});
-
-		expect(
-			screen.getByText("You have been awarded 5 for this task"),
-		).toBeInTheDocument();
+	it("show low backend score without custom frontend rounding", () => {
+	renderComponent({
+		result: createResult(10),
 	});
+
+	    expect(
+		    screen.getByText("You have been awarded 10 for this task"),
+	    ).toBeInTheDocument();
+    });
 
 	it("show empty state, if location.state is null", () => {
 		renderComponent(null);

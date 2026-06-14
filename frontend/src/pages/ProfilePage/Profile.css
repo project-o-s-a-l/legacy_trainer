@@ -94,16 +94,6 @@
 	word-break: break-word;
 }
 
-.btn-settings-profile {
-	padding: 12px 22px;
-	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.5);
-	border: 1px solid rgba(93, 114, 147, 0.16);
-	color: var(--color-btn-text);
-	font-size: 18px;
-	box-shadow: 0 8px 24px rgba(59, 130, 246, 0.12);
-}
-
 .profile-status-row {
 	display: flex;
 	flex-wrap: wrap;

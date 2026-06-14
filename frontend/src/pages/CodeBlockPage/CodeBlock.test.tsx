@@ -75,11 +75,20 @@ describe("CodeBlock", () => {
 				task={{
 					title: "Two Sum",
 					description: "Find two numbers that add up to target.",
+					requirements: "Return the indexes of the selected numbers.",
 				}}
 			/>,
 		);
 
 		expect(screen.getByText("Two Sum")).toBeInTheDocument();
+		expect(screen.getByText("Описание")).toBeInTheDocument();
+		expect(
+			screen.getByText("Find two numbers that add up to target."),
+		).toBeInTheDocument();
+		expect(screen.getByText("Требования")).toBeInTheDocument();
+		expect(
+			screen.getByText("Return the indexes of the selected numbers."),
+		).toBeInTheDocument();
 		expect(screen.getByText("Solution:")).toBeInTheDocument();
 	});
 

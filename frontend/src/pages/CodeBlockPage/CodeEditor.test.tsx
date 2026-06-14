@@ -77,6 +77,7 @@ describe("CodeEditor", () => {
 				task: {
 					title: "Test task",
 					description: "Test description",
+					requirements: "Keep the public API unchanged",
 					legacyCode: "def hello_python():\n\tprint('Hello, World!')",
 				},
 			},
@@ -90,6 +91,11 @@ describe("CodeEditor", () => {
 				defaultValue: "def hello_python():\n\tprint('Hello, World!')",
 				height: "850px",
 				theme: "blueLight",
+				task: expect.objectContaining({
+					title: "Test task",
+					description: "Test description",
+					requirements: "Keep the public API unchanged",
+				}),
 				onChange: expect.any(Function),
 			}),
 		);
@@ -105,8 +111,7 @@ describe("CodeEditor", () => {
 
 		render(<CodeEditor />);
 
-		expect(
-			screen.getByText("Language: Python|Difficulty: Easy"),
-		).toBeInTheDocument();
+		expect(screen.getByText("Language: Python")).toBeInTheDocument();
+		expect(screen.getByText("Difficulty: Easy")).toBeInTheDocument();
 	});
 });

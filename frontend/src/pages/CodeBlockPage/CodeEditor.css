@@ -19,6 +19,10 @@
 
 .code-editor-meta {
 	padding: 0 16px 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 4px;
 }
 
 .btn-hide {
@@ -42,17 +46,26 @@
 
 .btn-run-code {
 	color: var(--color-btn-text);
-	width: clamp(64px, 7vw, 80px);
-	height: clamp(64px, 7vw, 80px);
+	width: 34px;
+	height: 34px;
 	transition: color 0.3s ease;
+}
+
+.code-editor-action-button {
+	height: 58px;
+	min-height: 58px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
 }
 
 .run-wrapper {
 	box-shadow: 0 8px 24px var(--shadow-primary);
 	margin-left: 0;
-	width: clamp(44px, 4vw, 50px);
-	height: clamp(44px, 4vw, 50px);
-	border-radius: 30%;
+	width: 58px;
+	flex: 0 0 58px;
+	border-radius: 14px;
 	background: var(--color-surface);
 	border: 1px solid var(--color-border);
 	padding: 0;
@@ -70,7 +83,7 @@
 
 .btn-check-solution {
 	margin: 0;
-	padding: 5px 15px;
+	padding: 0 18px;
 }
 
 .chosed-fields {
